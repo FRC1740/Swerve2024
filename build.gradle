@@ -99,3 +99,14 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+task listFunctions(type: JavaExec) {
+    dependsOn 'compileJava'
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Specify the main class of your Java program
+    getMainClass().set("CommandDisplay");
+
+    // Pass the source directory as a command-line argument
+    args 'src/main/java'
+}
+build.dependsOn listFunctions
