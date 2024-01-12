@@ -147,14 +147,17 @@ This is a guide for setting up Github with VSCode
 * Run git pull upstream main
 * Change back to working
 * Run git pull upstream [Branch Name]
+* You're ready to get back to work!
 #### Pushing Code
 * Now that you have setup your github you can edit code on your working branch
 * Make sure your changes work and make sure it builds and deploys before commiting
 * After you finish the changes you now should look to the left panel and click the third git source control icon
 * Hit Commit and if you haven't saved, hit Save all and Commit Changes
 * It will ask you to input a message, either through a file or the message box at the top, either type in box or in the file save, and hit the checkmark to submit it
+* Sync changes
 * Go on github to your local fork of the repository
 * Open a pull request via the contribute button
 * If there are merge conflicts don't touch anything and ask someone who knows, it can be easily resolved but you can mess it up really bad
+* Make sure to [pull](#pulling-code) code after pushing
 
 [Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
