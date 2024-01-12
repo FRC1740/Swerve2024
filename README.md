@@ -116,34 +116,50 @@ This is the main resource we use besides googling things, this contains most, if
 This is a guide for setting up Github with VSCode
 * Create a [Github account](https://github.com)
 * Sign into the VSCode with Github via the person logo in the bottom left above the wheel
-* Fork/Clone the repository 
-* Click on the source fork on the bottom left
-* In the popup, click Create New Branch From
-* Select your master/main branch to copy from
-* Name it working
-* :warning: If you are editing code on your main branch, you could break your git so edit on your working branch
-* Now you are on working branch and you can edit code, you only have to create it once
+* Fork the repository through the button on github
+* Copy the link to the forked repository
+* Clone the forked repository with VSCode
+* Open the terminal 
+* Run git remote -v
+* You should see 2 values, a fetch and a push for origin
+* These are added automatically because you cloned the repository
+* This now is your forked repository
+* Paste this command into the terminal "git remote add upstream [Link to original repository you forked]"
+* Run git remote -v again, and you should see 2 more values for upstream fetch and push
+* Run git pull upstream main
+* If this succeeds you probablly have it set up correctly for your main branch
+
+* Now, you need to make a different branch for saftey
+* Run git checkout -b [Branch Name]
+* I recommend "[name]-working" as the branch name
+* This will create a new branch, you can switch between them in the bottom left
+* :warning: All changes should be done on a working branch or equivelent, not on main
+* After use, you can delete it and re-sync your main branch
+* Then, run git branch --set-upstream-to=origin
 * See [Using Git](#using-git)
 
 ### Using Git
+#### Pulling Code
+* Ideally this should be done every time you open your code and as often as possible to avoid conflicts
+* If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
+* To pull code, make sure you have to pending changes (if you do, see [Pushing Code](#pushing-code))
+* Change to your main branch
+* Run git pull upstream main
+* Change back to working
+* Run git pull upstream [Branch Name]
+* You're ready to get back to work!
 #### Pushing Code
 * Now that you have setup your github you can edit code on your working branch
 * Make sure your changes work and make sure it builds and deploys before commiting
 * After you finish the changes you now should look to the left panel and click the third git source control icon
 * Hit Commit and if you haven't saved, hit Save all and Commit Changes
-* Hit push (this moves your changes to main)
-* Click on the lower left source control and switch to main
-* Push your changes to the repository
-* If there are merge conflicts don't touch anything and ask someone who knows, it can be easily resolved but you can mess it up really bad
-* Make sure sync your changes with the repo
-* Switch back to working and sync changes
-#### Pulling Code
-* Ideally this should be done every time you open your code
-* If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
-* To pull code, make sure you have to pending changes (if you do, see [Pushing Code](#pushing-code))
-* Change to your main branch 
+* It will ask you to input a message, either through a file or the message box at the top, either type in box or in the file save, and hit the checkmark to submit it
 * Sync changes
-* Change back to working
-* Sync changes again on working
+* Go on github to your local fork of the repository
+* Open a pull request via the contribute button
+* If there are merge conflicts don't touch anything and ask someone who knows, it can be easily resolved but you can mess it up really bad
+* Hopefully the code works and get accepted into the main repo
+* Make sure to [pull](#pulling-code) code after pushing
 
+[Team Git "How To"](https://docs.google.com/document/u/0/d/15Kb6Wxj8sjFqbPtVO2GGT9Oe1oe9GFOMFhPrwpMIeqQ/mobilebasic?pli=1)
 [Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
