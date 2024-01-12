@@ -34,7 +34,7 @@
 - [ ] Assign some sort of laptop system
 
 `General Software`
-- [ ] Update codebase to 2024.2 when full release is out so we aren't on version "2024.1.1-beta-2"! This involves changing: 
+- [x] Update codebase to 2024.2 when full release is out so we aren't on version "2024.1.1-beta-2"! This involves changing: 
 * Many SparkMAX declarations to Spark
 * The version of the RoboRio so builds will succeed. (This is what is currently preventing update now)
 - [ ] Finish readme [Robot Physical Specifications](#robot-physical-specifications)
@@ -71,13 +71,14 @@
 - [ ] Check and fix imported limelight subsystem
 - [ ] Incorperate limelight table with shuffleboard
 - [ ] Get current limelight tag id and adjust co-driver controls based off it.
+- [ ] Consider Using limelight to track gamepieces 
 
 * Concurent work on limelight and lamelight
 - [ ] Import old code
 - [x] Grab the lamelight from last years robot
-- [ ] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
+- [x] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
 - [ ] Incorperate lamelight table with shuffleboard
-- [ ] Set up lamelight and calibrate it
+- [ ] Calibrate lamelight
 
 `Climber`
 - [ ] Actually figure out what the mechanics entail and how it works
