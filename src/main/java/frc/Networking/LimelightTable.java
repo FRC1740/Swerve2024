@@ -77,7 +77,9 @@ public class LimelightTable {
   public void setTa(double value) {
     m_nt.getEntry(Target_Area_Entry).setNumber(value);
   }
-
+  public double[] getTranslationToAprilTag() {//x y z rot
+    return m_nt.getEntry("botpose_targetspace").getDoubleArray(new double[6]); 
+  }
   public double getCurrentApriltagId() {
     return m_nt.getEntry(CurrentTag).getDouble(CurrentTag_Default);
   }
