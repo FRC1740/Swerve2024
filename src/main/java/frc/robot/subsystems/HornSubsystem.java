@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class HornSubsystem extends SubsystemBase {
   private final CANSparkMax m_HornMotor = new CANSparkMax(HornConstants.kHornMotorPort, CANSparkMax.MotorType.kBrushless);
   private final RelativeEncoder m_HornMotorEncoder;
-  private double m_intakeSetSpeed = HornConstants.kHornMotorSpeed;
+  private double m_intakeSetSpeed = HornConstants.HornMotorSpeed;
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
@@ -28,6 +28,10 @@ public class HornSubsystem extends SubsystemBase {
 
   public void Shoot(double speed) {
     setHornSpeed(speed);
+  }
+
+  public void Intake(double speed) {
+    setHornSpeed(-speed);
   }
 
   public double getHornvelocity() {
