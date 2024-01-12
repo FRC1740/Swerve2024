@@ -22,6 +22,9 @@ public class LimelightSubsystem extends SubsystemBase {
   public double getYdeviation() {
     return m_LimelightTable.getTy();
   }
+  public double[] getTranslationToAprilTag(){
+    return m_LimelightTable.getTranslationToAprilTag();
+  }
 
   public void enableVisionProcessing() {
     m_LimelightTable.setCamMode(0);
