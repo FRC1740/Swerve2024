@@ -158,6 +158,7 @@ This is a guide for setting up Github with VSCode
 * Go on github to your local fork of the repository
 * Open a pull request via the contribute button
 * If there are merge conflicts don't touch anything and ask someone who knows, it can be easily resolved but you can mess it up really bad
+* Hopefully the code works and get accepted into the main repo
 * Make sure to [pull](#pulling-code) code after pushing
 
 [Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
