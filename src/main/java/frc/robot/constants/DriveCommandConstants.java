@@ -16,4 +16,6 @@ public class DriveCommandConstants {
     public static final double yGoal = 0;
     public static final double kThetaP = 0.1;
     public static final double kXToleranceMeters = 0;
+    public static final double kYToleranceMeters = 0;
+    public static final double kThetaToleranceRadians = 0;
 }

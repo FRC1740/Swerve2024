@@ -38,24 +38,24 @@ public class AlignToTagPhotonVision extends Command {
   @Override
   public void execute() {
     camToTarget = m_vision.getCamToTarget();
-    x_error = camToTarget.getX() - DriveCommandConstants.xGoal;
-    y_error = camToTarget.getY() - DriveCommandConstants.yGoal;
+    x_error = DriveCommandConstants.xGoal - camToTarget.getX() ;
+    y_error = DriveCommandConstants.yGoal - camToTarget.getY() ;
     theta_error = camToTarget.getRotation().getAngle();
 
 
     
     m_drive.drive(
-      -DriveCommandConstants.kXP * x_error, 
-      -DriveCommandConstants.kYP * y_error, 
-      -DriveCommandConstants.kThetaP * theta_error, false, true);
+      DriveCommandConstants.kXP * x_error, 
+      DriveCommandConstants.kYP * y_error, 
+      DriveCommandConstants.kThetaP * theta_error, false, true);
 
-    if(x_error < DriveCommandConstants.kXToleranceMeters){
+    if(Math.abs(x_error) < DriveCommandConstants.kXToleranceMeters){
       XFinished = true;
     }
-    if(y_error < DriveCommandConstants.kXToleranceMeters){
+    if(Math.abs(y_error) < DriveCommandConstants.kYToleranceMeters){
       YFinished = true;
     }
-    if(theta_error < DriveCommandConstants.kXToleranceMeters){
+    if(Math.abs(theta_error) < DriveCommandConstants.kXToleranceMeters){
       ThetaFinished = true;
     }
   }

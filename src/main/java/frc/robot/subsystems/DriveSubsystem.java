@@ -297,6 +297,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyro.reset();
   }
 
+//Gets gyro in form of Rotation2d
+  public Rotation2d getRotation2d(){
+    return Rotation2d.fromDegrees(m_gyro.getAngle() * ((DriveConstants.kGyroReversed) ? -1 : 1));
+  }
+
   /**
    * Returns the heading of the robot.
    *
