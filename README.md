@@ -161,4 +161,5 @@ This is a guide for setting up Github with VSCode
 * Hopefully the code works and get accepted into the main repo
 * Make sure to [pull](#pulling-code) code after pushing
 
+[Team Git "How To"](https://docs.google.com/document/u/0/d/15Kb6Wxj8sjFqbPtVO2GGT9Oe1oe9GFOMFhPrwpMIeqQ/mobilebasic?pli=1)
 [Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
