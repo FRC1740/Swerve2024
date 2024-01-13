@@ -104,6 +104,8 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
     m_driverController.b()
+      .onTrue(new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())));
+    m_driverController.b()
       .whileTrue(AutoBuilder.followPath(m_ExamplePath));
   }
 

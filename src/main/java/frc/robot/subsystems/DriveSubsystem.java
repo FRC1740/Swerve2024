@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.DriveConstants;
 import frc.utils.SwerveUtils;
@@ -51,6 +52,8 @@ public class DriveSubsystem extends SubsystemBase {
   private AHRS m_gyro = new AHRS(SerialPort.Port.kMXP);
 
   
+  DriveTrainTab DriveTab = DriveTrainTab.getInstance();
+  
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
@@ -63,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
-      getRotation2d(),
+      getRotation2d().plus(new Rotation2d(Math.PI/2)),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -108,13 +111,15 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        getRotation2d(),
+        getRotation2d().plus(new Rotation2d(Math.PI/2)),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+    
+    DriveTab.setRobotPose(getPose());
     
     PoseEstimator.update(
         getRotation2d(),
@@ -147,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        getRotation2d(),
+        getRotation2d().plus(new Rotation2d(Math.PI/2)),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
