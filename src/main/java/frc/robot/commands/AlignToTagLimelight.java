@@ -8,11 +8,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveCommandConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.RobotShared;
 
 public class AlignToTagLimelight extends Command {
   /** Creates a new AlignToTagLimelight. */
-  DriveSubsystem m_drive;
-  LimelightSubsystem m_limelight;
+  private DriveSubsystem m_drive;
+  private LimelightSubsystem m_limelight;
+
+  private RobotShared m_robotShared;
+
   double x_error;
   double y_error;
   double theta_error;
@@ -22,10 +26,10 @@ public class AlignToTagLimelight extends Command {
   boolean YFinished;
   boolean ThetaFinished;
 
-  public AlignToTagLimelight(DriveSubsystem drive, LimelightSubsystem limelight) {
-    addRequirements(drive);
-    m_drive = drive;
-    m_limelight = limelight;
+  public AlignToTagLimelight() {
+    m_robotShared = RobotShared.getInstance();
+    m_drive = m_robotShared.getDriveSubsystem();
+    m_limelight = m_robotShared.getLimelight();
   }
 
   // Called when the command is initially scheduled.

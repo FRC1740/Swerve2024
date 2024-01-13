@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotShared;
 import frc.robot.constants.DriveCommandConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PhotonVision;
@@ -15,6 +16,8 @@ public class AlignToTagPhotonVision extends Command {
   DriveSubsystem m_drive;
   PhotonVision m_vision;
   Transform3d camToTarget;
+  private RobotShared m_robotShared;
+
   double x_error;
   double y_error;
   double theta_error;
@@ -22,12 +25,10 @@ public class AlignToTagPhotonVision extends Command {
   boolean YFinished;
   boolean ThetaFinished;
 
-  public AlignToTagPhotonVision(DriveSubsystem drive, PhotonVision Vision) {
-    addRequirements(drive);
-    m_drive = drive;
-    m_vision = Vision;
-
-    // Use addRequirements() here to declare subsystem dependencies.
+  public AlignToTagPhotonVision() {
+    m_robotShared = RobotShared.getInstance();
+    m_drive = m_robotShared.getDriveSubsystem();
+    m_vision = m_robotShared.getPhotonVision();
   }
 
   // Called when the command is initially scheduled.

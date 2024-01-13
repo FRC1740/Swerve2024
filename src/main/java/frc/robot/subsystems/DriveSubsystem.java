@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.robot.RobotShared;
 import frc.robot.constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,6 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
+  private RobotShared m_robotShared = RobotShared.getInstance();
   // The gyro sensor
   private AHRS m_gyro = new AHRS(SerialPort.Port.kMXP);
 
@@ -78,9 +80,8 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearLeft.getPosition(),
         m_rearRight.getPosition()
       }, new Pose2d());
-  
   //Vision
-  PhotonVision m_vision = new PhotonVision();
+  PhotonVision m_vision = m_robotShared.getPhotonVision();
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
