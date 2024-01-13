@@ -72,7 +72,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                false, true),
+                true, true),
             m_robotDrive));
   }
 
@@ -104,7 +104,7 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
     m_driverController.b()
-      .whileTrue(AutoBuilder.followPath(null));
+      .whileTrue(AutoBuilder.followPath(m_ExamplePath));
   }
 
   /**
