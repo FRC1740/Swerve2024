@@ -15,6 +15,7 @@ import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PhotonVision;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -32,9 +34,11 @@ import com.pathplanner.lib.auto.NamedCommands;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-  private PhotonVision m_vision;
+  //private PhotonVision m_vision;
 
   private RobotShared m_robotShared = RobotShared.getInstance();
+
+  PathPlannerPath m_ExamplePath = PathPlannerPath.fromPathFile("Example Path");
 
   // The driver's controller
   CommandXboxController m_driverController;
@@ -68,7 +72,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+                false, true),
             m_robotDrive));
   }
 
@@ -95,6 +99,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_driverController.x()
       .whileTrue(new RunCommand(() -> m_robotDrive.setXFormation()));
+
+    m_driverController.a()
+      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+
+    m_driverController.b()
+      .whileTrue(AutoBuilder.followPath(null));
   }
 
   /**
