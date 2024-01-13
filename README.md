@@ -77,6 +77,7 @@
 - [ ] Import old code
 - [x] Grab the lamelight from last years robot
 - [x] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
+- [ ] Rename instances of vision with photonVision for clarity
 - [ ] Incorperate lamelight table with shuffleboard
 - [ ] Calibrate lamelight
 

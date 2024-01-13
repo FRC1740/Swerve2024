@@ -54,7 +54,7 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     //Must register commands used in PathPlanner autos
-    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision(m_robotDrive, m_vision));
+    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
 
     // Configure the button bindings
     configureButtonBindings();
