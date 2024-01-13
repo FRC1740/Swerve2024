@@ -47,9 +47,9 @@
 - [ ] Add climber logging
 
 `Swerve`
-- [ ] Find out why turning motors were turning seemingly randomly and fix it
-- [ ] Fix the one random wheel that didn't turn correctly
-- [ ] Turn on field relitive control
+- [X] Find out why turning motors were turning seemingly randomly and fix it
+- [X] Fix the one random wheel that didn't turn correctly
+- [X] Turn on field relitive control
 - [ ] Add pathplanning for autos
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
