@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.constants.OIConstants;
 import frc.robot.commands.AlignToTagPhotonVision;
+import frc.robot.commands.basic.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PhotonVision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -107,6 +107,11 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())));
     m_driverController.b()
       .whileTrue(AutoBuilder.followPath(m_ExamplePath));
+
+    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){
+      new POVButton(m_driverController.getHID(), angleForDPad * 45)
+        .onTrue(new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3));
+    }
   }
 
   /**
