@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -58,5 +60,19 @@ public class PhotonVision extends SubsystemBase {
 
   public Transform3d getCamToTarget(){
     return getBestTarget().getBestCameraToTarget();
+  }
+
+  //Returns list of IDs currently being tracked
+  public List<Integer> getAprilTagIDs(){
+    List<PhotonTrackedTarget> targets = getLatestResult().getTargets();
+    List<Integer> tagIDs = new ArrayList<>();
+    targets.forEach(target -> tagIDs.add(target.getFiducialId()));
+
+    return tagIDs;
+  }
+
+  //Returns true if an the ID is being tracked
+  public boolean containsID(Integer ID){
+    return getAprilTagIDs().contains(ID);
   }
 }
