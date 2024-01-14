@@ -11,6 +11,9 @@
         "DriveTrain": {
           "open": true
         },
+        "Errors": {
+          "open": true
+        },
         "open": true
       }
     }

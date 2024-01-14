@@ -14,5 +14,14 @@
     "properties": {
       "persistent": true
     }
+  },
+  {
+    "name": "/Shuffleboard/Errors/Errors",
+    "type": "string",
+    "value": "edno camera",
+    "properties": {
+      "persistent": true,
+      "retained": true
+    }
   }
 ]
