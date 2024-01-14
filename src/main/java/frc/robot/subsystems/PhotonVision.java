@@ -21,6 +21,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
+import frc.robot.constants.VisionConstants.AprilTagIDs;
 
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
@@ -96,5 +97,31 @@ public class PhotonVision extends SubsystemBase {
     return
     containsID(VisionConstants.AprilTagIDs.BlueAmp.getID()) ||
     containsID(VisionConstants.AprilTagIDs.RedAmp.getID());
+  }
+
+//Returns true if the best target is a speaker april tag (Best target refers to a user-customizable strategy 
+//in PhotonVision for "ranking" targets when there are more than one in view, likely whichever is closest to the center)
+  public boolean bestTargetisSpeaker(){
+    return 
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSpeakerCenter.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSpeakerSide.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSpeakerCenter.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSpeakerSide.getID();
+  }
+
+//Returns true if the best target is a source april tag
+  public boolean bestTargetisSource(){
+    return
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSourceDriverStationClose.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSourceDriverStationFar.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSourceDriverStationClose.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSourceDriverStationFar.getID();
+  }
+
+//Returns true if the best target is an Amp april tag
+  public boolean bestTargetisAmp(){
+    return 
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueAmp.getID() ||
+    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedAmp.getID();
   }
 }
