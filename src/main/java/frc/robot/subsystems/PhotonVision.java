@@ -36,7 +36,6 @@ public class PhotonVision extends SubsystemBase {
 
     PoseEstimator = new PhotonPoseEstimator(
       aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.RobotToCam);
-
   }
 
   @Override

@@ -27,20 +27,20 @@ public class RobotShared {
 
   public static RobotShared getInstance() {
     if(instance == null) {
-        instance = new RobotShared();
+      instance = new RobotShared();
     }
     return instance;
   }
 
   public DriveSubsystem getDriveSubsystem() {
     if(m_robotDrive == null) {
-        m_robotDrive = new DriveSubsystem();
+      m_robotDrive = new DriveSubsystem();
     }
     return m_robotDrive;
   }
   public HornSubsystem getHornSubsystem() {
     if(m_horn == null) {
-        m_horn = new HornSubsystem();
+      m_horn = new HornSubsystem();
     }
     return m_horn;
   }
@@ -49,13 +49,13 @@ public class RobotShared {
   }
   public LimelightSubsystem getLimelight() {
     if(m_limelight == null) {
-        m_limelight = new LimelightSubsystem();
+      m_limelight = new LimelightSubsystem();
     }
     return m_limelight;
   }
   public PhotonVision getPhotonVision() {
     if(m_photonVision == null) {
-        m_photonVision = new PhotonVision();
+      m_photonVision = new PhotonVision();
     }
     return m_photonVision;
   }
