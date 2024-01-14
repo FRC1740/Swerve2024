@@ -1,5 +1,5 @@
 # Swerve 2024 code
-1740's swerve test repository for the FRC 2024 season. I am using this as a basis for the code structure of our actual 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial). 
+1740's swerve test repository for the FRC 2024 season. I am using this as a basis for the code structure of our actual 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial), Then see the [Style Guide](#style-guide) 
 ### Robot Physical Specifications
 * size w l h
 * camera positions
@@ -164,3 +164,54 @@ This is a guide for setting up Github with VSCode
 
 [Team Git "How To"](https://docs.google.com/document/u/0/d/15Kb6Wxj8sjFqbPtVO2GGT9Oe1oe9GFOMFhPrwpMIeqQ/mobilebasic?pli=1)
 [Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
+
+### Style Guide
+If you are reading this, you have configured git and are set up to write code. Here we use two space indenting, so you need to go to the VSCode setting and change the default tab spacing for the workspace. It should be noted, this is a **guideline**, not hard rules; there will always be exceptions.
+#### Functional
+* When possible, static and final is always better, if it doesn't change, it should be marked as so. This mostly applies with constants in constant files
+```java
+public static final double kPXController = 1;
+```
+* Public vs Private
+You should only make a variable public if it needs to be publicly accessible. For example,
+```java
+public static final double kPXController = 1;
+```
+Should be public because it needs to be accessed because it is a constant, but
+```java
+private DriveSubsystem m_robotDrive
+```
+In RobotContainer, should not be public because you should get a reference via RobotShared. When in doubt, it should be private and passed as an argument.
+* File Placement
+Files should be placed in a spot that makes sense. This is very subjective, but Subsystems should be placed in subsystems, and constants in constants ect. Sometimes, it makes sense to make a new folder, for example, you have a file "Horn Intake". It doesn't make sense to place it in commands, becuase it is simple with no PID, so, you place it in basic. But then, basic is getting a little crowded, so you can put it in a Horn folder.
+#### Visual
+##### Naming
+* Variable Names
+Local variables should be named with camelCase so the first letter is lowercase, note this affects variables with m_.
+```java
+int angleForDPad = 0
+```
+* Subsystem Files
+Files should be in PascalCase rather than camelCase, to denote importance. 
+* Local subsystem refrenences
+Local subsystem refrenences should be denoted with m_[subsystem's name]. This is to reduce confusion on what is a local reference because the m stands for my.
+```java
+private DriveSubsystem m_robotDrive
+```
+##### Function calls
+* Braces
+Braces should be placed after the function a space after, not on a new line
+* Parenthesis in functions
+Parenthesis should be placed after the name with no space
+```java
+  private void configureButtonBindings() {
+``` 
+* Function wrapping:
+If a function seems to be a lot for one line, you can separate it into multiple lines like in this example. Some code examples may use 2 tabs instead, but to stay consistent, use one.
+```java
+new RunCommand(() ->
+  m_drive.drive(
+    -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
+    -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
+    output, fieldRelative, rateLimit));
+```

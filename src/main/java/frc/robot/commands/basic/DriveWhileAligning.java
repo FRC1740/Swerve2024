@@ -24,19 +24,19 @@ public class DriveWhileAligning extends PIDCommand {
   private static CommandXboxController m_driverController = m_robotShared.getDriverController();
   public DriveWhileAligning(double angle, boolean fieldRelative, boolean rateLimit) {
     super(
-        // The controller that the command will use
-        new PIDController(DriveConstants.DriveWhileAligningP, 0, 0),
-        // This should return the measurement
-        () -> m_drive.getHeading(),
-        // This should return the setpoint (can also be a constant)
-        () -> angle,
-        // This uses the output
-        output -> {
-          m_drive.drive(
-            -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
-            -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
-            output, fieldRelative, rateLimit);
-        });
+      // The controller that the command will use
+      new PIDController(DriveConstants.DriveWhileAligningP, 0, 0),
+      // This should return the measurement
+      () -> m_drive.getHeading(),
+      // This should return the setpoint (can also be a constant)
+      () -> angle,
+      // This uses the output
+      output -> {
+        m_drive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
+          output, fieldRelative, rateLimit);
+      });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(m_drive);
