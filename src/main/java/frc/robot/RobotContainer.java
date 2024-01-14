@@ -65,6 +65,7 @@ public class RobotContainer {
     m_robotDrive.setDefaultCommand(
       // The left stick controls translation of the robot.
       // Turning is controlled by the X axis of the right stick.
+      // If any changes are made to this, please update DPad driver controls
       new RunCommand(
         () -> m_robotDrive.drive(
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
@@ -106,7 +107,7 @@ public class RobotContainer {
     m_driverController.b()
       .whileTrue(AutoBuilder.followPath(m_ExamplePath));
 
-    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){
+    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){ // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
         .onTrue(new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3));
     }

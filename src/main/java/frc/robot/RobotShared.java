@@ -1,3 +1,4 @@
+//RobotShared is the class that holds all the instances of subsystems and other useful systems.
 package frc.robot;
 
 import java.util.Optional;
@@ -59,7 +60,7 @@ public class RobotShared {
     }
     return m_photonVision;
   }
-  public Alliance GetAlliance(){
+  public Alliance GetAlliance(){ // blue is default for the path planner (paths are made on the blue side)
     if(m_alliance.isPresent()){
       if(m_alliance.get() == Alliance.Blue){
         return Alliance.Blue;
