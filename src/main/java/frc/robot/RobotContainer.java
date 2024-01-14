@@ -17,6 +17,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -109,7 +111,9 @@ public class RobotContainer {
 
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){ // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
-        .onTrue(new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3));
+        .onTrue(new SequentialCommandGroup(
+          new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3),
+          new WaitCommand(.1))); // small delay to prevent reinput after angled DPad input
     }
   }
 

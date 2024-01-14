@@ -302,7 +302,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
 //Gets gyro in form of Rotation2d
-  public Rotation2d getRotation2d(){
+  public Rotation2d getRotation2d(){ // this is the reversed angle and should be used to get the reversed robot angle
     return Rotation2d.fromDegrees(m_gyro.getAngle() * ((DriveConstants.kGyroReversed) ? -1 : 1));
   }
 

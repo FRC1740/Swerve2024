@@ -27,7 +27,7 @@ public class DriveWhileAligning extends PIDCommand {
       // The controller that the command will use
       new PIDController(DriveConstants.DriveWhileAligningP, 0, 0),
       // This should return the measurement
-      () -> m_drive.getHeading(),
+      () -> m_drive.getHeading(), // replacing this with getRotation2d could mean I don't have to reverse the for loop
       // This should return the setpoint (can also be a constant)
       () -> angle,
       // This uses the output
