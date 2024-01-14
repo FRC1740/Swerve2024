@@ -14,7 +14,7 @@ import frc.robot.subsystems.PhotonVision;
 public class AlignToTagPhotonVision extends Command {
   /** Creates a new AlignToTagPhotonVision. */
   DriveSubsystem m_drive;
-  PhotonVision m_vision;
+  PhotonVision m_photonVision;
   Transform3d camToTarget;
   private RobotShared m_robotShared;
 
@@ -28,7 +28,7 @@ public class AlignToTagPhotonVision extends Command {
   public AlignToTagPhotonVision() {
     m_robotShared = RobotShared.getInstance();
     m_drive = m_robotShared.getDriveSubsystem();
-    m_vision = m_robotShared.getPhotonVision();
+    m_photonVision = m_robotShared.getPhotonVision();
   }
 
   // Called when the command is initially scheduled.
@@ -38,7 +38,7 @@ public class AlignToTagPhotonVision extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    camToTarget = m_vision.getCamToTarget();
+    camToTarget = m_photonVision.getCamToTarget();
     x_error = DriveCommandConstants.xGoal - camToTarget.getX() ;
     y_error = DriveCommandConstants.yGoal - camToTarget.getY() ;
     theta_error = camToTarget.getRotation().getAngle();

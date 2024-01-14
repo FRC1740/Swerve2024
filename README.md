@@ -1,11 +1,12 @@
 # Swerve 2024 code
 1740's swerve test repository for the FRC 2024 season. I am using this as a basis for the code structure of our actual 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial), Then see the [Style Guide](#style-guide) 
 ### Robot Physical Specifications
-* size w l h
+* 26 * 26 inches (add height)
 * camera positions
 * Swerve specifications
 * general position and idea GroundIntake
-* general position and idea Note Pusher
+* The Horn
+The Horn is the main intake and shooter on our robot.
 * general position and idea Climber
 
 ### Subsystems
@@ -17,7 +18,7 @@
 * num of NEOs
 * how it works
 
-#### Note Pusher
+#### Horn
 * num of NEOs
 * how it works (is it belts or wheels)
 
@@ -41,7 +42,7 @@
 - [ ] Consider Advantage kit and/or scope data logging for the season [Scope](https://github.com/Mechanical-Advantage/AdvantageScope) [Kit](https://github.com/Mechanical-Advantage/AdvantageKit)
 
 `Shuffleboard`
-- [ ] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
+- [x] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
 - [ ] Add logging to drive subsystem to see wheel angles and robot position
 - [ ] Add logging for note subsystems
 - [ ] Add climber logging
@@ -50,13 +51,13 @@
 - [X] Find out why turning motors were turning seemingly randomly and fix it
 - [X] Fix the one random wheel that didn't turn correctly
 - [X] Turn on field relitive control
-- [ ] Add pathplanning for autos
+- [x] Add pathplanning for autos
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
 
 `Controls`
-- [ ] Create a better controller scheme than last year to set up controls (addControlerFunction(func(), a)) ? (opt.)
+- [x] Get drive controls working
 - [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
 - [ ] Implement controls
 - [ ] Make sure control feel is good and everything makes sense
@@ -77,7 +78,7 @@
 - [ ] Import old code
 - [x] Grab the lamelight from last years robot
 - [x] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
-- [ ] Rename instances of vision with photonVision for clarity
+- [x] Rename instances of vision with photonVision for clarity
 - [ ] Incorperate lamelight table with shuffleboard
 - [ ] Calibrate lamelight
 
@@ -87,8 +88,8 @@
 - [ ] Create stub code for testing
 - [ ] See [Shuffleboard](#Shuffleboard)
 
-`Note pusher`
-- [ ] Figure out what this is called and rename it here
+`Horn`
+- [x] Figure out what this is called and rename it here
 - [ ] Actually figure out what the mechanics entail and how it works
 - [ ] See how the flap works
 - [ ] Create stub code for testing
@@ -191,6 +192,7 @@ Local variables should be named with camelCase so the first letter is lowercase,
 ```java
 int angleForDPad = 0
 ```
+Generally, because the robot is so complex, abbreviating is frowned apon, however there are many exceptions.
 * Subsystem Files
 Files should be in PascalCase rather than camelCase, to denote importance. 
 * Local subsystem refrenences

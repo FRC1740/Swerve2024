@@ -34,7 +34,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-  //private PhotonVision m_vision;
 
   private RobotShared m_robotShared = RobotShared.getInstance();
 

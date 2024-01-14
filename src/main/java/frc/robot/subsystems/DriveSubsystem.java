@@ -84,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearRight.getPosition()
     }, new Pose2d());
   //Vision
-  PhotonVision m_vision = m_robotShared.getPhotonVision();
+  PhotonVision m_photonVision = m_robotShared.getPhotonVision();
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -128,10 +128,10 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearLeft.getPosition(),
         m_rearRight.getPosition()
       });
-    if (m_vision.getEstimatedVisionPose().isPresent()){
+    if (m_photonVision.getEstimatedVisionPose().isPresent()){
       PoseEstimator.addVisionMeasurement(
-        m_vision.getEstimatedVisionPose().get().estimatedPose.toPose2d(), 
-        m_vision.getEstimatedVisionPose().get().timestampSeconds);
+        m_photonVision.getEstimatedVisionPose().get().estimatedPose.toPose2d(), 
+        m_photonVision.getEstimatedVisionPose().get().timestampSeconds);
     }
   }
 
