@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.GyroConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -66,7 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
     DriveConstants.kDriveKinematics,
-    getRotation2d().plus(new Rotation2d(Math.PI/2)),
+    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
     new SwerveModulePosition[] {
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
@@ -106,7 +107,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-      getRotation2d().plus(new Rotation2d(Math.PI/2)),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -147,7 +148,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-      getRotation2d().plus(new Rotation2d(Math.PI/2)),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -299,7 +300,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 //Gets gyro in form of Rotation2d
   public Rotation2d getRotation2d(){ // this is the reversed angle and should be used to get the reversed robot angle
-    return Rotation2d.fromDegrees(m_gyro.getAngle() * ((DriveConstants.kGyroReversed) ? -1 : 1));
+    return Rotation2d.fromDegrees(m_gyro.getAngle() * ((GyroConstants.kGyroReversed) ? -1 : 1));
   }
 
   /**
@@ -317,6 +318,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return m_gyro.getRate() * (GyroConstants.kGyroReversed ? -1.0 : 1.0);
   }
 }
