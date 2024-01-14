@@ -168,9 +168,13 @@ public class DriveSubsystem extends SubsystemBase {
    *                      field.
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit, boolean quadraticInput) {
     double xSpeedCommanded;
     double ySpeedCommanded;
+    if(quadraticInput){
+      xSpeed = quadraticControlFalloff(xSpeed);
+      ySpeed = quadraticControlFalloff(ySpeed);
+    }
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
@@ -250,6 +254,10 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Sets the wheels into an X formation to prevent movement.
    */
+  public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
+    return (.9 * Math.pow(input, 2.5)) + (.1 * input);
+  }
+
   public void setXFormation() {
     m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));

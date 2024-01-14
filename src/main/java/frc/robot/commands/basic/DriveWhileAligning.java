@@ -25,7 +25,7 @@ public class DriveWhileAligning extends PIDCommand {
   public DriveWhileAligning(double angle, boolean fieldRelative, boolean rateLimit) {
     super(
       // The controller that the command will use
-      new PIDController(DriveConstants.DriveWhileAligningP, 0, 0),
+      new PIDController(DriveConstants.kDriveWhileAligningP, 0, 0),
       // This should return the measurement
       () -> m_drive.getHeading(), // replacing this with getRotation2d could mean I don't have to reverse the for loop
       // This should return the setpoint (can also be a constant)
@@ -35,7 +35,7 @@ public class DriveWhileAligning extends PIDCommand {
         m_drive.drive(
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
           -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
-          output, fieldRelative, rateLimit);
+          output, fieldRelative, rateLimit, OIConstants.kUseQuadraticDriving);
       });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.

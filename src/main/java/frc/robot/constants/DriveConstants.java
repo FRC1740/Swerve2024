@@ -49,7 +49,7 @@ public final class DriveConstants {
   public static final int kFrontRightTurningCanId = 14;
   public static final int kRearRightTurningCanId = 5;
 
-  public static final double DriveWhileAligningP = .01;
+  public static final double kDriveWhileAligningP = .01;
 
   public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
   new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants

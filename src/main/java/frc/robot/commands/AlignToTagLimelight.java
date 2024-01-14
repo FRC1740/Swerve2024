@@ -51,7 +51,7 @@ public class AlignToTagLimelight extends Command {
     m_drive.drive(
       DriveCommandConstants.kXP * x_error, 
       DriveCommandConstants.kYP * y_error, 
-      DriveCommandConstants.kThetaP * theta_error, false, true);
+      DriveCommandConstants.kThetaP * theta_error, false, true, false);
 
     if(Math.abs(x_error) < DriveCommandConstants.kXToleranceMeters){
       XFinished = true;
