@@ -1,0 +1,21 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/DriveTrain/Field": "Field2d"
+    }
+  },
+  "NetworkTables": {
+    "persistent": {
+      "Shuffleboard": {
+        "DriveTrain": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}

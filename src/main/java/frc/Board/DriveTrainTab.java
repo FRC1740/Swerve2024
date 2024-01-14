@@ -71,13 +71,13 @@ public class DriveTrainTab {
     // Display current encoder values
 
     m_nte_IMU_ZAngle = m_sbt_DriveTrain.addPersistent("IMU Z-Axis Angle", 0.0)
-      .withSize(2,1).withPosition(4,2).getEntry();
+      .withSize(2,1).withPosition(4,0).getEntry();
 
     m_nte_IMU_PitchAngle = m_sbt_DriveTrain.addPersistent("IMU Pitch", 0.0)
-      .withSize(2,1).withPosition(4,3).getEntry();
+      .withSize(2,1).withPosition(4,1).getEntry();
 
     m_sbt_DriveTrain.add(m_Field)
-      .withSize(4, 2).withPosition(5, 0);
+      .withSize(4, 2).withPosition(0, 0);
 
     // Create widgets for PID Controllers
   }
