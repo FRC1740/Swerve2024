@@ -75,4 +75,26 @@ public class PhotonVision extends SubsystemBase {
   public boolean containsID(Integer ID){
     return getAprilTagIDs().contains(ID);
   }
+
+// Returns true if tracking the CENTER tag of a speaker (Red or Blue). Will not return true if only tracking the side tag
+  public boolean containsSpeaker(){
+    return 
+    containsID(VisionConstants.AprilTagIDs.BlueSpeakerCenter.getID()) || 
+    containsID(VisionConstants.AprilTagIDs.RedSpeakerCenter.getID());
+  }
+
+//Returns true if tracking a Source April Tag
+  public boolean containsSource(){
+    return
+    containsID(VisionConstants.AprilTagIDs.BlueSourceDriverStationClose.getID()) ||
+    containsID(VisionConstants.AprilTagIDs.BlueSourceDriverStationFar.getID()) ||
+    containsID(VisionConstants.AprilTagIDs.RedSourceDriverStationClose.getID()) ||
+    containsID(VisionConstants.AprilTagIDs.RedSourceDriverStationFar.getID());
+  }
+//Returns true if tracking an Amp April Tag
+  public boolean containsAmp(){
+    return
+    containsID(VisionConstants.AprilTagIDs.BlueAmp.getID()) ||
+    containsID(VisionConstants.AprilTagIDs.RedAmp.getID());
+  }
 }
