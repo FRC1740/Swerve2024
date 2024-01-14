@@ -4,17 +4,12 @@
 
 package frc.Board;
 
-import java.util.Map;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import frc.robot.constants.AutoConstants;
 //import frc.robot.constants.ShuffleboardConstants;
 
 /** Add your docs here. */
@@ -75,18 +70,14 @@ public class DriveTrainTab {
         // Create and get reference to SB tab
         m_sbt_DriveTrain = Shuffleboard.getTab("DriveTrain");
 
-        // Create widgets for digital filter lengths
-       
-        //  m_nte_Testing     = m_sbt_DriveTrain.addPersistent("Testing", 0.0)       .withSize(1, 1).withPosition(3, 3).getEntry();
-
         // Encoder outputs
         // Display current encoder values
         
-        // m_nte_IMU_ZAngle = m_sbt_DriveTrain.addPersistent("IMU Z-Axis Angle", 0.0)
-        //     .withSize(2,1).withPosition(4,2).getEntry();
+        m_nte_IMU_ZAngle = m_sbt_DriveTrain.addPersistent("IMU Z-Axis Angle", 0.0)
+            .withSize(2,1).withPosition(4,2).getEntry();
 
-        // m_nte_IMU_PitchAngle = m_sbt_DriveTrain.addPersistent("IMU Pitch", 0.0)
-        //     .withSize(2,1).withPosition(4,3).getEntry();
+        m_nte_IMU_PitchAngle = m_sbt_DriveTrain.addPersistent("IMU Pitch", 0.0)
+            .withSize(2,1).withPosition(4,3).getEntry();
 
         m_sbt_DriveTrain.add(m_Field)
             .withSize(4, 2).withPosition(5, 0);
