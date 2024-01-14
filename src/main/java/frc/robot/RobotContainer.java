@@ -109,7 +109,7 @@ public class RobotContainer {
     m_driverController.b()
       .whileTrue(AutoBuilder.followPath(m_ExamplePath));
 
-    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){ // Sets all the DPad to rotate to an angle
+    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
         .onTrue(new SequentialCommandGroup(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3),

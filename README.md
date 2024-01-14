@@ -192,7 +192,12 @@ Files should be placed in a spot that makes sense. This is very subjective, but 
 * Variable Names
 Local variables should be named with camelCase so the first letter is lowercase, note this affects variables with m_.
 ```java
-int angleForDPad = 0
+int angleForDPad = 0;
+```
+* Constants
+Constants should be written in PascalCase, so the first letter is uppercase and denoted by starting with a lowercase "k".
+```java
+public static final double kGyroAngularOffset = Math.PI / 2;
 ```
 Generally, because the robot is so complex, abbreviating is frowned apon, however there are many exceptions.
 * Subsystem Files
@@ -200,7 +205,7 @@ Files should be in PascalCase rather than camelCase, to denote importance.
 * Local subsystem refrenences
 Local subsystem refrenences should be denoted with m_[subsystem's name]. This is to reduce confusion on what is a local reference because the m stands for my.
 ```java
-private DriveSubsystem m_robotDrive
+private DriveSubsystem m_robotDrive;
 ```
 ##### Function calls
 * Braces
@@ -218,4 +223,9 @@ new RunCommand(() ->
     -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
     -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
     output, fieldRelative, rateLimit));
+```
+##### Math
+Math should be coded with a space inbetween variables for clarity.
+```java
+public static final double kGyroAngularOffset = Math.PI / 2;
 ```
