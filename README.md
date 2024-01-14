@@ -1,5 +1,5 @@
 # Swerve 2024 code
-1740's swerve test repository for the FRC 2024 season. I am using this as a basis for the code structure of our actual 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial), Then see the [Style Guide](#style-guide) 
+1740's swerve repository for the FRC 2024 season. This is our 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial), Then see the [Style Guide](#style-guide) 
 ### Robot Physical Specifications
 * 26 * 26 inches (add height)
 * camera positions
