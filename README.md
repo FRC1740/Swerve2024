@@ -118,6 +118,32 @@ This is the main resource we use besides googling things, this contains most, if
 
 
 ### Github VSCode Setup Tutorial 
+There are 2 different methods to setup git, I am leaving the [legacy method](legacy-method) as reference, but we switched to an easier and faster branched solution more widely used professionally. The old method is still useful if you need to make a change to a repository you don't have access to.
+* Create a [Github account](https://github.com)
+* Ask Mr. Estabrooks to add you to his repository
+* Clone the repository via VSCode
+* Go to the third tab on the left
+* Click on the three dots, and click create branch
+* Name it something like dev-[name] or dev-[initals]
+* Click publish branch
+#### Pulling
+* Ideally this should be done every time you open your code and as often as possible to avoid conflicts
+* If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
+* To pull code, make sure you have no pending changes (if you do, see [Pushing Code](#pushing))
+* Run "git pull"
+* If there are conflicts ask for advice if you don't know what you're doing (If you are reading this you don't)
+#### Pushing
+* Now that you have setup your github you can edit code on your working branch
+* Make sure your changes work and make sure it builds and deploys before commiting
+* After you finish the changes you now should look to the left panel and click the third git source control icon
+* Hit Commit and if you haven't saved, hit Save all and Commit Changes
+* It will ask you to input a message, either through a file or the message box at the top, either type in box or in the file save, and hit the checkmark to submit it
+* Sync changes
+* Go to github and click the dev branch you are on via the branch button
+* Click create pull request and follow the thing through the menus
+* You can continue commiting with an unresolved pull request and subsequent commits will be appeneded to the request
+
+### Legacy Method
 This is a guide for setting up Github with VSCode
 * Create a [Github account](https://github.com)
 * Sign into the VSCode with Github via the person logo in the bottom left above the wheel
@@ -147,7 +173,7 @@ This is a guide for setting up Github with VSCode
 #### Pulling Code
 * Ideally this should be done every time you open your code and as often as possible to avoid conflicts
 * If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
-* To pull code, make sure you have to pending changes (if you do, see [Pushing Code](#pushing-code))
+* To pull code, make sure you have no pending changes (if you do, see [Pushing Code](#pushing-code))
 * Change to your main branch
 * Run git pull upstream main
 * Change back to working
@@ -196,7 +222,7 @@ Local variables should be named with camelCase so the first letter is lowercase,
 int angleForDPad = 0;
 ```
 * Constants
-Constants should be written in PascalCase, so the first letter is uppercase and denoted by starting with a lowercase "k".
+Constants should be written in PascalCase, so the first letter is uppercase and prefixed with a lowercase "k".
 ```java
 public static final double kGyroAngularOffset = Math.PI / 2;
 ```
