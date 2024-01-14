@@ -103,10 +103,10 @@ public class RobotContainer {
     m_driverController.a()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
+    //Testing path following
     m_driverController.b()
-      .onTrue(new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())));
-    m_driverController.b()
-      .whileTrue(AutoBuilder.followPath(m_ExamplePath));
+      .whileTrue(AutoBuilder.followPath(m_ExamplePath)
+      .alongWith(new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose()))));
 
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
