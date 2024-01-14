@@ -60,7 +60,8 @@ public class RobotShared {
     }
     return m_photonVision;
   }
-  public Alliance GetAlliance(){ // blue is default for the path planner (paths are made on the blue side)
+  public Alliance getAlliance(){ // blue is default for the path planner (paths are made on the blue side)
+    m_alliance = DriverStation.getAlliance();
     if(m_alliance.isPresent()){
       if(m_alliance.get() == Alliance.Blue){
         return Alliance.Blue;

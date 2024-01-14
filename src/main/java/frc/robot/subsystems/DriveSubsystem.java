@@ -96,11 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
       this::chassisSpeedDrive, 
       DriveConstants.kPathFollowerConfig, 
       () -> {
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;
+        return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
       }, 
     this);
   }
