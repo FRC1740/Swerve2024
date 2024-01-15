@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.Networking.LimelightTable;
 
 public class LimelightSubsystem extends SubsystemBase {
-
   private LimelightTable m_LimelightTable;
 
   public LimelightSubsystem() {
