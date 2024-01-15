@@ -1,5 +1,5 @@
 package frc.robot.constants;
 
-    public final class NeoMotorConstants {
-        public static final double kFreeSpeedRpm = 5676;
-    }
+public final class NeoMotorConstants {
+  public static final double kFreeSpeedRpm = 5676;
+}

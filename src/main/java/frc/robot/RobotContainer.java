@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.constants.OIConstants;
 import frc.robot.commands.AlignToTagPhotonVision;
-import frc.robot.commands.basic.DriveWhileAligning;
+import frc.robot.commands.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -35,7 +36,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-  //private PhotonVision m_vision;
 
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -50,7 +50,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    
     initSubsystems();
     initInputDevices();
 
@@ -66,15 +65,16 @@ public class RobotContainer {
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
-            m_robotDrive));
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      // If any changes are made to this, please update DPad driver controls
+      new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          true, true, OIConstants.kUseQuadraticDriving),
+        m_robotDrive));
   }
 
   private void initSubsystems() {
@@ -111,9 +111,11 @@ public class RobotContainer {
         AutoBuilder.followPath(m_ExamplePath)
       ));
 
-    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){
+    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
-        .onTrue(new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3));
+        .onTrue(new SequentialCommandGroup(
+          new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3), // -45 could be 45 
+          new WaitCommand(.1))); // small delay to prevent reinput after angled DPad input
     }
   }
 

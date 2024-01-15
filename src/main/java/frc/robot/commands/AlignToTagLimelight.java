@@ -40,7 +40,7 @@ public class AlignToTagLimelight extends Command {
   @Override
   public void execute() {
     angleToTag = m_limelight.getXdeviation();
-    distanceToTag = m_limelight.getTranslationToAprilTag();
+    distanceToTag = m_limelight.getTranslationToAprilTag(); // getTranslationToAprilTag may be incorrect
 
     x_error = DriveCommandConstants.xGoal - distanceToTag[0];
     y_error = DriveCommandConstants.yGoal - distanceToTag[1];
@@ -51,7 +51,7 @@ public class AlignToTagLimelight extends Command {
     m_drive.drive(
       DriveCommandConstants.kXP * x_error, 
       DriveCommandConstants.kYP * y_error, 
-      DriveCommandConstants.kThetaP * theta_error, false, true);
+      DriveCommandConstants.kThetaP * theta_error, false, true, false);
 
     if(Math.abs(x_error) < DriveCommandConstants.kXToleranceMeters){
       XFinished = true;
