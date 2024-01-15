@@ -17,6 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -105,8 +106,10 @@ public class RobotContainer {
 
     //Testing path following
     m_driverController.b()
-      .whileTrue(AutoBuilder.followPath(m_ExamplePath)
-      .alongWith(new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose()))));
+      .whileTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+        AutoBuilder.followPath(m_ExamplePath)
+      ));
 
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++){
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
