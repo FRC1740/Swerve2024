@@ -21,7 +21,6 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
-import frc.robot.constants.VisionConstants.AprilTagIDs;
 
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
