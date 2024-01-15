@@ -49,8 +49,15 @@ public class PhotonVision extends SubsystemBase {
     return cam.getLatestResult();
   }
 
-  public Optional<EstimatedRobotPose> getEstimatedVisionPose(){
+  public Optional<EstimatedRobotPose> getVisionPoseEstimationResult(){
     return PoseEstimator.update();
+  }
+
+  public EstimatedRobotPose ifExistsGetEstimatedRobotPose(){
+    if (getVisionPoseEstimationResult().isPresent()){
+      return getVisionPoseEstimationResult().get();
+    } 
+    return null;
   }
 
   public PhotonTrackedTarget getBestTarget(){
