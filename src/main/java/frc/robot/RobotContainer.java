@@ -73,7 +73,7 @@ public class RobotContainer {
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
           -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
           -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-          true, true, OIConstants.kUseQuadraticDriving),
+          true, true, OIConstants.kUseQuadraticInput),
         m_robotDrive));
   }
 
@@ -111,7 +111,7 @@ public class RobotContainer {
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
           -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
           -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-          false, true, OIConstants.kUseQuadraticDriving),
+          false, true, OIConstants.kUseQuadraticInput),
         m_robotDrive));
     
     //Half Speed mode
@@ -121,7 +121,7 @@ public class RobotContainer {
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) / 2,
           -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) / 2,
           -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) / 2,
-          true, true, OIConstants.kUseQuadraticDriving),
+          true, true, OIConstants.kUseQuadraticInput),
         m_robotDrive));
     
 

@@ -35,7 +35,7 @@ public class DriveWhileAligning extends PIDCommand {
         m_drive.drive(
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
           -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
-          output, fieldRelative, rateLimit, OIConstants.kUseQuadraticDriving);
+          output, fieldRelative, rateLimit, OIConstants.kUseQuadraticInput);
       });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.

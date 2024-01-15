@@ -251,9 +251,6 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  /**
-   * Sets the wheels into an X formation to prevent movement.
-   */
   public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
     return Math.signum(input) * Math.abs((.9 * Math.pow(input, 2.5)) + (.1 * input));
   }
