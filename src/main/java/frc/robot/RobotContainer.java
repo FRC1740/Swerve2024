@@ -104,6 +104,27 @@ public class RobotContainer {
     m_driverController.a()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
+    //Robot relative mode
+    m_driverController.leftBumper()
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          false, true, OIConstants.kUseQuadraticDriving),
+        m_robotDrive));
+    
+    //Half Speed mode
+    m_driverController.rightBumper()
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) / 2,
+          true, true, OIConstants.kUseQuadraticDriving),
+        m_robotDrive));
+    
+
     //Testing path following
     m_driverController.b()
       .whileTrue(new SequentialCommandGroup(
