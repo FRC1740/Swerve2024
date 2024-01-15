@@ -104,10 +104,33 @@ public class RobotContainer {
     m_driverController.a()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
+    //Robot relative mode
+    m_driverController.leftBumper()
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          false, true, OIConstants.kUseQuadraticDriving),
+        m_robotDrive));
+    
+    //Half Speed mode
+    m_driverController.rightBumper()
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) / 2,
+          true, true, OIConstants.kUseQuadraticDriving),
+        m_robotDrive));
+    
+
+    //Testing path following
     m_driverController.b()
-      .onTrue(new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())));
-    m_driverController.b()
-      .whileTrue(AutoBuilder.followPath(m_ExamplePath));
+      .whileTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+        AutoBuilder.followPath(m_ExamplePath)
+      ));
 
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
