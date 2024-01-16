@@ -4,6 +4,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public final class AutoConstants {
   public static final double kMaxSpeedDriveToPointMetersPerSecond = 1; // This is different because it is not a path
+  public static final double kMaxAccelerationDriveToPointMetersPerSecond = 1; // This is different because it is not a path
 
   public static final double kMaxSpeedMetersPerSecond = 3;
   public static final double kMaxAccelerationMetersPerSecondSquared = 3;

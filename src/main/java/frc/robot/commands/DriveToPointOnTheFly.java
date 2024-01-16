@@ -9,25 +9,26 @@ import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotShared;
+import frc.robot.constants.AutoConstants;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveToPointOnTheFly extends Command {
   /** Creates a new DriveToPointHolo. */
+  static RobotShared m_robotShared = RobotShared.getInstance();
+  private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
 
-  public DriveToPointOnTheFly() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
+  public DriveToPointOnTheFly(Translation2d targetPosition) {
     // Since we are using a holonomic drivetrain, the rotation component of this pose
     // represents the goal holonomic rotation
     Pose2d targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
 
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-      3.0, 4.0,
+      AutoConstants.kMaxSpeedDriveToPointMetersPerSecond,
+      AutoConstants.kMaxAccelerationDriveToPointMetersPerSecond,
       Math.toRadians(540), Math.toRadians(720));
 
     // Since AutoBuilder is configured, we can use it to build pathfinding commands
@@ -38,7 +39,12 @@ public class DriveToPointOnTheFly extends Command {
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
     );
     pathfindingCommand.schedule();
+    addRequirements(m_drive);
   }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
