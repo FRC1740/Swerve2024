@@ -54,6 +54,7 @@ The Horn is the main intake and shooter on our robot.
 - [X] Turn on field relitive control
 - [x] Add pathplanning for autos
 - [ ] Auto motor stop on tilt
+- [ ] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
