@@ -37,6 +37,8 @@ public class DriveToPoint extends PIDCommand {
             true, true, false);
         });
       addRequirements(m_drive);
+      // atSetpoint error tolerance
+      getController().setTolerance(.1, 1);
   }
 
   // Returns true when the command should end.
