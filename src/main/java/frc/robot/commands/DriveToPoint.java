@@ -34,7 +34,7 @@ public class DriveToPoint extends PIDCommand {
           //Janky clamp because Java doesn't have a native one
           double clampedXSpeed = (Math.max(0.0, Math.min(AutoConstants.kMaxSpeedDriveToPointMetersPerSecond, XSpeed)));
           double clampedYSpeed = (Math.max(0.0, Math.min(AutoConstants.kMaxSpeedDriveToPointMetersPerSecond, YSpeed)));
-          m_drive.drive(clampedXSpeed, clampedYSpeed, m_drive.getHeading(), 
+          m_drive.drive(clampedXSpeed, clampedYSpeed, 0, 
             true, true, false);
         });
       addRequirements(m_drive);
