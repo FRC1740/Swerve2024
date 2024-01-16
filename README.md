@@ -53,6 +53,7 @@ The Horn is the main intake and shooter on our robot.
 - [X] Fix the one random wheel that didn't turn correctly
 - [X] Turn on field relitive control
 - [x] Add pathplanning for autos
+- [ ] Auto motor stop on tilt
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
@@ -84,6 +85,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Rename instances of vision with photonVision for clarity
 - [ ] Incorperate lamelight table with shuffleboard
 - [ ] Calibrate lamelight
+- [ ] Automatic Bumper Detection would be really cool
 
 `Climber`
 - [ ] Actually figure out what the mechanics entail and how it works

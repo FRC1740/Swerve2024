@@ -131,7 +131,7 @@ public class RobotContainer {
         new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
         AutoBuilder.followPath(m_ExamplePath)
       ));
-
+    // Something super janky is happening here but it works so
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
         .onTrue(new SequentialCommandGroup(
