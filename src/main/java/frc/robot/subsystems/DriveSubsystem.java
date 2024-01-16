@@ -101,6 +101,9 @@ public class DriveSubsystem extends SubsystemBase {
   StructArrayPublisher<SwerveModuleState> SwerveModuleStatePublisher = DriveTrainTable
     .getStructArrayTopic("SwerveModuleStates", SwerveModuleState.struct).publish();
 
+  StructArrayPublisher<SwerveModuleState> DesiredSwerveModuleStatePublisher = DriveTrainTable
+    .getStructArrayTopic("DesiredSwerveModuleStates", SwerveModuleState.struct).publish();
+
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -157,6 +160,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     //Publish Swerve data to network tables
     SwerveModuleStatePublisher.set(getModuleStates());
+    DesiredSwerveModuleStatePublisher.set(getDesiredSwerveModuleStates());
     
     DriveTab.setRobotPose(getPose());
   }
@@ -316,6 +320,15 @@ public class DriveSubsystem extends SubsystemBase {
     states[1] = m_frontRight.getState();
     states[2] = m_rearLeft.getState();
     states[3] = m_rearRight.getState();
+    return states;
+  }
+
+  public SwerveModuleState[] getDesiredSwerveModuleStates(){
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    states[0] = m_frontLeft.getDesiredState();
+    states[1] = m_frontRight.getDesiredState();
+    states[2] = m_rearLeft.getDesiredState();
+    states[3] = m_rearRight.getDesiredState();
     return states;
   }
 
