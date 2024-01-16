@@ -23,7 +23,7 @@ public class DriveToPointOnTheFly extends Command {
   public DriveToPointOnTheFly(Translation2d targetPosition) {
     // Since we are using a holonomic drivetrain, the rotation component of this pose
     // represents the goal holonomic rotation
-    Pose2d targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+    Pose2d targetPose = new Pose2d(targetPosition.getX(), targetPosition.getY(), Rotation2d.fromDegrees(180));
 
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
