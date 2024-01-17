@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.constants.OIConstants;
-import frc.robot.commands.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignToTagPhotonVision;
-import frc.robot.commands.DriveWhileAligning;
+import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
+import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
