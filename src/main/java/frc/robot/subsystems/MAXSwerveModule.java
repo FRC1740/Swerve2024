@@ -164,4 +164,8 @@ public class MAXSwerveModule {
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
   }
+
+  public SwerveModuleState getDesiredState(){
+    return m_desiredState;
+  }
 }

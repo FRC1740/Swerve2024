@@ -60,6 +60,8 @@ public class RobotContainer {
 
     //Must register commands used in PathPlanner autos
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
+    NamedCommands.registerCommand("GroundIntake", new InstantCommand()); //place holder
+    NamedCommands.registerCommand("ShootSpeaker", new InstantCommand()); //place holder
 
     // Configure the button bindings
     configureButtonBindings();

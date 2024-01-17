@@ -13,6 +13,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -22,6 +25,8 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.GyroConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.sql.Struct;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -86,6 +91,19 @@ public class DriveSubsystem extends SubsystemBase {
     }, new Pose2d());
   //Vision
   PhotonVision m_photonVision = m_robotShared.getPhotonVision();
+  
+  NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
+  
+  //Pose data Publisher
+  StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
+    .getStructArrayTopic("Poses", Pose2d.struct).publish();
+
+  StructArrayPublisher<SwerveModuleState> SwerveModuleStatePublisher = DriveTrainTable
+    .getStructArrayTopic("SwerveModuleStates", SwerveModuleState.struct).publish();
+
+  StructArrayPublisher<SwerveModuleState> DesiredSwerveModuleStatePublisher = DriveTrainTable
+    .getStructArrayTopic("DesiredSwerveModuleStates", SwerveModuleState.struct).publish();
+
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -106,6 +124,24 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
+    //Adds vision mesurement to pose estimator
+    if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
+      PoseEstimator.addVisionMeasurement(
+        m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
+        m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
+    }
+
+    //Odometry + Vision measurement
+    PoseEstimator.update(  
+      getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+      });
+    
+    //Just odometry
     m_odometry.update(
       getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
@@ -114,22 +150,19 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearLeft.getPosition(),
         m_rearRight.getPosition()
       });
+
+    //Pubilsh pose data to network tables
+    PosePublisher.set(new Pose2d[]{
+      getPose(), //Odometry pose
+      (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
+      PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
+    });
+
+    //Publish Swerve data to network tables
+    SwerveModuleStatePublisher.set(getModuleStates());
+    DesiredSwerveModuleStatePublisher.set(getDesiredSwerveModuleStates());
     
     DriveTab.setRobotPose(getPose());
-    
-    PoseEstimator.update(
-      getRotation2d(),
-      new SwerveModulePosition[] {
-        m_frontLeft.getPosition(),
-        m_frontRight.getPosition(),
-        m_rearLeft.getPosition(),
-        m_rearRight.getPosition()
-      });
-    if (m_photonVision.getEstimatedVisionPose().isPresent()){
-      PoseEstimator.addVisionMeasurement(
-        m_photonVision.getEstimatedVisionPose().get().estimatedPose.toPose2d(), 
-        m_photonVision.getEstimatedVisionPose().get().timestampSeconds);
-    }
   }
 
   /**
@@ -291,6 +324,15 @@ public class DriveSubsystem extends SubsystemBase {
     return states;
   }
 
+  public SwerveModuleState[] getDesiredSwerveModuleStates(){
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    states[0] = m_frontLeft.getDesiredState();
+    states[1] = m_frontRight.getDesiredState();
+    states[2] = m_rearLeft.getDesiredState();
+    states[3] = m_rearRight.getDesiredState();
+    return states;
+  }
+
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();
@@ -306,7 +348,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 //Gets gyro in form of Rotation2d
   public Rotation2d getRotation2d(){ // this is the reversed angle and should be used to get the reversed robot angle
-    return Rotation2d.fromDegrees(m_gyro.getAngle() * ((GyroConstants.kGyroReversed) ? -1 : 1));
+    return m_gyro.getRotation2d();
   }
 
   /**
