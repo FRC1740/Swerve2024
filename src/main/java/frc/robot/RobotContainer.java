@@ -14,6 +14,7 @@ import frc.robot.constants.OIConstants;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -131,6 +132,11 @@ public class RobotContainer {
         new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
         AutoBuilder.followPath(m_ExamplePath)
       ));
+      
+    m_driverController.y()
+      .whileTrue(
+        OnTheFlyPathing.getOnTheFlyPath(0, 0)
+      );
     // Something super janky is happening here but it works so
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
