@@ -64,6 +64,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Quadratic driving falloff
 - [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
 - [x] Add delay to DPad input so when releasing two buttons it doesn't collapse into one
+- [ ] Right Stick angle control and click stick in to snap?
 - [ ] Implement controls
 - [ ] Make sure control feel is good and everything makes sense
 - [ ] Different control selection from shuffleboard
