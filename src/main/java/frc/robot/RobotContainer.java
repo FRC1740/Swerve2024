@@ -79,14 +79,13 @@ public class RobotContainer {
           true, true, OIConstants.kUseQuadraticInput),
         m_robotDrive));
       // NEW command NOT UPDATED DPad driver controls TESTING
-    // double angleOfRightStick = Math.atan2(-MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband),
-    //   -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband));
     // m_robotDrive.setDefaultCommand(
     //   new RunCommand(
     //     () -> m_robotDrive.drive(
     //       -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
     //       -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-    //       (m_robotDrive.getHeading() - angleOfRightStick),
+    //       (Math.atan2(-MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband),
+    //         -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband))),
     //       true, true, OIConstants.kUseQuadraticInput),
     //     m_robotDrive));
   }

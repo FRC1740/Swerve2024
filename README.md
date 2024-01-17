@@ -27,18 +27,18 @@ The Horn is the main intake and shooter on our robot.
 
 ### Software Todo List (sorted by priority)
 `Current things to test`
-- [ ] Make sure code runs without crash
-- [ ] Make sure swerve still works
-- [ ] Make sure paths still work
-- [ ] Right stick click rotate to angle
-- [ ] New turn to angle controls
-- [ ] Quadratic driving input
+- [x] Make sure code runs without crash
+- [x] Make sure swerve still works
+- [x] Make sure paths still work
+- [x] Right stick click rotate to angle
+- [ ] New turn to angle controls BROKEN
+- [x] Quadratic driving input 
 - [ ] Drive to point
 - [ ] Test error tab
-- [ ] Half speed driving (almost definitly works)
-- [ ] Dpad rotation delay (probably needs to be fixed)
-- [ ] Shuffleboard logging (scary)
-- [ ] OTF pathing
+- [x] Half speed driving (almost definitly works)
+- [ ] Dpad rotation delay (probably needs to be fixed) BROKEN
+- [ ] Shuffleboard logging (scary) maybe
+- [ ] OTF pathing 
 - [ ] Swerve logging check
 - [ ] Check drivewhile aligning tolerences
 `People`
