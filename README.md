@@ -31,6 +31,7 @@ The Horn is the main intake and shooter on our robot.
 - [ ] Make sure swerve still works
 - [ ] Make sure paths still work
 - [ ] Right stick click rotate to angle
+- [ ] New turn to angle controls
 - [ ] Quadratic driving input
 - [ ] Drive to point
 - [ ] Test error tab
