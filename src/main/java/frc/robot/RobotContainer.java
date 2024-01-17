@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.constants.OIConstants;
+import frc.robot.commands.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
@@ -152,7 +153,8 @@ public class RobotContainer {
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
         // double normalizedAngle = (int)((m_robotDrive.getHeading() + 180) / (360 / 8)),  // This is the uncondensed code
-        new DriveWhileAligning((int)((m_robotDrive.getHeading() + 180) / (360 / 8)), true, true).withTimeout(3))
+        new AlignToNearestAngleAndDrive(true, true).withTimeout(3))
+        
       );
     // Something super janky is happening here but it works so
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
