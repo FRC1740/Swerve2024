@@ -36,10 +36,10 @@ public class OnTheFlyPathing {
   /**
     Returns a command for the path to a point
   */
-  public static <T> Command getOnTheFlyPath(T x, T y){
+  public static Command getOnTheFlyPath(double x, double y){
     // Since we are using a holonomic drivetrain, the rotation component of this pose
     // represents the goal holonomic rotation
-    Pose2d targetPose = new Pose2d((double)x, (double)y, Rotation2d.fromDegrees(180));
+    Pose2d targetPose = new Pose2d(x, y, Rotation2d.fromDegrees(180));
 
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
