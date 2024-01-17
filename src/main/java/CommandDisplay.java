@@ -1,3 +1,9 @@
+/* This file scans every file in the src/java path and writes the public callable functions to a file in build/generated
+called AccessbileCommands.jtxt. 
+.jtxt is a custom extention for java txt files as defined in .vscode/settings.json. It just makes them have silly colors
+The build gradle calls this java file every build. It costs about 35 ms every build.
+This could be optimized by keeping the file open, writing the avalible commands and then one write but it's not worth it.
+*/
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,18 +29,17 @@ public class CommandDisplay {
     // Get the source directory from command-line arguments
     String sourceDirectory = args[0];
 
-    // Add your logic to list functions or perform other tasks
+    // List functions 
     createFile();
-    try (Stream<Path> paths = Files.walk(Paths.get(sourceDirectory), FileVisitOption.FOLLOW_LINKS)) {
+    try (Stream<Path> paths = Files.walk(Paths.get(sourceDirectory), FileVisitOption.FOLLOW_LINKS)) { // check every file in dir
       paths
-        .filter(Files::isRegularFile)
+        .filter(Files::isRegularFile) // filter 
         .filter(path -> path.toString().endsWith(".java"))
         .filter(path -> !path.toString().contains("CommandDisplay"))
         .forEach(path -> {
-          // System.out.println(path);
           writeLineToFile(path.toString());
           printFile(path.toFile());
-          writeLineToFile(""); // new line
+          writeLineToFile(""); // new line (because \n is inserted every time)
         });
     } catch (IOException e) {
         e.printStackTrace();

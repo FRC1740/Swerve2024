@@ -1,11 +1,12 @@
 # Swerve 2024 code
-1740's swerve test repository for the FRC 2024 season. I am using this as a basis for the code structure of our actual 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial). 
+1740's swerve repository for the FRC 2024 season. This is our 2024 codebase. To make changes to the repo, follow the [Github Setup in VSCode](#github-vscode-setup-tutorial), Then see the [Style Guide](#style-guide) 
 ### Robot Physical Specifications
-* size w l h
+* 26 * 26 inches (add height)
 * camera positions
 * Swerve specifications
 * general position and idea GroundIntake
-* general position and idea Note Pusher
+* The Horn
+The Horn is the main intake and shooter on our robot.
 * general position and idea Climber
 
 ### Subsystems
@@ -17,7 +18,7 @@
 * num of NEOs
 * how it works
 
-#### Note Pusher
+#### Horn
 * num of NEOs
 * how it works (is it belts or wheels)
 
@@ -41,7 +42,8 @@
 - [ ] Consider Advantage kit and/or scope data logging for the season [Scope](https://github.com/Mechanical-Advantage/AdvantageScope) [Kit](https://github.com/Mechanical-Advantage/AdvantageKit)
 
 `Shuffleboard`
-- [ ] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
+- [x] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
+- [ ] Get some sort of auto previsualization so we can see it before using it
 - [ ] Add logging to drive subsystem to see wheel angles and robot position
 - [ ] Add logging for note subsystems
 - [ ] Add climber logging
@@ -50,14 +52,16 @@
 - [X] Find out why turning motors were turning seemingly randomly and fix it
 - [X] Fix the one random wheel that didn't turn correctly
 - [X] Turn on field relitive control
-- [ ] Add pathplanning for autos
+- [x] Add pathplanning for autos
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
 
 `Controls`
-- [ ] Create a better controller scheme than last year to set up controls (addControlerFunction(func(), a)) ? (opt.)
+- [x] Get drive controls working
+- [x] Quadratic driving falloff
 - [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
+- [x] Add delay to DPad input so when releasing two buttons it doesn't collapse into one
 - [ ] Implement controls
 - [ ] Make sure control feel is good and everything makes sense
 - [ ] Different control selection from shuffleboard
@@ -77,7 +81,7 @@
 - [ ] Import old code
 - [x] Grab the lamelight from last years robot
 - [x] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
-- [ ] Rename instances of vision with photonVision for clarity
+- [x] Rename instances of vision with photonVision for clarity
 - [ ] Incorperate lamelight table with shuffleboard
 - [ ] Calibrate lamelight
 
@@ -87,8 +91,8 @@
 - [ ] Create stub code for testing
 - [ ] See [Shuffleboard](#Shuffleboard)
 
-`Note pusher`
-- [ ] Figure out what this is called and rename it here
+`Horn`
+- [x] Figure out what this is called and rename it here
 - [ ] Actually figure out what the mechanics entail and how it works
 - [ ] See how the flap works
 - [ ] Create stub code for testing
@@ -114,6 +118,32 @@ This is the main resource we use besides googling things, this contains most, if
 
 
 ### Github VSCode Setup Tutorial 
+There are 2 different methods to setup git, I am leaving the [legacy method](legacy-method) as reference, but we switched to an easier and faster branched solution more widely used professionally. The old method is still useful if you need to make a change to a repository you don't have access to.
+* Create a [Github account](https://github.com)
+* Ask Mr. Estabrooks to add you to his repository
+* Clone the repository via VSCode
+* Go to the third tab on the left
+* Click on the three dots, and click create branch
+* Name it something like dev-[name] or dev-[initals]
+* Click publish branch
+#### Pulling
+* Ideally this should be done every time you open your code and as often as possible to avoid conflicts
+* If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
+* To pull code, make sure you have no pending changes (if you do, see [Pushing Code](#pushing))
+* Run "git pull"
+* If there are conflicts ask for advice if you don't know what you're doing (If you are reading this you don't)
+#### Pushing
+* Now that you have setup your github you can edit code on your working branch
+* Make sure your changes work and make sure it builds and deploys before commiting
+* After you finish the changes you now should look to the left panel and click the third git source control icon
+* Hit Commit and if you haven't saved, hit Save all and Commit Changes
+* It will ask you to input a message, either through a file or the message box at the top, either type in box or in the file save, and hit the checkmark to submit it
+* Sync changes
+* Go to github and click the dev branch you are on via the branch button
+* Click create pull request and follow the thing through the menus
+* You can continue commiting with an unresolved pull request and subsequent commits will be appeneded to the request
+
+### Legacy Method
 This is a guide for setting up Github with VSCode
 * Create a [Github account](https://github.com)
 * Sign into the VSCode with Github via the person logo in the bottom left above the wheel
@@ -143,7 +173,7 @@ This is a guide for setting up Github with VSCode
 #### Pulling Code
 * Ideally this should be done every time you open your code and as often as possible to avoid conflicts
 * If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
-* To pull code, make sure you have to pending changes (if you do, see [Pushing Code](#pushing-code))
+* To pull code, make sure you have no pending changes (if you do, see [Pushing Code](#pushing-code))
 * Change to your main branch
 * Run git pull upstream main
 * Change back to working
@@ -164,3 +194,65 @@ This is a guide for setting up Github with VSCode
 
 [Team Git "How To"](https://docs.google.com/document/u/0/d/15Kb6Wxj8sjFqbPtVO2GGT9Oe1oe9GFOMFhPrwpMIeqQ/mobilebasic?pli=1)
 [Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
+
+### Style Guide
+If you are reading this, you have configured git and are set up to write code. Here we use two space indenting, so you need to go to the VSCode setting and change the default tab spacing for the workspace. It should be noted, this is a **guideline**, not hard rules; there will always be exceptions.
+#### Functional
+* When possible, static and final is always better, if it doesn't change, it should be marked as so. This mostly applies with constants in constant files
+```java
+public static final double kPXController = 1;
+```
+* Public vs Private
+You should only make a variable public if it needs to be publicly accessible. For example,
+```java
+public static final double kPXController = 1;
+```
+Should be public because it needs to be accessed because it is a constant, but
+```java
+private DriveSubsystem m_robotDrive
+```
+In RobotContainer, should not be public because you should get a reference via RobotShared. When in doubt, it should be private and passed as an argument.
+* File Placement
+Files should be placed in a spot that makes sense. This is very subjective, but Subsystems should be placed in subsystems, and constants in constants ect. Sometimes, it makes sense to make a new folder, for example, you have a file "Horn Intake". It doesn't make sense to place it in commands, becuase it is simple with no PID, so, you place it in basic. But then, basic is getting a little crowded, so you can put it in a Horn folder.
+#### Visual
+##### Naming
+* Variable Names
+Local variables should be named with camelCase so the first letter is lowercase, note this affects variables with m_.
+```java
+int angleForDPad = 0;
+```
+* Constants
+Constants should be written in PascalCase, so the first letter is uppercase and prefixed with a lowercase "k".
+```java
+public static final double kGyroAngularOffset = Math.PI / 2;
+```
+Generally, because the robot is so complex, abbreviating is frowned apon, however there are many exceptions.
+* Subsystem Files
+Files should be in PascalCase rather than camelCase, to denote importance. 
+* Local subsystem refrenences
+Local subsystem refrenences should be denoted with m_[subsystem's name]. This is to reduce confusion on what is a local reference because the m stands for my.
+```java
+private DriveSubsystem m_robotDrive;
+```
+##### Function calls
+* Braces
+Braces should be placed after the function a space after, not on a new line
+* Parenthesis in functions
+Parenthesis should be placed after the name with no space
+```java
+  private void configureButtonBindings() {
+``` 
+* Function wrapping:
+If a function seems to be a lot for one line, you can separate it into multiple lines like in this example. Some code examples may use 2 tabs instead, but to stay consistent, use one.
+```java
+new RunCommand(() ->
+  m_drive.drive(
+    -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
+    -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
+    output, fieldRelative, rateLimit));
+```
+##### Math
+Math should be coded with a space inbetween variables for clarity.
+```java
+public static final double kGyroAngularOffset = Math.PI / 2;
+```
