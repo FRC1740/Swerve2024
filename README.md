@@ -26,6 +26,20 @@ The Horn is the main intake and shooter on our robot.
 * Name: function and position
 
 ### Software Todo List (sorted by priority)
+`Current things to test`
+- [ ] Make sure code runs without crash
+- [ ] Make sure swerve still works
+- [ ] Make sure paths still work
+- [ ] Right stick click rotate to angle
+- [ ] Quadratic driving input
+- [ ] Drive to point
+- [ ] Test error tab
+- [ ] Half speed driving (almost definitly works)
+- [ ] Dpad rotation delay (probably needs to be fixed)
+- [ ] Shuffleboard logging (scary)
+- [ ] OTF pathing
+- [ ] Swerve logging check
+- [ ] Check drivewhile aligning tolerences
 `People`
 - [ ] Cordinate the software team and see who wants to help with software
 - [ ] Inform software team of structure and git and PID
