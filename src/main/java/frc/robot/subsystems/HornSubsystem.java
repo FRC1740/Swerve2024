@@ -8,17 +8,24 @@ import frc.robot.constants.HornConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
-  private final CANSparkMax m_HornMotor = new CANSparkMax(HornConstants.kHornMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornMotorLeader = new CANSparkMax(HornConstants.kHornLeaderMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornMotorFollower = new CANSparkMax(HornConstants.kHornFollowerMotorPort, CANSparkMax.MotorType.kBrushless);
   private final RelativeEncoder m_HornMotorEncoder;
-  private double m_intakeSetSpeed = HornConstants.HornMotorSpeed;
+  private SparkPIDController m_PidController;
+
+  //FIXME: Add datalogging
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
-    m_HornMotorEncoder = m_HornMotor.getEncoder();
+    m_HornMotorFollower.follow(m_HornMotorLeader, false); //invert might have to be changed to true
+    m_HornMotorEncoder = m_HornMotorLeader.getEncoder();
+    m_PidController = m_HornMotorLeader.getPIDController();
   }
 
   public void Shoot(double speed) {
@@ -34,12 +41,11 @@ public class HornSubsystem extends SubsystemBase {
     }
 
   public void setHornSpeed(double speed) {
-    m_intakeSetSpeed = speed;
-    m_HornMotor.set(m_intakeSetSpeed);
+    m_PidController.setReference(speed, ControlType.kVelocity);
   }
 
   public void stopHorn() {
-    m_HornMotor.set(0.0);
+    m_PidController.setReference(0, ControlType.kVelocity);
   }
 
   @Override
@@ -51,7 +57,8 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   public void burnFlash() {
-    m_HornMotor.burnFlash();
+    m_HornMotorLeader.burnFlash();
+    m_HornMotorFollower.burnFlash();
   }
 
 }
