@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.constants.OIConstants;
-import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
@@ -59,7 +58,6 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     //Must register commands used in PathPlanner autos
-    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
     NamedCommands.registerCommand("GroundIntake", new InstantCommand()); //place holder
     NamedCommands.registerCommand("ShootSpeaker", new InstantCommand()); //place holder
 
