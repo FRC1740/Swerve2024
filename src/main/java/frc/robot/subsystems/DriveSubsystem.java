@@ -87,6 +87,8 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearLeft.getPosition(),
       m_rearRight.getPosition()
     }, new Pose2d());
+  //Vision
+  // PhotonVision m_photonVision = m_robotShared.getPhotonVision();
   
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
@@ -121,8 +123,13 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
+    // if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
+    //   PoseEstimator.addVisionMeasurement(
+    //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
+    //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
+    // }
 
-    //Odometry + No Vision measurement
+    //Odometry + Vision measurement
     PoseEstimator.update(  
       getRotation2d(),
       new SwerveModulePosition[] {
@@ -145,6 +152,8 @@ public class DriveSubsystem extends SubsystemBase {
     //Pubilsh pose data to network tables
     PosePublisher.set(new Pose2d[]{
       getPose(), //Odometry pose
+      // (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
+      // PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
     });
 
     //Publish Swerve data to network tables
