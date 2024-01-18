@@ -86,6 +86,12 @@ public class RobotContainer {
     //         -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband))),
     //       true, true, OIConstants.kUseQuadraticInput),
     //     m_robotDrive));
+
+    // m_robotDrive.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> new DriveWhileAligning(Math.toDegrees(Math.atan2(m_driverController.getRightY(), m_driverController.getRightX())),
+    //       true, true),
+    //     m_robotDrive));
   }
 
   private void initSubsystems() {

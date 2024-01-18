@@ -5,6 +5,7 @@
 package frc.robot.commands.AlignAndDrive;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class AlignToJoystickAndDrive extends Command {
   /** Creates a new AlignToJoystickAndDrive. */
@@ -20,8 +21,7 @@ public class AlignToJoystickAndDrive extends Command {
   @Override
   public void initialize() {
     double angleToDriveTo = Math.toDegrees(Math.atan2(YInput, XInput));
-    DriveAlignCommand = new DriveWhileAligning(angleToDriveTo, true, true);
-    DriveAlignCommand.schedule();
+    DriveAlignCommand = new RunCommand(() -> new DriveWhileAligning(angleToDriveTo, true, true));
   }
   @Override
   public void end(boolean interrupted) {}
