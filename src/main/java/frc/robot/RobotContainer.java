@@ -142,7 +142,7 @@ public class RobotContainer {
       
     m_driverController.y()
       .whileTrue(
-        OnTheFlyPathing.getOnTheFlyPath(0, 0)
+        new OnTheFlyPathing().getOnTheFlyPath(0, 0)
       );
 
     m_driverController.rightStick()
