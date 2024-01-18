@@ -1,34 +1,56 @@
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-// BTOKEJEN DOES NOT WORK
+
 package frc.robot.commands.AlignAndDrive;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotShared;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.GyroConstants;
+import frc.robot.constants.OIConstants;
+import frc.robot.subsystems.DriveSubsystem;
 
-public class AlignToJoystickAndDrive extends Command {
-  /** Creates a new AlignToJoystickAndDrive. */
-  private Command DriveAlignCommand;
-  private double XInput, YInput;
-
-  public AlignToJoystickAndDrive(double newXInput, double newYInput) {
-    XInput = newXInput;
-    YInput = newYInput;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class AlignToJoystickAndDrive extends PIDCommand {
+  /** Creates a new DriveWhileAligning. */
+  
+  static RobotShared m_robotShared = RobotShared.getInstance();
+  private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
+  private static CommandXboxController m_driverController = m_robotShared.getDriverController(); 
+  // isThereInput == 1 if true
+  public AlignToJoystickAndDrive(double newXInput, double newYInput, boolean fieldRelative, boolean rateLimit, int isThereInput) {
+    super(
+      // The controller that the command will use
+      new PIDController(DriveConstants.kDriveWhileAligningP * isThereInput, 0, 0),
+      // This should return the measurement
+      () -> m_drive.getHeading(), // replacing this with getRotation2d could mean I don't have to reverse the for loop
+      // This should return the setpoint (can also be a constant)
+      () ->
+      (GyroConstants.kGyroAngularOffsetDeg + -Math.toDegrees(Math.atan2(-MathUtil.applyDeadband(newYInput, OIConstants.kDriveDeadband),
+             -MathUtil.applyDeadband(newXInput, OIConstants.kDriveDeadband)))),
+      // This uses the output
+      output -> {
+        m_drive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), 
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), 
+          output, fieldRelative, rateLimit, OIConstants.kUseQuadraticInput);
+      });
     // Use addRequirements() here to declare subsystem dependencies.
+    // Configure additional PID options by calling `getController` here.
+    addRequirements(m_drive);
+    getController().enableContinuousInput(-180, 180);
   }
-
-  @Override
-  public void initialize() {
-    double angleToDriveTo = Math.toDegrees(Math.atan2(YInput, XInput));
-    DriveAlignCommand = new DriveWhileAligning(angleToDriveTo, true, true);
-    DriveAlignCommand.schedule();
-  }
-  @Override
-  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return DriveAlignCommand.isFinished();
+    return getController().atSetpoint();
   }
 }

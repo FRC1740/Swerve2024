@@ -32,7 +32,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Make sure paths still work
 - [x] Right stick click rotate to angle
 - [ ] New turn to angle controls BROKEN
-- [x] Quadratic driving input 
+- [x] Quadratic driving input
 - [ ] Drive to point
 - [ ] Test error tab
 - [x] Half speed driving (almost definitly works)
