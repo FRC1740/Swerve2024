@@ -26,6 +26,21 @@ The Horn is the main intake and shooter on our robot.
 * Name: function and position
 
 ### Software Todo List (sorted by priority)
+`Current things to test`
+- [ ] Make sure code runs without crash
+- [ ] Make sure swerve still works
+- [ ] Make sure paths still work
+- [ ] Right stick click rotate to angle
+- [ ] New turn to angle controls
+- [ ] Quadratic driving input
+- [ ] Drive to point
+- [ ] Test error tab
+- [ ] Half speed driving (almost definitly works)
+- [ ] Dpad rotation delay (probably needs to be fixed)
+- [ ] Shuffleboard logging (scary)
+- [ ] OTF pathing
+- [ ] Swerve logging check
+- [ ] Check drivewhile aligning tolerences
 `People`
 - [ ] Cordinate the software team and see who wants to help with software
 - [ ] Inform software team of structure and git and PID
@@ -53,6 +68,8 @@ The Horn is the main intake and shooter on our robot.
 - [X] Fix the one random wheel that didn't turn correctly
 - [X] Turn on field relitive control
 - [x] Add pathplanning for autos
+- [ ] Auto motor stop on tilt
+- [ ] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
@@ -62,6 +79,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Quadratic driving falloff
 - [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
 - [x] Add delay to DPad input so when releasing two buttons it doesn't collapse into one
+- [ ] Right Stick angle control and click stick in to snap?
 - [ ] Implement controls
 - [ ] Make sure control feel is good and everything makes sense
 - [ ] Different control selection from shuffleboard
@@ -84,6 +102,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Rename instances of vision with photonVision for clarity
 - [ ] Incorperate lamelight table with shuffleboard
 - [ ] Calibrate lamelight
+- [ ] Automatic Bumper Detection would be really cool
 
 `Climber`
 - [ ] Actually figure out what the mechanics entail and how it works
