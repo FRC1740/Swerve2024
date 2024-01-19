@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import frc.robot.constants.DriveConstants;
 
 /** Add your docs here. */
 public class DriveTrainTab {
@@ -21,14 +22,6 @@ public class DriveTrainTab {
   // Create and get reference to SB tab
   ShuffleboardTab m_sbt_DriveTrain;
 
-  GenericEntry m_nte_Testing;
-
-  // Autonomous Variables
-  GenericEntry m_nte_a_DriveDelay;
-  GenericEntry m_nte_b_DriveDistance;
-  GenericEntry m_nte_c_DriveTurnAngle;
-  GenericEntry m_nte_autoDriveMode;
-
   // Encoders/PID Feedback sensors
   GenericEntry m_nte_LeftEncoder;
   GenericEntry m_nte_RightEncoder;
@@ -39,16 +32,14 @@ public class DriveTrainTab {
   GenericEntry m_nte_DriveSpeedFilter;
   GenericEntry m_nte_DriveRotationFilter;
 
-  GenericEntry m_nte_kPAutoBalance;
-  GenericEntry m_nte_kIAutoBalance;
-  GenericEntry m_nte_kDAutoBalance;
-
   GenericEntry m_nte_kPTurn;
   GenericEntry m_nte_kITurn;
   GenericEntry m_nte_kDTurn;
 
   // Create widget for non-linear input
   GenericEntry m_nte_InputExponent;
+
+  GenericEntry m_nte_MaxDrivingSpeed;
 
   private static DriveTrainTab instance = null;
 
@@ -76,10 +67,11 @@ public class DriveTrainTab {
     m_nte_IMU_PitchAngle = m_sbt_DriveTrain.addPersistent("IMU Pitch", 0.0)
       .withSize(2,1).withPosition(4,1).getEntry();
 
+    m_nte_MaxDrivingSpeed = m_sbt_DriveTrain.addPersistent("Max Speed MPS", DriveConstants.kMaxSpeedMetersPerSecond)
+    .withSize(2,1).withPosition(4, 2).getEntry();
+
     m_sbt_DriveTrain.add(m_Field)
       .withSize(4, 2).withPosition(0, 0);
-
-    // Create widgets for PID Controllers
   }
 
 
@@ -105,6 +97,14 @@ public class DriveTrainTab {
 
   public void setRobotPose(Pose2d pose2d) {
     m_Field.setRobotPose(pose2d);
+  }
+
+  public void setMaxDrivingSpeed(Double value) {
+    m_nte_MaxDrivingSpeed.setDouble(value);
+  } 
+
+  public Double getMaxDrivingSpeed() {
+    return m_nte_MaxDrivingSpeed.getDouble(DriveConstants.kMaxSpeedMetersPerSecond);
   }
 
   public void setTrajectory(Trajectory traj){

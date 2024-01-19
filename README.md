@@ -58,6 +58,7 @@ The Horn is the main intake and shooter on our robot.
 
 `Shuffleboard`
 - [x] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
+- [ ] Log trajectories
 - [ ] Get some sort of auto previsualization so we can see it before using it
 - [ ] Add logging to drive subsystem to see wheel angles and robot position
 - [ ] Add logging for note subsystems
