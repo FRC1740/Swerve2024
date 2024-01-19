@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.OIConstants;
@@ -19,6 +20,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveWhileAligning extends PIDCommand {
   /** Creates a new DriveWhileAligning. */
   
+    private static DriveTrainTab m_driveTab = DriveTrainTab.getInstance();
   static RobotShared m_robotShared = RobotShared.getInstance();
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
   private static CommandXboxController m_driverController = m_robotShared.getDriverController();
@@ -41,6 +43,15 @@ public class DriveWhileAligning extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
     addRequirements(m_drive);
     getController().enableContinuousInput(-180, 180);
+    getController().setTolerance(3, 1);
+  }
+  @Override
+  public void end(boolean interrupted) {
+    m_driveTab.setHasRotationControl(true);
+  }
+  @Override
+  public void initialize() {
+    m_driveTab.setHasRotationControl(false);
   }
 
   // Returns true when the command should end.

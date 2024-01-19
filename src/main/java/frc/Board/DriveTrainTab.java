@@ -41,6 +41,8 @@ public class DriveTrainTab {
 
   GenericEntry m_nte_MaxDrivingSpeed;
 
+  GenericEntry m_nte_HasRotationControl; // whether the driver has control over rotation or not
+
   private static DriveTrainTab instance = null;
 
   private DriveTrainTab() {
@@ -69,6 +71,9 @@ public class DriveTrainTab {
 
     m_nte_MaxDrivingSpeed = m_sbt_DriveTrain.addPersistent("Max Speed MPS", DriveConstants.kMaxSpeedMetersPerSecond)
     .withSize(2,1).withPosition(4, 2).getEntry();
+
+    m_nte_HasRotationControl = m_sbt_DriveTrain.addPersistent("Has Rotation Control", true)
+    .withSize(3,3).withPosition(4, 3).getEntry();
 
     m_sbt_DriveTrain.add(m_Field)
       .withSize(4, 2).withPosition(0, 0);
@@ -106,6 +111,14 @@ public class DriveTrainTab {
   public Double getMaxDrivingSpeed() {
     return m_nte_MaxDrivingSpeed.getDouble(DriveConstants.kMaxSpeedMetersPerSecond);
   }
+
+  public void setHasRotationControl(Boolean hasRotationControl) {
+    m_nte_HasRotationControl.setBoolean(hasRotationControl);
+  } 
+
+  public Boolean getHasRotationControl() {
+    return m_nte_HasRotationControl.getBoolean(true);
+  }   
 
   public void setTrajectory(Trajectory traj){
     m_Field.getObject("trajectory").setTrajectory(traj);

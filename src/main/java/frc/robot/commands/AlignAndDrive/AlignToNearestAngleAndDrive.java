@@ -5,6 +5,7 @@
 package frc.robot.commands.AlignAndDrive;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -14,6 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class AlignToNearestAngleAndDrive extends Command {
   /** Creates a new DriveWhileAligning. */
   
+  private static DriveTrainTab m_driveTab = DriveTrainTab.getInstance();
   static RobotShared m_robotShared = RobotShared.getInstance();
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
   private Command DriveAlignCommand;
@@ -22,11 +24,14 @@ public class AlignToNearestAngleAndDrive extends Command {
   }
   @Override
   public void initialize() {
+    m_driveTab.setHasRotationControl(false);
     DriveAlignCommand = new DriveWhileAligning((((int)(((m_drive.getHeading()) / (360 / 8)) + .5)) * 45), true, true);
     DriveAlignCommand.schedule();
   }
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_driveTab.setHasRotationControl(true);
+  }
 
   // Returns true when the command should end.
   @Override
