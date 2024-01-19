@@ -85,7 +85,7 @@ public class DriveTrainTab {
   }
 
   public void setIMU_ZAngle(Double value) {
-    m_nte_IMU_ZAngle.setDouble(value);
+    m_nte_IMU_ZAngle.setDouble(truncate(value, 2));
   }
 
   public Double getIMU_PitchAngle() {
@@ -93,7 +93,7 @@ public class DriveTrainTab {
   }
 
   public void setIMU_PitchAngle(Double value) {
-    m_nte_IMU_PitchAngle.setDouble(value);
+    m_nte_IMU_PitchAngle.setDouble(truncate(value, 2));
   }
 
   public Pose2d getRobotPose() {
@@ -122,5 +122,8 @@ public class DriveTrainTab {
 
   public void setTrajectory(Trajectory traj){
     m_Field.getObject("trajectory").setTrajectory(traj);
+  }
+  private double truncate(double input, int decimalPlaces){
+    return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));
   }
 }
