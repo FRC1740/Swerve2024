@@ -31,9 +31,9 @@ public class HornTab {
 
   private void initShuffleboardTab() {
     // Create and get reference to the tab
-    m_sbt_Horn = Shuffleboard.getTab("DriveTrain");
+    m_sbt_Horn = Shuffleboard.getTab("Horn");
 
-    m_nte_HornSpeed = m_sbt_Horn.addPersistent("IMU Pitch", 0.0)
+    m_nte_HornSpeed = m_sbt_Horn.addPersistent("Horn RPM", 0.0)
       .withSize(2,1).withPosition(4,1).getEntry();
   }
   public Double getHornSpeed() {
