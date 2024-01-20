@@ -24,7 +24,7 @@ public class OnTheFlyPathing {
   NetworkTable OnTheFlyPathingTable = NetworkTableInstance.getDefault().getTable("On The Fly Pathing");
 
   StructPublisher<Pose2d> TargetPose = OnTheFlyPathingTable.getStructTopic("Target Pose", Pose2d.struct).publish();
-  StructPublisher<Pose2d> CurrentPose = OnTheFlyPathingTable.getStructTopic("Target Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> CurrentPose = OnTheFlyPathingTable.getStructTopic("Current Pose", Pose2d.struct).publish();
   StructArrayPublisher<Pose2d> ActivePath = OnTheFlyPathingTable.getStructArrayTopic("Active Path", Pose2d.struct).publish();
 
   public OnTheFlyPathing(){

@@ -12,6 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+// Aligns the robot to the nearest 45deg incremenet
 public class AlignToNearestAngleAndDrive extends Command {
   /** Creates a new DriveWhileAligning. */
   

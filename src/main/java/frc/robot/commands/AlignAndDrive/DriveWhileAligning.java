@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
-import frc.robot.constants.DriveConstants;
+import frc.robot.constants.AutoConstants;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -27,7 +27,7 @@ public class DriveWhileAligning extends PIDCommand {
   public DriveWhileAligning(double angle, boolean fieldRelative, boolean rateLimit) {
     super(
       // The controller that the command will use
-      new PIDController(DriveConstants.kDriveWhileAligningP, 0, 0),
+      new PIDController(AutoConstants.kDriveWhileAligningP, 0, 0),
       // This should return the measurement
       () -> m_drive.getHeading(), // replacing this with getRotation2d could mean I don't have to reverse the for loop
       // This should return the setpoint (can also be a constant)
