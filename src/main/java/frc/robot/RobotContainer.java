@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
 import frc.robot.commands.AlignToTagPhotonVision;
-import frc.robot.commands.DriveToPoint;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -142,10 +142,9 @@ public class RobotContainer {
         new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
         AutoBuilder.followPath(m_ExamplePath)
       ));
-      
-    m_driverController.y()
+      m_driverController.y()
       .whileTrue(
-        new DriveToPoint(0, 0)
+        new OnTheFlyPathing().getOnTheFlyPath(0, 0)
       );
 
     m_driverController.rightStick()
