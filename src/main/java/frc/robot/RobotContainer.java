@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.constants.OIConstants;
+import frc.Board.HornTab;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
@@ -38,6 +39,7 @@ public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
   private HornSubsystem m_horn;
+  private HornTab m_hornTab;
 
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -102,6 +104,7 @@ public class RobotContainer {
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_horn = m_robotShared.getHornSubsystem();
+    m_hornTab = HornTab.getInstance();
     // ----------------------------------------------------------------------------------------------
   }
   private void initInputDevices() {
@@ -154,7 +157,7 @@ public class RobotContainer {
       
     m_driverController.y()
       .whileTrue(
-        new OnTheFlyPathing().getOnTheFlyPath(0, 0)
+        new RunCommand(() -> m_horn.Shoot(m_hornTab.getHornMaxSpeed()), m_horn)
       );
 
     m_driverController.rightStick()
