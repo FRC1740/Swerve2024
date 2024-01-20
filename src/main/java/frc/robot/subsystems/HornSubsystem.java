@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import frc.robot.constants.HornConstants;
 
-import java.io.Console;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -36,7 +34,7 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   public double getHornvelocity() {
-    return m_HornRightEncoder.getVelocity(); 
+    return (m_HornRightEncoder.getVelocity() + m_HornLeftEncoder.getVelocity()) / 2; 
     }
 
   public void setHornSpeed(double speed) {
