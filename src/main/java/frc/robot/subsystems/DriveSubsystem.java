@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -93,8 +94,11 @@ public class DriveSubsystem extends SubsystemBase {
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
   //Pose data Publisher
-  StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
-    .getStructArrayTopic("Poses", Pose2d.struct).publish();
+  // StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
+  //   .getStructArrayTopic("Poses", Pose2d.struct).publish();
+
+  StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable
+    .getStructTopic("Odometry", Pose2d.struct).publish();
 
   StructArrayPublisher<SwerveModuleState> SwerveModuleStatePublisher = DriveTrainTable
     .getStructArrayTopic("SwerveModuleStates", SwerveModuleState.struct).publish();
@@ -150,11 +154,13 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
     //Pubilsh pose data to network tables
-    PosePublisher.set(new Pose2d[]{
-      getPose(), //Odometry pose
-      (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
-      PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
-    });
+    // PosePublisher.set(new Pose2d[]{
+    //   getPose(), //Odometry pose
+    //   (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
+    //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
+    // });
+
+    OdometryPublisher.set(getPose());
 
     //Publish Swerve data to network tables
     SwerveModuleStatePublisher.set(getModuleStates());
