@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import frc.Board.HornTab;
 import frc.robot.constants.HornConstants;
 
 import com.revrobotics.CANSparkMax;
@@ -11,10 +12,12 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
-  private final CANSparkMax m_HornRightMotor = new CANSparkMax(HornConstants.kHornLeaderMotorPort, CANSparkMax.MotorType.kBrushless);
-  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornFollowerMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornRightMotor = new CANSparkMax(HornConstants.kHornRightMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornLeftMotorPort, CANSparkMax.MotorType.kBrushless);
   private final RelativeEncoder m_HornLeftEncoder;
   private final RelativeEncoder m_HornRightEncoder;
+  
+  HornTab m_HornTab = HornTab.getInstance();
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
@@ -33,9 +36,9 @@ public class HornSubsystem extends SubsystemBase {
     setHornSpeed(-speed);
   }
 
-  public double getHornvelocity() {
-    return (m_HornRightEncoder.getVelocity() + m_HornLeftEncoder.getVelocity()) / 2; 
-    }
+  public double getHornVelocity() {
+    return (m_HornRightEncoder.getVelocity() + m_HornLeftEncoder.getVelocity()) / 2;
+  }
 
   public void setHornSpeed(double speed) {
     m_HornRightMotor.set(speed);
@@ -49,11 +52,7 @@ public class HornSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // m_DriveTab.setIMU_ZAngle(10);
-    // This method will be called once per scheduler run
-    // Report the actual speed to the shuffleboard
-    // m_GroundIntakeTab.setIntakeSpeed(getIntakeVelocity());
-    // m_intakeSetSpeed = m_GroundIntakeTab.getIntakeSetSpeed();
+    m_HornTab.setHornSpeed(getHornVelocity());
   }
 
   private void burnFlash() {
