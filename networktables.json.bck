@@ -23,5 +23,21 @@
       "persistent": true,
       "retained": true
     }
+  },
+  {
+    "name": "/Shuffleboard/DriveTrain/Max Speed MPS",
+    "type": "double",
+    "value": 4.8,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/DriveTrain/Has Rotation Control",
+    "type": "boolean",
+    "value": true,
+    "properties": {
+      "persistent": true
+    }
   }
 ]
