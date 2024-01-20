@@ -25,6 +25,8 @@ public class HornSubsystem extends SubsystemBase {
     m_HornLeftMotor.setInverted(true);
     m_HornLeftEncoder = m_HornRightMotor.getEncoder();
     m_HornRightEncoder = m_HornRightMotor.getEncoder();
+    m_HornLeftEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
+    m_HornRightEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
     burnFlash();
   }
 
