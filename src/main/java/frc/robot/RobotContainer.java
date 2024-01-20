@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
+import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HornSubsystem;
 import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -36,6 +38,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
+  private HornSubsystem m_horn;
 
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -99,6 +102,7 @@ public class RobotContainer {
     m_robotShared = RobotShared.getInstance();
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
+    m_horn = m_robotShared.getHornSubsystem();
     // ----------------------------------------------------------------------------------------------
   }
   private void initInputDevices() {
@@ -166,6 +170,7 @@ public class RobotContainer {
         .onTrue(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
+    m_horn.setDefaultCommand(new RunCommand(() -> m_horn.Shoot(m_driverController.getLeftY()), m_horn));
   }
 
   /**

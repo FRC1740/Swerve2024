@@ -6,20 +6,24 @@ package frc.robot.subsystems;
 
 import frc.robot.constants.HornConstants;
 
+import java.io.Console;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
-  private final CANSparkMax m_HornMotorLeader = new CANSparkMax(HornConstants.kHornLeaderMotorPort, CANSparkMax.MotorType.kBrushless);
-  private final CANSparkMax m_HornMotorFollower = new CANSparkMax(HornConstants.kHornFollowerMotorPort, CANSparkMax.MotorType.kBrushless);
-  private final RelativeEncoder m_HornMotorEncoder;
+  private final CANSparkMax m_HornRightMotor = new CANSparkMax(HornConstants.kHornLeaderMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornFollowerMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final RelativeEncoder m_HornLeftEncoder;
+  private final RelativeEncoder m_HornRightEncoder;
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
-    m_HornMotorFollower.follow(m_HornMotorLeader, false); //invert might have to be changed to true
-    m_HornMotorEncoder = m_HornMotorLeader.getEncoder();
-
+    m_HornRightMotor.setInverted(false);
+    m_HornLeftMotor.setInverted(true);
+    m_HornLeftEncoder = m_HornRightMotor.getEncoder();
+    m_HornRightEncoder = m_HornRightMotor.getEncoder();
     burnFlash();
   }
 
@@ -32,19 +36,22 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   public double getHornvelocity() {
-    return m_HornMotorEncoder.getVelocity(); 
+    return m_HornRightEncoder.getVelocity(); 
     }
 
   public void setHornSpeed(double speed) {
-    m_HornMotorLeader.set(speed);
+    m_HornRightMotor.set(speed);
+    m_HornLeftMotor.set(speed);
   }
 
   public void stopHorn() {
-    m_HornMotorLeader.set(0.0);
+    m_HornRightMotor.set(0.0);
+    m_HornLeftMotor.set(0.0);
   }
 
   @Override
   public void periodic() {
+    // m_DriveTab.setIMU_ZAngle(10);
     // This method will be called once per scheduler run
     // Report the actual speed to the shuffleboard
     // m_GroundIntakeTab.setIntakeSpeed(getIntakeVelocity());
@@ -52,7 +59,7 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   private void burnFlash() {
-    m_HornMotorLeader.burnFlash();
-    m_HornMotorFollower.burnFlash();
+    m_HornRightMotor.burnFlash();
+    m_HornLeftMotor.burnFlash();
   }
 }
