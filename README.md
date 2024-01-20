@@ -6,7 +6,7 @@
 * Swerve specifications
 * general position and idea GroundIntake
 * The Horn
-The Horn is the main intake and shooter on our robot.
+The Horn is the main intake and shooter on our robot. It can score in the speaker and amp. It currently has no trap support.
 * general position and idea Climber
 
 ### Subsystems
@@ -19,8 +19,9 @@ The Horn is the main intake and shooter on our robot.
 * how it works
 
 #### Horn
-* num of NEOs
-* how it works (is it belts or wheels)
+* 2 Neos
+* A flat sheet to hold notes and 4 wheels on either side powered by Neos
+
 
 #### Path Information
 * Name: function and position
@@ -73,7 +74,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Quadratic driving falloff
 - [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
 - [x] Add delay to DPad input so when releasing two buttons it doesn't collapse into one
-- [ ] Right Stick angle control and click stick in to snap?
+- [x] Right Stick angle control and click stick in to snap?
 - [ ] Implement controls
 - [ ] Make sure control feel is good and everything makes sense
 - [ ] Different control selection from shuffleboard
@@ -106,10 +107,10 @@ The Horn is the main intake and shooter on our robot.
 
 `Horn`
 - [x] Figure out what this is called and rename it here
-- [ ] Actually figure out what the mechanics entail and how it works
-- [ ] See how the flap works
-- [ ] Create stub code for testing
-- [ ] See [Shuffleboard](#Shuffleboard)
+- [x] Actually figure out what the mechanics entail and how it works
+- [x] See how the flap works
+- [x] Create stub code for testing
+- [x] See [Shuffleboard](#Shuffleboard)
 
 `Ground Intake`
 - [ ] See how the ground intake works
