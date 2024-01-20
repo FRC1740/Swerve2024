@@ -28,7 +28,7 @@ public class HornSubsystem extends SubsystemBase {
   public HornSubsystem() {
     m_HornRightMotor.setInverted(false);
     m_HornLeftMotor.setInverted(true);
-    m_HornLeftEncoder = m_HornRightMotor.getEncoder();
+    m_HornLeftEncoder = m_HornLeftMotor.getEncoder();
     m_HornRightEncoder = m_HornRightMotor.getEncoder();
     m_HornLeftEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
     m_HornRightEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
@@ -79,6 +79,14 @@ public class HornSubsystem extends SubsystemBase {
     return (m_HornRightEncoder.getVelocity() + m_HornLeftEncoder.getVelocity()) / 2;
   }
 
+  public double getRightVelocity(){
+    return m_HornRightEncoder.getVelocity();
+  }
+
+  public double getLeftVelocity(){
+    return m_HornLeftEncoder.getVelocity();
+  }
+
   public void setHornSpeed(double speed) {
     m_HornRightMotor.set(speed);
     m_HornLeftMotor.set(speed);
@@ -91,7 +99,8 @@ public class HornSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_HornTab.setHornSpeed(getHornVelocity());
+    m_HornTab.setRightHornVelocity(getRightVelocity());
+    m_HornTab.setLeftHornVelocity(getLeftVelocity());
     setP(m_HornTab.getP());
     setI(m_HornTab.getI());
     setD(m_HornTab.getD());

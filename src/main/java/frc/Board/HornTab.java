@@ -16,7 +16,8 @@ public class HornTab {
 
   ShuffleboardTab m_sbt_Horn;
 
-  GenericEntry m_nte_HornSpeed;
+  GenericEntry m_nte_RightHornSpeed;
+  GenericEntry m_nte_LeftHornSpeed;
 
   GenericEntry m_nte_HornSpeedSetter;
 
@@ -47,8 +48,12 @@ public class HornTab {
     // Create and get reference to the tab
     m_sbt_Horn = Shuffleboard.getTab("Horn");
 
-    m_nte_HornSpeed = m_sbt_Horn.addPersistent("Horn RPM", 0.0)
+    m_nte_RightHornSpeed = m_sbt_Horn.addPersistent("Right Horn RPM", 0.0)
       .withSize(2,1).withPosition(4,1).getEntry();
+    
+    m_nte_LeftHornSpeed = m_sbt_Horn.addPersistent("Left Horn RPM", 0.0)
+      .withSize(2,1).withPosition(4,3).getEntry();
+    
 
     m_nte_HornSpeedSetter = m_sbt_Horn.addPersistent("Horn Speed Setter", 0.0)
       .withSize(2,1).withPosition(6,1).getEntry();
@@ -79,11 +84,15 @@ public class HornTab {
     m_nte_HornSpeedSetter.setDouble(value);
   }
   public Double getHornSpeed() {
-    return m_nte_HornSpeed.getDouble(0.0);
+    return m_nte_RightHornSpeed.getDouble(0.0);
   }
 
-  public void setHornSpeed(Double value) {
-    m_nte_HornSpeed.setDouble(value);
+  public void setRightHornVelocity(Double value) {
+    m_nte_RightHornSpeed.setDouble(value);
+  }
+
+  public void setLeftHornVelocity(Double value) {
+    m_nte_LeftHornSpeed.setDouble(value);
   }
 
   public double getP(){
