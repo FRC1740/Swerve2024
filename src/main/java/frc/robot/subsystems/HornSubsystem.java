@@ -9,6 +9,10 @@ import frc.robot.constants.HornConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
@@ -16,7 +20,8 @@ public class HornSubsystem extends SubsystemBase {
   private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornLeftMotorPort, CANSparkMax.MotorType.kBrushless);
   private final RelativeEncoder m_HornLeftEncoder;
   private final RelativeEncoder m_HornRightEncoder;
-  
+  private SparkPIDController m_RightPidController;
+  private SparkPIDController m_LeftPidController;
   HornTab m_HornTab = HornTab.getInstance();
 
   /** Creates a new GroundIntake. */
@@ -27,11 +32,43 @@ public class HornSubsystem extends SubsystemBase {
     m_HornRightEncoder = m_HornRightMotor.getEncoder();
     m_HornLeftEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
     m_HornRightEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
+
+    m_RightPidController = m_HornRightMotor.getPIDController();
+    m_LeftPidController = m_HornLeftMotor.getPIDController();
+
+    // m_RightPidController.setOutputRange(0, 1);
+    // m_LeftPidController.setOutputRange(0, 1);
     burnFlash();
+
   }
 
   public void Shoot(double speed) {
     setHornSpeed(speed);
+  }
+
+  public void setVelocity(double rightVelocity, double leftVelocity){
+    m_RightPidController.setReference(rightVelocity, ControlType.kVelocity);
+    m_LeftPidController.setReference(leftVelocity, ControlType.kVelocity);
+  }
+
+  public void setP(double gain){
+    m_RightPidController.setP(gain);
+    m_LeftPidController.setP(gain);
+  }
+
+  public void setI(double gain){
+    m_RightPidController.setI(gain);
+    m_LeftPidController.setI(gain);
+  }
+
+  public void setD(double gain){
+    m_RightPidController.setD(gain);
+    m_LeftPidController.setD(gain);
+  }
+
+  public void setFF(double gain){
+    m_RightPidController.setFF(gain);
+    m_LeftPidController.setFF(gain);
   }
 
   public void Intake(double speed) {
@@ -55,6 +92,11 @@ public class HornSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_HornTab.setHornSpeed(getHornVelocity());
+    setP(m_HornTab.getP());
+    setI(m_HornTab.getI());
+    setD(m_HornTab.getD());
+    setFF(m_HornTab.getFF());
+    
   }
 
   private void burnFlash() {

@@ -148,17 +148,24 @@ public class RobotContainer {
         m_robotDrive));
     
 
-    //Testing path following
+    // //Testing path following
+    // m_driverController.b()
+    //   .whileTrue(new SequentialCommandGroup(
+    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+    //     AutoBuilder.followPath(m_ExamplePath)
+    //   ));
+
     m_driverController.b()
-      .whileTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
-        AutoBuilder.followPath(m_ExamplePath)
-      ));
+      .whileTrue(
+        new RunCommand(() -> m_horn.setVelocity(m_hornTab.getRightVelocitySetPoint(),m_hornTab.getLeftVelocitySetPoint()), m_horn)
+      );
       
     m_driverController.y()
       .whileTrue(
         new RunCommand(() -> m_horn.Shoot(m_hornTab.getHornMaxSpeed()), m_horn)
       );
+
+    
 
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
