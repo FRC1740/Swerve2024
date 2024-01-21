@@ -17,4 +17,6 @@ public class HornConstants { // all values are based on assumptions and lies
   public static final double kI = 0;
 
   public static final double kD = 0;
+
+  public static final double kTolerance = 50;  //Right now unit is RPM
 }

@@ -23,6 +23,9 @@ public class HornSubsystem extends SubsystemBase {
   private SparkPIDController m_LeftPidController;
   HornTab m_HornTab = HornTab.getInstance();
 
+  private double RightSetPoint;
+  private double LeftSetPoint;
+
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
     m_HornRightMotor.setInverted(false);
@@ -46,8 +49,17 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   public void setVelocity(double rightVelocity, double leftVelocity){
+    RightSetPoint = rightVelocity;
+    LeftSetPoint = leftVelocity;
     m_RightPidController.setReference(rightVelocity, ControlType.kVelocity);
     m_LeftPidController.setReference(leftVelocity, ControlType.kVelocity);
+  }
+
+  //Rev sparkPIDControllers dont have an atSetpointMethod so I had to do this BS myself
+  public boolean atSetpoint(){
+    boolean rightAtSetpoint = Math.abs(getRightVelocity() - RightSetPoint) < HornConstants.kTolerance;
+    boolean leftAtSetpoint = Math.abs(getLeftVelocity() - LeftSetPoint) < HornConstants.kTolerance;
+    return rightAtSetpoint && leftAtSetpoint;
   }
 
   public void setP(double gain){
@@ -86,6 +98,7 @@ public class HornSubsystem extends SubsystemBase {
     return m_HornLeftEncoder.getVelocity();
   }
 
+  //*Sets Horn motor duty cycle (power -1.0 to 1.0) */
   public void setHornSpeed(double speed) {
     m_HornRightMotor.set(speed);
     m_HornLeftMotor.set(speed);
@@ -104,7 +117,6 @@ public class HornSubsystem extends SubsystemBase {
     setI(m_HornTab.getI());
     setD(m_HornTab.getD());
     setFF(m_HornTab.getFF());
-    
   }
 
   private void burnFlash() {
