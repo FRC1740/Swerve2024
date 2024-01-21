@@ -8,6 +8,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.struct.Pose2dStruct;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -89,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearRight.getPosition()
     }, new Pose2d());
   //Vision
-  // PhotonVision m_photonVision = m_robotShared.getPhotonVision();
+  PhotonVision m_photonVision = m_robotShared.getPhotonVision();
   
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
@@ -97,8 +98,11 @@ public class DriveSubsystem extends SubsystemBase {
   // StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
   //   .getStructArrayTopic("Poses", Pose2d.struct).publish();
 
-  StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable
+  StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable  //Publishes Odometry Data to network tables
     .getStructTopic("Odometry", Pose2d.struct).publish();
+
+  StructPublisher<Pose2d> PoseEstimatorPublisher = DriveTrainTable  //Publishes pose estimator data to network tables (Odometry + Vision)
+    .getStructTopic("PoseEstimator", Pose2d.struct).publish();
 
   StructArrayPublisher<SwerveModuleState> SwerveModuleStatePublisher = DriveTrainTable
     .getStructArrayTopic("SwerveModuleStates", SwerveModuleState.struct).publish();
@@ -126,11 +130,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
-    // if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
-    //   PoseEstimator.addVisionMeasurement(
-    //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
-    //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
-    // }
+    if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
+      PoseEstimator.addVisionMeasurement(
+        m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
+        m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
+    }
 
     //Odometry + Vision measurement
     PoseEstimator.update(  
@@ -159,7 +163,11 @@ public class DriveSubsystem extends SubsystemBase {
     //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
     // });
 
+    //Publish Odometry data to network tables
     OdometryPublisher.set(getPose());
+
+    //Publish PoseEstimator data to network tables
+    PoseEstimatorPublisher.set(getEstimatedVisionPose());
 
     //Publish Swerve data to network tables
     SwerveModuleStatePublisher.set(getModuleStates());
@@ -195,6 +203,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       },
     pose);
+  }
+
+  /** Returns the pose estimator's estimated robot pose (Odometry + Vision)*/ 
+  public Pose2d getEstimatedVisionPose(){
+    return PoseEstimator.getEstimatedPosition();
   }
 
   /**
