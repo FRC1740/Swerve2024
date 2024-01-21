@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
-import frc.robot.commands.AlignToTagPhotonVision;
-import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
+import frc.Board.HornTab;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HornSubsystem;
 import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -37,6 +37,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
+  private HornSubsystem m_horn;
+  private HornTab m_hornTab;
 
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -59,7 +61,6 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     //Must register commands used in PathPlanner autos
-    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
     NamedCommands.registerCommand("GroundIntake", new InstantCommand()); //place holder
     NamedCommands.registerCommand("ShootSpeaker", new InstantCommand()); //place holder
 
@@ -67,25 +68,33 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
+    m_robotDrive.setDefaultCommand(
       // The left stick controls translation of the robot.
       // Turning is controlled by the X axis of the right stick.
       // If any changes are made to this, please update DPad driver controls
-      if(OIConstants.kUseFieldRelitiveRotation){
-        m_robotDrive.setDefaultCommand(new RunCommand(() -> new AlignToJoystickAndDrive(
-          m_driverController.getRightX(),
-          m_driverController.getRightY(),
-          true, true, 
-          (-MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) + 
-          -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband) != 0) ? 1 : 0).execute(), m_robotDrive));
-      }else{
-        m_robotDrive.setDefaultCommand(
-          new RunCommand(() -> m_robotDrive.drive(
-              -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-              -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-              -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-              true, true, OIConstants.kUseQuadraticInput),
-            m_robotDrive));
-        }
+      new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          true, true, OIConstants.kUseQuadraticInput),
+        m_robotDrive));
+      // NEW command NOT UPDATED DPad driver controls TESTING
+    // m_robotDrive.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> m_robotDrive.drive(
+    //       -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //       -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+    //       (Math.atan2(-MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband),
+    //         -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband))),
+    //       true, true, OIConstants.kUseQuadraticInput),
+    //     m_robotDrive));
+
+    // m_robotDrive.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> new DriveWhileAligning(Math.toDegrees(Math.atan2(m_driverController.getRightY(), m_driverController.getRightX())),
+    //       true, true),
+    //     m_robotDrive));
   }
 
   private void initSubsystems() {
@@ -93,6 +102,8 @@ public class RobotContainer {
     m_robotShared = RobotShared.getInstance();
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
+    m_horn = m_robotShared.getHornSubsystem();
+    m_hornTab = HornTab.getInstance();
     // ----------------------------------------------------------------------------------------------
   }
   private void initInputDevices() {
@@ -136,16 +147,24 @@ public class RobotContainer {
         m_robotDrive));
     
 
-    //Testing path following
+    // //Testing path following
+    // m_driverController.b()
+    //   .whileTrue(new SequentialCommandGroup(
+    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+    //     AutoBuilder.followPath(m_ExamplePath)
+    //   ));
+
     m_driverController.b()
-      .whileTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
-        AutoBuilder.followPath(m_ExamplePath)
-      ));
-      m_driverController.y()
+      .whileTrue(
+        new RunCommand(() -> m_horn.setVelocity(m_hornTab.getRightVelocitySetPoint(),m_hornTab.getLeftVelocitySetPoint()), m_horn)
+      );
+      
+    m_driverController.y()
       .whileTrue(
         new OnTheFlyPathing().getOnTheFlyPath(0, 0)
       );
+
+    
 
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
@@ -159,6 +178,7 @@ public class RobotContainer {
         .onTrue(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
+    m_horn.setDefaultCommand(new RunCommand(() -> m_horn.Shoot(m_driverController.getLeftY()), m_horn));
   }
 
   /**

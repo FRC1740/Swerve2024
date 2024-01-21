@@ -89,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearRight.getPosition()
     }, new Pose2d());
   //Vision
-  PhotonVision m_photonVision = m_robotShared.getPhotonVision();
+  // PhotonVision m_photonVision = m_robotShared.getPhotonVision();
   
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
@@ -127,11 +127,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
-    if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
-      PoseEstimator.addVisionMeasurement(
-        m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
-        m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
-    }
+    // if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
+    //   PoseEstimator.addVisionMeasurement(
+    //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
+    //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
+    // }
 
     //Odometry + Vision measurement
     PoseEstimator.update(  

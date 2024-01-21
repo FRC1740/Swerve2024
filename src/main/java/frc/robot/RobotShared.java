@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HornSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.PhotonVision;
 
 public class RobotShared {
 
@@ -20,9 +18,6 @@ public class RobotShared {
   protected HornSubsystem m_horn = null;
 
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-
-  protected LimelightSubsystem m_limelight = null;
-  protected PhotonVision m_photonVision = null;
 
   private static RobotShared instance;
 
@@ -47,18 +42,6 @@ public class RobotShared {
   }
   public CommandXboxController getDriverController() {
     return m_driverController;
-  }
-  public LimelightSubsystem getLimelight() {
-    if(m_limelight == null) {
-      m_limelight = new LimelightSubsystem();
-    }
-    return m_limelight;
-  }
-  public PhotonVision getPhotonVision() {
-    if(m_photonVision == null) {
-      m_photonVision = new PhotonVision();
-    }
-    return m_photonVision;
   }
   public Alliance getAlliance() { // blue is default for the path planner (paths are made on the blue side)
     m_alliance = DriverStation.getAlliance();
