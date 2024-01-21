@@ -12,6 +12,7 @@ import frc.robot.constants.AutoConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 //This command drives the robot to a specified point
+//This is the janky homemade drive to point function, consider using OnTheFlyPathing.java
 public class DriveToPoint extends PIDCommand {
   /** Creates a new DriveToPoint. */
   static RobotShared m_robotShared = RobotShared.getInstance();
