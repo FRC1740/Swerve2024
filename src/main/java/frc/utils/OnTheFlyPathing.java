@@ -63,7 +63,7 @@ public class OnTheFlyPathing {
     return pathfindingCommand;
   }
   /**
-    Returns a command for the path to a point
+    Returns a command for the path to a point and sets the angle to the current heading
   */
   public Command getOnTheFlyPath(Translation2d targetPosition){
     return getOnTheFlyPath(targetPosition.getX(), targetPosition.getY(), m_drive.getHeading());
@@ -75,7 +75,7 @@ public class OnTheFlyPathing {
     return getOnTheFlyPath(targetPosition.getX(), targetPosition.getY(), targetPosition.getRotation().getDegrees());
   }
   /**
-    Returns a command for the path to a point
+    Returns a command for the path to a point and sets the angle to the current heading
   */
   public Command getOnTheFlyPath(double x, double y){
     return getOnTheFlyPath(x, y, m_drive.getHeading());
