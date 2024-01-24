@@ -18,8 +18,11 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotShared;
 import frc.robot.constants.VisionConstants;
 
 public class PhotonVision extends SubsystemBase {
@@ -27,14 +30,22 @@ public class PhotonVision extends SubsystemBase {
   PhotonCamera cam;
   AprilTagFieldLayout aprilTagFieldLayout;
   PhotonPoseEstimator PoseEstimator;
+  RobotShared m_RobotShared;
 
   public PhotonVision() {
+    m_RobotShared = RobotShared.getInstance();
+
     cam = new PhotonCamera(VisionConstants.camName);
     try{
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile); }
     catch(IOException IOE){
       IOE.printStackTrace();
     }
+
+    //Dont't think we actually need this because it seems like pathplanner uses blue origin coordinates for everythi
+    // aprilTagFieldLayout.setOrigin(
+    //   (m_RobotShared.getAlliance() == Alliance.Red) ? 
+    //   OriginPosition.kRedAllianceWallRightSide : OriginPosition.kBlueAllianceWallRightSide);
 
     PoseEstimator = new PhotonPoseEstimator(
       aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.RobotToCam);

@@ -18,11 +18,10 @@ public class RobotShared {
 
   protected DriveSubsystem m_robotDrive = null;
   protected HornSubsystem m_horn = null;
+  protected PhotonVision m_PhotonVision = null;
+  protected LimelightSubsystem m_LimeLight = null;
 
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-
-  protected LimelightSubsystem m_limelight = null;
-  protected PhotonVision m_photonVision = null;
 
   private static RobotShared instance;
 
@@ -45,20 +44,23 @@ public class RobotShared {
     }
     return m_horn;
   }
+
+  public PhotonVision getPhotonVision(){
+    if(m_PhotonVision == null){
+      m_PhotonVision = new PhotonVision();
+    }
+    return m_PhotonVision;
+  }
+
+    public LimelightSubsystem getLimelight(){
+    if(m_LimeLight == null){
+      m_LimeLight = new LimelightSubsystem();
+    }
+    return m_LimeLight;
+  }
+
   public CommandXboxController getDriverController() {
     return m_driverController;
-  }
-  public LimelightSubsystem getLimelight() {
-    if(m_limelight == null) {
-      m_limelight = new LimelightSubsystem();
-    }
-    return m_limelight;
-  }
-  public PhotonVision getPhotonVision() {
-    if(m_photonVision == null) {
-      m_photonVision = new PhotonVision();
-    }
-    return m_photonVision;
   }
   public Alliance getAlliance() { // blue is default for the path planner (paths are made on the blue side)
     m_alliance = DriverStation.getAlliance();

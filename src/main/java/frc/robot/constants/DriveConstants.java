@@ -11,12 +11,12 @@ import edu.wpi.first.math.util.Units;
 public final class DriveConstants {
   // Driving Parameters - Note that these are not the maximum capable speeds of
   // the robot, rather the allowed maximum speeds
-  public static final double kMaxSpeedMetersPerSecond = 1;
+  public static final double kMaxSpeedMetersPerSecond = 4.8;
   public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-  public static final double kDirectionSlewRate = 1.2; // radians per second
-  public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-  public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+  public static final double kDirectionSlewRate = 4; // radians per second was 1.2
+  public static final double kMagnitudeSlewRate = 2.5; // percent per second (1 = 100%)
+  public static final double kRotationalSlewRate = 4; // percent per second (1 = 100%)
 
   // Chassis configuration
   public static final double kTrackWidth = Units.inchesToMeters(20.625);
@@ -49,13 +49,11 @@ public final class DriveConstants {
   public static final int kFrontRightTurningCanId = 14;
   public static final int kRearRightTurningCanId = 5;
 
-  public static final double kDriveWhileAligningP = .01;
-
   public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-  new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-  new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-  4.8, // Max module speed, in m/s
-  kDriveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-  new ReplanningConfig()); // Default path replanning config. See the API for the options here)
+    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+    new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+    4.8, // Max module speed, in m/s
+    kDriveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+    new ReplanningConfig()); // Default path replanning config. See the API for the options here)
 }
 

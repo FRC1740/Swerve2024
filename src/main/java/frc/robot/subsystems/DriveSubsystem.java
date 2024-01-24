@@ -8,6 +8,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.struct.Pose2dStruct;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -16,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -25,8 +27,6 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.GyroConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.sql.Struct;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -95,8 +95,14 @@ public class DriveSubsystem extends SubsystemBase {
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
   //Pose data Publisher
-  StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
-    .getStructArrayTopic("Poses", Pose2d.struct).publish();
+  // StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
+  //   .getStructArrayTopic("Poses", Pose2d.struct).publish();
+
+  StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable  //Publishes Odometry Data to network tables
+    .getStructTopic("Odometry", Pose2d.struct).publish();
+
+  StructPublisher<Pose2d> PoseEstimatorPublisher = DriveTrainTable  //Publishes pose estimator data to network tables (Odometry + Vision)
+    .getStructTopic("PoseEstimator", Pose2d.struct).publish();
 
   StructArrayPublisher<SwerveModuleState> SwerveModuleStatePublisher = DriveTrainTable
     .getStructArrayTopic("SwerveModuleStates", SwerveModuleState.struct).publish();
@@ -107,7 +113,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-
     AutoBuilder.configureHolonomic(
       this::getPose, 
       this::resetOdometry, 
@@ -152,17 +157,26 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
     //Pubilsh pose data to network tables
-    PosePublisher.set(new Pose2d[]{
-      getPose(), //Odometry pose
-      (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
-      PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
-    });
+    // PosePublisher.set(new Pose2d[]{
+    //   getPose(), //Odometry pose
+    //   (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
+    //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
+    // });
+
+    //Publish Odometry data to network tables
+    OdometryPublisher.set(getPose());
+
+    //Publish PoseEstimator data to network tables
+    PoseEstimatorPublisher.set(getEstimatedVisionPose());
 
     //Publish Swerve data to network tables
     SwerveModuleStatePublisher.set(getModuleStates());
     DesiredSwerveModuleStatePublisher.set(getDesiredSwerveModuleStates());
     
     DriveTab.setRobotPose(getPose());
+    // DriveTab.setTrajectory(examplePath);
+    DriveTab.setIMU_PitchAngle((double) m_gyro.getPitch());
+    DriveTab.setIMU_ZAngle((double) m_gyro.getYaw());
   }
 
   /**
@@ -189,6 +203,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       },
     pose);
+  }
+
+  /** Returns the pose estimator's estimated robot pose (Odometry + Vision)*/ 
+  public Pose2d getEstimatedVisionPose(){
+    return PoseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -258,16 +277,17 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
-    double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
+    double xSpeedDelivered = xSpeedCommanded * DriveTab.getMaxDrivingSpeed();
+    double ySpeedDelivered = ySpeedCommanded * DriveTab.getMaxDrivingSpeed();
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
       fieldRelative
         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getRotation2d())
         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    
     SwerveDriveKinematics.desaturateWheelSpeeds(
-      swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+      swerveModuleStates, DriveTab.getMaxDrivingSpeed());
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -276,7 +296,7 @@ public class DriveSubsystem extends SubsystemBase {
     //chassis speeds object for use with pathplannerlib
   public void chassisSpeedDrive(ChassisSpeeds speeds){
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveTab.getMaxDrivingSpeed());
     
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -285,7 +305,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
-    return Math.signum(input) * Math.abs((.9 * Math.pow(input, 2.5)) + (.1 * input));
+    return Math.signum(input) * Math.abs((.9 * Math.pow(input, 2))) + (.1 * input);
   }
 
   public void setXFormation() {
@@ -302,7 +322,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
-      desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+      desiredStates, DriveTab.getMaxDrivingSpeed());
     m_frontLeft.setDesiredState(desiredStates[0]);
     m_frontRight.setDesiredState(desiredStates[1]);
     m_rearLeft.setDesiredState(desiredStates[2]);
@@ -331,6 +351,15 @@ public class DriveSubsystem extends SubsystemBase {
     states[3] = m_rearRight.getDesiredState();
     return states;
   }
+
+  // public double[] getDesiredAngleDifference(){
+  //   double[] states = new double[4];
+  //   states[0] = m_frontLeft.getDesiredState().angle.getDegrees();
+  //   states[1] = m_frontRight.getDesiredState().angle.getDegrees();
+  //   states[2] = m_rearLeft.getDesiredState().angle.getDegrees();
+  //   states[3] = m_rearRight.getDesiredState().angle.getDegrees();
+  //   return states;
+  // }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {

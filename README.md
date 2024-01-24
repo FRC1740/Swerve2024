@@ -6,7 +6,7 @@
 * Swerve specifications
 * general position and idea GroundIntake
 * The Horn
-The Horn is the main intake and shooter on our robot.
+The Horn is the main intake and shooter on our robot. It can score in the speaker and amp. It currently has no trap support.
 * general position and idea Climber
 
 ### Subsystems
@@ -19,13 +19,22 @@ The Horn is the main intake and shooter on our robot.
 * how it works
 
 #### Horn
-* num of NEOs
-* how it works (is it belts or wheels)
+* 2 Neos
+* A flat sheet to hold notes and 4 wheels on either side powered by Neos
+
 
 #### Path Information
 * Name: function and position
 
 ### Software Todo List (sorted by priority)
+`Current things to test`
+- [ ] Drive to point
+- [ ] Test error tab
+- [ ] Dpad rotation delay (probably needs to be fixed) BROKEN
+- [ ] Shuffleboard logging (scary) maybe
+- [ ] OTF pathing 
+- [ ] Swerve logging check
+- [ ] Check drivewhile aligning tolerences
 `People`
 - [ ] Cordinate the software team and see who wants to help with software
 - [ ] Inform software team of structure and git and PID
@@ -43,6 +52,7 @@ The Horn is the main intake and shooter on our robot.
 
 `Shuffleboard`
 - [x] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
+- [ ] Log trajectories
 - [ ] Get some sort of auto previsualization so we can see it before using it
 - [ ] Add logging to drive subsystem to see wheel angles and robot position
 - [ ] Add logging for note subsystems
@@ -53,6 +63,8 @@ The Horn is the main intake and shooter on our robot.
 - [X] Fix the one random wheel that didn't turn correctly
 - [X] Turn on field relitive control
 - [x] Add pathplanning for autos
+- [ ] Auto motor stop on tilt
+- [ ] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
@@ -62,6 +74,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Quadratic driving falloff
 - [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
 - [x] Add delay to DPad input so when releasing two buttons it doesn't collapse into one
+- [x] Right Stick angle control and click stick in to snap?
 - [ ] Implement controls
 - [ ] Make sure control feel is good and everything makes sense
 - [ ] Different control selection from shuffleboard
@@ -84,6 +97,7 @@ The Horn is the main intake and shooter on our robot.
 - [x] Rename instances of vision with photonVision for clarity
 - [ ] Incorperate lamelight table with shuffleboard
 - [ ] Calibrate lamelight
+- [ ] Automatic Bumper Detection would be really cool
 
 `Climber`
 - [ ] Actually figure out what the mechanics entail and how it works
@@ -93,10 +107,10 @@ The Horn is the main intake and shooter on our robot.
 
 `Horn`
 - [x] Figure out what this is called and rename it here
-- [ ] Actually figure out what the mechanics entail and how it works
-- [ ] See how the flap works
-- [ ] Create stub code for testing
-- [ ] See [Shuffleboard](#Shuffleboard)
+- [x] Actually figure out what the mechanics entail and how it works
+- [x] See how the flap works
+- [x] Create stub code for testing
+- [x] See [Shuffleboard](#Shuffleboard)
 
 `Ground Intake`
 - [ ] See how the ground intake works
