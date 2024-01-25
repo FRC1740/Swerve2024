@@ -7,8 +7,9 @@ public class HornConstants { // all values are based on assumptions and lies
   public static final int HornPeakDurationLimit = 200; // mSec
   public static final int HornContinuousCurrentLimit = 20; // Amps
 
-  public static final int kHornLeaderMotorPort = 0;
-  public static final int kHornFollowerMotorPort = 0;
+  public static int kHornLeftMotorPort = 8;
+
+  public static int kHornRightMotorPort = 9;
 
   public static final double kPostionConversionFactor = 0; //Revolutions to meters
   public static final double kVelocityConversionFactor = kPostionConversionFactor / 60; //RPM to meters/second
