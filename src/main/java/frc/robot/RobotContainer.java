@@ -37,7 +37,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-
+  
   private RobotShared m_robotShared = RobotShared.getInstance();
 
   PathPlannerPath m_ExamplePath = PathPlannerPath.fromPathFile("Example Path");
@@ -93,7 +93,7 @@ public class RobotContainer {
     m_robotShared = RobotShared.getInstance();
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
-    // ----------------------------------------------------------------------------------------------
+    m_robotShared.getSensorSubsystem(); // no setting because not used
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();

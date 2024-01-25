@@ -11,6 +11,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.SensorSubsystem;
 
 public class RobotShared {
 
@@ -23,6 +24,7 @@ public class RobotShared {
 
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
+  protected SensorSubsystem m_sensorSubsystem = null;
 
   private static RobotShared instance;
 
@@ -44,6 +46,12 @@ public class RobotShared {
       m_horn = new HornSubsystem();
     }
     return m_horn;
+  }
+  public SensorSubsystem getSensorSubsystem() {
+    if(m_sensorSubsystem == null) {
+      m_sensorSubsystem = new SensorSubsystem();
+    }
+    return m_sensorSubsystem;
   }
   public CommandXboxController getDriverController() {
     return m_driverController;
