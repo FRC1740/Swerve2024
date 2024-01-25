@@ -23,6 +23,11 @@ public class HornSubsystem extends SubsystemBase {
   private SparkPIDController m_LeftPidController;
   HornTab m_HornTab = HornTab.getInstance();
 
+  private double currentP; // stores the current P without checking m_RightPidController
+  private double currentI; // stores the current P without checking m_RightPidController
+  private double currentD; // stores the current P without checking m_RightPidController
+  private double currentFF; // stores the current P without checking m_RightPidController
+
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
     m_HornRightMotor.setInverted(false);
@@ -53,21 +58,25 @@ public class HornSubsystem extends SubsystemBase {
   public void setP(double gain){
     m_RightPidController.setP(gain);
     m_LeftPidController.setP(gain);
+    currentP = gain;
   }
 
   public void setI(double gain){
     m_RightPidController.setI(gain);
     m_LeftPidController.setI(gain);
+    currentI = gain;
   }
 
   public void setD(double gain){
     m_RightPidController.setD(gain);
     m_LeftPidController.setD(gain);
+    currentD = gain;
   }
 
   public void setFF(double gain){
     m_RightPidController.setFF(gain);
     m_LeftPidController.setFF(gain);
+    currentFF = gain;
   }
 
   public void Intake(double speed) {
@@ -100,10 +109,18 @@ public class HornSubsystem extends SubsystemBase {
   public void periodic() {
     m_HornTab.setRightHornVelocity(getRightVelocity());
     m_HornTab.setLeftHornVelocity(getLeftVelocity());
-    setP(m_HornTab.getP());
-    setI(m_HornTab.getI());
-    setD(m_HornTab.getD());
-    setFF(m_HornTab.getFF());
+    if(m_HornTab.getP() != currentP){
+      setP(m_HornTab.getP());
+    }
+    if(m_HornTab.getI() != currentI){
+      setI(m_HornTab.getI());
+    }
+    if(m_HornTab.getD() != currentD){
+      setD(m_HornTab.getD());
+    }
+    if(m_HornTab.getFF() != currentFF){
+      setFF(m_HornTab.getFF());
+    }
     
   }
 
