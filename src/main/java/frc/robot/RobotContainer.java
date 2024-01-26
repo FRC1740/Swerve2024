@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
+import frc.robot.commands.AlignToTagLimelight;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -37,6 +39,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
+  private LimelightSubsystem m_limelight;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -71,12 +74,13 @@ public class RobotContainer {
       // Turning is controlled by the X axis of the right stick.
       // If any changes are made to this, please update DPad driver controls
       if(OIConstants.kUseFieldRelitiveRotation){
-        m_robotDrive.setDefaultCommand(new RunCommand(() -> new AlignToJoystickAndDrive(
-          m_driverController.getRightX(),
-          m_driverController.getRightY(),
-          true, true, 
-          (-MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) + 
-          -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband) != 0) ? 1 : 0).execute(), m_robotDrive));
+        m_robotDrive.setDefaultCommand(new RunCommand(() -> 
+          new AlignToJoystickAndDrive(
+            m_driverController.getRightX(),
+            m_driverController.getRightY(),
+            true, true, 
+            (-MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) + 
+            -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband) != 0) ? 1 : 0).execute(), m_robotDrive));
       }else{
         m_robotDrive.setDefaultCommand(
           new RunCommand(() -> m_robotDrive.drive(
@@ -94,6 +98,7 @@ public class RobotContainer {
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_robotShared.getSensorSubsystem(); // no setting because not used
+    m_limelight = m_robotShared.getLimelight();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
@@ -113,7 +118,7 @@ public class RobotContainer {
       .whileTrue(new RunCommand(() -> m_robotDrive.setXFormation()));
 
     m_driverController.a()
-      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+      .onTrue(new InstantCommand(() -> m_limelight.toggleLED()));
 
     //Robot relative mode
     m_driverController.leftBumper()
@@ -143,9 +148,11 @@ public class RobotContainer {
         AutoBuilder.followPath(m_ExamplePath)
       ));
       m_driverController.y()
-      .whileTrue(
-        new OnTheFlyPathing().getOnTheFlyPath(0, 0)
-      );
+      .whileTrue( new DriveWhileAligning(2 * -45, true, true).withTimeout(3));;
+      // m_driverController.y()
+      // .whileTrue(
+      //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
+      // );
 
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
@@ -159,6 +166,7 @@ public class RobotContainer {
         .onTrue(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
+
   }
 
   /**

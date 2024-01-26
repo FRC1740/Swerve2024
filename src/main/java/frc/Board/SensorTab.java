@@ -51,15 +51,12 @@ public class SensorTab {
     if(filledPorts[port] != true){
       filledPorts[port] = true;
       m_nte_SensorStates[port] = m_sbt_SensorTab.add("Port " + port +" DIO", true)
-        .withSize(2,1).withPosition((port * 2), 1).getEntry();
+        .withSize(2, 1).withPosition((port * 2), 1).getEntry();
     }else{
       DriverStation.reportError("Port " + port + " could not be created, port already exists!", false);
     }
   }
   public boolean sensorStatePortExists(int port) {
-    if(filledPorts[port] == true){
-      return true;
-    }
-    return false;
+    return filledPorts[port];
   }
 }

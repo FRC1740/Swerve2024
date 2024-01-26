@@ -15,8 +15,8 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 * how it works
 
 #### GroundIntake
-* num of NEOs
-* how it works
+* 1 NEO 
+* It runs a motor to a bar that intakes notes into the horn
 
 #### Horn
 * 2 Neos
@@ -48,7 +48,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 * Many SparkMAX declarations to Spark
 * The version of the RoboRio so builds will succeed. (This is what is currently preventing update now)
 - [ ] Finish readme [Robot Physical Specifications](#robot-physical-specifications)
-- [ ] Consider Advantage kit and/or scope data logging for the season [Scope](https://github.com/Mechanical-Advantage/AdvantageScope) [Kit](https://github.com/Mechanical-Advantage/AdvantageKit)
+- [x] Consider Advantage kit and/or scope data logging for the season [Scope](https://github.com/Mechanical-Advantage/AdvantageScope) [Kit](https://github.com/Mechanical-Advantage/AdvantageKit)
 
 `Shuffleboard`
 - [x] Set up the shuffleboard base code, (not the indivudal methods that use it) based off last years example
@@ -64,7 +64,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [X] Turn on field relitive control
 - [x] Add pathplanning for autos
 - [ ] Auto motor stop on tilt
-- [ ] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
+- [x] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
@@ -84,14 +84,14 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 * Concurent work on limelight and lamelight
 - [x] Import old code
 - [x] Setup and update [limelight](https://docs.limelightvision.io/docs/docs-limelight/getting-started/summary)
-- [ ] Calibrate the limelight with the online tool
+- [x] Calibrate the limelight with the online tool
 - [ ] Check and fix imported limelight subsystem
 - [ ] Incorperate limelight table with shuffleboard
 - [ ] Get current limelight tag id and adjust co-driver controls based off it.
 - [ ] Consider Using limelight to track gamepieces 
 
-* Concurent work on limelight and lamelight
-- [ ] Import old code
+* Lamelight
+- [x] Import old code
 - [x] Grab the lamelight from last years robot
 - [x] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
 - [x] Rename instances of vision with photonVision for clarity

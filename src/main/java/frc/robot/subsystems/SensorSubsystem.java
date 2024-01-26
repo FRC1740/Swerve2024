@@ -6,10 +6,10 @@ import frc.Board.SensorTab;
 import frc.robot.constants.SensorConstants;
 
 public class SensorSubsystem extends SubsystemBase{
-  private DigitalInput[] m_timeOfFlightSensors;
+  private DigitalInput[] m_breakBeamSensors;
   private SensorTab m_sensorTab;
   public SensorSubsystem() {
-    m_timeOfFlightSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
+    m_breakBeamSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
     m_sensorTab = SensorTab.getInstance();
     getSensorValue(1);
   }
@@ -19,7 +19,7 @@ public class SensorSubsystem extends SubsystemBase{
     // Loop over every port and update them if they exist
     for(int index = 0; index < SensorConstants.kDIOPorts; index++){
       if(m_sensorTab.sensorStatePortExists(index)){
-        m_sensorTab.setSensorStatePort(m_timeOfFlightSensors[index].get(), index);
+        m_sensorTab.setSensorStatePort(m_breakBeamSensors[index].get(), index);
       }
     }
   }
@@ -47,7 +47,7 @@ public class SensorSubsystem extends SubsystemBase{
    * @param port The port to make 
   */
   private void createSensor(int port){
-    m_timeOfFlightSensors[port] = new DigitalInput(port);
+    m_breakBeamSensors[port] = new DigitalInput(port);
     m_sensorTab.addSensorStatePort(port);
   }
 }
