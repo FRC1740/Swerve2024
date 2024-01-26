@@ -14,6 +14,9 @@
         "Errors": {
           "open": true
         },
+        "Sensor": {
+          "open": true
+        },
         "open": true
       }
     }
