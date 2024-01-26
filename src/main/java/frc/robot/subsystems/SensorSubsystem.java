@@ -11,7 +11,7 @@ public class SensorSubsystem extends SubsystemBase{
   public SensorSubsystem() {
     m_timeOfFlightSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
     m_sensorTab = SensorTab.getInstance();
-    getSensorValue(0);
+    getSensorValue(1);
   }
 
   @Override

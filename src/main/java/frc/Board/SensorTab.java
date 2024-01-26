@@ -44,7 +44,6 @@ public class SensorTab {
   }
 
   public void setSensorStatePort(Boolean value, int port) {
-    DriverStation.reportError("Port " + port, false);
     m_nte_SensorStates[port].setBoolean(value);
   }
 
