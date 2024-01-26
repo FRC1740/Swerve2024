@@ -7,8 +7,11 @@
 // This should not be called directly, but abstracted through limelight subsystem
 package frc.Networking; // changed from network
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class LimelightTable {
 
@@ -52,6 +55,10 @@ public class LimelightTable {
 
   private void initNetworkTableInstance() {
     m_nt = NetworkTableInstance.getDefault().getTable(TableName);
+    HttpCamera httpCamera = new HttpCamera("limelight", "http://photonvision.local:5801");
+    CameraServer.addCamera(httpCamera);
+    Shuffleboard.getTab("DriveTrain")
+        .add(httpCamera);
   }
 
   public double getTx() {
