@@ -14,8 +14,9 @@ import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.utils.OnTheFlyPathing;
+// import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -37,6 +38,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
+  private ConveyorSubsystem m_conveyorSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -96,6 +98,7 @@ public class RobotContainer {
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
+    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
@@ -145,9 +148,12 @@ public class RobotContainer {
         AutoBuilder.followPath(m_ExamplePath)
       ));
       m_driverController.y()
-      .whileTrue(
-        new OnTheFlyPathing().getOnTheFlyPath(0, 0)
-      );
+      .whileTrue(new RunCommand(
+        () -> m_conveyorSubsystem.setConveyorSpeed(1)));
+      // m_driverController.y()
+      // .whileTrue(
+      //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
+      // );
 
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
