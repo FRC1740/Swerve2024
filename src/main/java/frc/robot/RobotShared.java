@@ -63,6 +63,20 @@ public class RobotShared {
   public CommandXboxController getDriverController() {
     return m_driverController;
   }
+
+  public LimelightSubsystem getLimelight() {
+    if(m_limelight == null) {
+      m_limelight = new LimelightSubsystem();
+    }
+    return m_limelight;
+  }
+  public PhotonVision getPhotonVision() {
+    if(m_photonVision == null) {
+      m_photonVision = new PhotonVision();
+    }
+    return m_photonVision;
+  }
+
   public Alliance getAlliance() { // blue is default for the path planner (paths are made on the blue side)
     m_alliance = DriverStation.getAlliance();
     if(m_alliance.isPresent()){
