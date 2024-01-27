@@ -37,6 +37,7 @@ public class SensorSubsystem extends SubsystemBase{
    * Returns the value at a port, if it does not exist, it is *NOT* created
    * @param port The port to check 
   */
+  @Deprecated
   public boolean getSensorValueUnsafe(int port){
     return m_sensorTab.getSensorStatePort(port);
   }
