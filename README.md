@@ -13,7 +13,7 @@ The Horn is the main intake and shooter on our robot.
 #### Drive Train
 * 8 motor REV MAXswerve system
 * SparkMAX controllers
-* Spark ID Numbers 1 - 8 clockwise starting from FrontLeft
+* Spark ID Numbers 1-8 clockwise starting from FrontLeft
 * Odd: Drive; Even: Turn
 
 #### Climber
