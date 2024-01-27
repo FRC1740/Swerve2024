@@ -5,11 +5,9 @@
 package frc.Board;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.GenericSubscriber;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.constants.HornConstants;
-import frc.robot.constants.NeoMotorConstants;
 
 public class HornTab {
   Shuffleboard m_sb;
