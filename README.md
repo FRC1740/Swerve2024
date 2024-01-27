@@ -10,6 +10,12 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 * general position and idea Climber
 
 ### Subsystems
+#### Drive Train
+* 8 motor REV MAXswerve system
+* SparkMAX controllers
+* Spark ID Numbers 1-8 clockwise starting from FrontLeft
+* Odd: Drive; Even: Turn
+
 #### Climber
 * num of NEOs
 * how it works
