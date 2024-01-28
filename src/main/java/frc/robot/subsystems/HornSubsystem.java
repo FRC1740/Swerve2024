@@ -24,9 +24,9 @@ public class HornSubsystem extends SubsystemBase {
   HornTab m_HornTab = HornTab.getInstance();
 
   private double currentP; // stores the current P without checking m_RightPidController
-  private double currentI; // stores the current P without checking m_RightPidController
-  private double currentD; // stores the current P without checking m_RightPidController
-  private double currentFF; // stores the current P without checking m_RightPidController
+  private double currentI; // stores the current I without checking m_RightPidController
+  private double currentD; // stores the current D without checking m_RightPidController
+  private double currentFF; // stores the current FF without checking m_RightPidController
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
