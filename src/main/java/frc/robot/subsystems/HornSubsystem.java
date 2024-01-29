@@ -12,13 +12,18 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
-  private final CANSparkMax m_HornMotor = new CANSparkMax(HornConstants.kHornMotorPort, CANSparkMax.MotorType.kBrushless);
-  private final RelativeEncoder m_HornMotorEncoder;
+  private final CANSparkMax m_HornRightMotor = new CANSparkMax(HornConstants.kHornRightMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornLeftMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final RelativeEncoder m_HornLeftMotorEncoder;
+  private final RelativeEncoder m_HornRightMotorEncoder;
   private double m_intakeSetSpeed = HornConstants.HornMotorSpeed;
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
-    m_HornMotorEncoder = m_HornMotor.getEncoder();
+    m_HornLeftMotor.setInverted(true);
+    m_HornRightMotor.setInverted(false);
+    m_HornLeftMotorEncoder = m_HornLeftMotor.getEncoder();
+    m_HornRightMotorEncoder = m_HornRightMotor.getEncoder();
   }
 
   public void Shoot(double speed) {
@@ -30,28 +35,29 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   public double getHornvelocity() {
-    return m_HornMotorEncoder.getVelocity(); 
+    return (m_HornLeftMotorEncoder.getVelocity() + m_HornRightMotorEncoder.getVelocity()) / 2.0; 
     }
 
   public void setHornSpeed(double speed) {
     m_intakeSetSpeed = speed;
-    m_HornMotor.set(m_intakeSetSpeed);
+    m_HornLeftMotor.set(m_intakeSetSpeed);
+    m_HornRightMotor.set(m_intakeSetSpeed);
   }
 
   public void stopHorn() {
-    m_HornMotor.set(0.0);
+    m_HornRightMotor.set(0.0);
+    m_HornLeftMotor.set(0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // Report the actual speed to the shuffleboard
-    // m_GroundIntakeTab.setIntakeSpeed(getIntakeVelocity());
-    // m_intakeSetSpeed = m_GroundIntakeTab.getIntakeSetSpeed();
   }
 
   public void burnFlash() {
-    m_HornMotor.burnFlash();
+    m_HornRightMotor.burnFlash();
+    m_HornLeftMotor.burnFlash();
   }
 
 }
