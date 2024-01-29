@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.HornConstants;
 import frc.robot.constants.SubsystemConstants.ConveyorConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -32,8 +31,12 @@ public class Conveyor extends SubsystemBase {
   public void conveyFromFloor() {
     m_ConveyorMotor.set(m_ConveyorSpeed);
   }
+
   public void conveyFromHorn() {
     m_ConveyorMotor.set(-m_ConveyorSpeed);
 
+  }
+  public double getMotorSpeed() {
+    return m_ConveyorMotorEncoder.getVelocity();
   }
 }
