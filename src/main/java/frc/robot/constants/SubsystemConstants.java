@@ -10,10 +10,10 @@ public class SubsystemConstants {
 
   }
 
-  public final class FloorIntakeConstants {
-    public static final int kConveyorMotorPort = 10;
-    public static final double kConveyorGearRatio = 1/3;
-    public static final double conveyorMotorSpeed = .3; // Should approx. match conveyor
+  public final class GroundIntakeConstants {
+    public static final int kGroundIntakeMotorPort = 10;
+    public static final double kGroundIntakeGearRatio = 1/3;
+    public static final double GroundIntakeMotorSpeed = .3; // Should approx. match conveyor
   }
 
   public class HornConstants {  

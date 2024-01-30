@@ -14,8 +14,9 @@ import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
-// import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,7 +40,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-  // private ConveyorSubsystem m_conveyorSubsystem;
+  private ConveyorSubsystem m_conveyorSubsystem;
+  private GroundIntakeSubsystem m_groundIntakeSubsystem;
   private HornSubsystem m_hornSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
@@ -101,7 +103,8 @@ public class RobotContainer {
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
     m_hornSubsystem = m_robotShared.getHornSubsystem();
-    m_robotShared.getConveyorSubsystem();
+    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
+    m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
@@ -117,8 +120,6 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_driverController.x()
-      .whileTrue(new RunCommand(() -> m_robotDrive.setXFormation()));
 
     m_driverController.a()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
@@ -152,9 +153,16 @@ public class RobotContainer {
       ));
       m_driverController.y()
       .whileTrue(
-        new RunCommand(() -> m_hornSubsystem.setHornSpeed(1)))
+        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)))
       .onFalse(
-        new InstantCommand(() -> m_hornSubsystem.stopHorn())
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0))
+      );
+      //intake
+    m_driverController.x()
+      .whileTrue(
+        new RunCommand(() -> m_groundIntakeSubsystem.setConveyorSpeed(1)))
+      .onFalse(
+        new InstantCommand(() -> m_groundIntakeSubsystem.setConveyorSpeed(0))
       );
       // m_driverController.y()
       // .whileTrue(
