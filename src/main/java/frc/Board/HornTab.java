@@ -19,7 +19,7 @@ public class HornTab {
 
   GenericEntry m_nte_RightHornSpeed;
   GenericEntry m_nte_LeftHornSpeed;
-
+  GenericEntry m_nte_IntakeFromHornMode;
   GenericEntry m_nte_HornSpeedSetter;
 
   GenericEntry m_nte_RightVelocityOffset;
@@ -75,6 +75,9 @@ public class HornTab {
     
     m_nte_FF = m_sbt_Horn.add("FF", 0)
       .withSize(1, 1).withPosition(8, 4).getEntry();
+
+    m_nte_IntakeFromHornMode = m_sbt_Horn.add("IntakeFromHorn", false)
+      .withSize(1, 1).withPosition(8, 3).getEntry();
   }
   public Double getHornMaxSpeed() {
     return m_nte_HornSpeedSetter.getDouble(0.0);
@@ -116,6 +119,9 @@ public class HornTab {
   }
   public double getLeftVelocitySetPoint(){
     return m_nte_HornSpeedSetter.getDouble(0);
+  }
+  public boolean getIntakeFromHornMode(){
+    return m_nte_IntakeFromHornMode.getBoolean(false);
   }
   private double truncate(double input, int decimalPlaces){
     return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));

@@ -6,11 +6,13 @@ package frc.robot.commands.basic.Horn;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotShared;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 
 public class HornIntake extends Command {
 
   private HornSubsystem m_horn;
+  private ConveyorSubsystem m_conveyorSubsystem;
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
 
@@ -18,6 +20,7 @@ public class HornIntake extends Command {
   public HornIntake(double intakeSpeed) {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
+    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     m_intakeSpeed = intakeSpeed;
     addRequirements(m_horn);
   }
@@ -29,13 +32,15 @@ public class HornIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_horn.Intake(m_intakeSpeed);
+    m_horn.setHornSpeed(m_intakeSpeed);
+    m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_horn.setHornSpeed(0.0);
+    m_conveyorSubsystem.setConveyorSpeed(0.0);
   }
 
   // Returns true when the command should end.

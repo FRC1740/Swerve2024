@@ -14,6 +14,7 @@ import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
+import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
@@ -153,10 +154,23 @@ public class RobotContainer {
         AutoBuilder.followPath(m_ExamplePath)
       ));
       m_driverController.y()
-      .whileTrue(
-        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)))
+      .whileTrue(new HornIntake(-0.2)
+      )
       .onFalse(
-        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0))
+        new ParallelCommandGroup(
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
+      );
+      m_driverController.start()
+      .whileTrue( 
+        new ParallelCommandGroup(
+        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)),
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(1)))
+      )
+      .onFalse(
+        new ParallelCommandGroup(
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
       );
       //intake
     m_driverController.x()
@@ -168,9 +182,9 @@ public class RobotContainer {
       )
       .onFalse(
         new ParallelCommandGroup(
-        new RunCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0)),
-        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
-        new RunCommand(() -> m_hornSubsystem.setHornSpeed(0)))
+        new InstantCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0)),
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
       );
       // m_driverController.y()
       // .whileTrue(
