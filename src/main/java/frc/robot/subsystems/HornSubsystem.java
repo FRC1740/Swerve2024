@@ -107,25 +107,13 @@ public class HornSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_HornTab.setRightHornVelocity(getRightVelocity());
-    m_HornTab.setLeftHornVelocity(getLeftVelocity());
-    if(m_HornTab.getP() != currentP){
-      setP(m_HornTab.getP());
-    }
-    if(m_HornTab.getI() != currentI){
-      setI(m_HornTab.getI());
-    }
-    if(m_HornTab.getD() != currentD){
-      setD(m_HornTab.getD());
-    }
-    if(m_HornTab.getFF() != currentFF){
-      setFF(m_HornTab.getFF());
-    }
-    
+    // This method will be called once per scheduler run
+    // Report the actual speed to the shuffleboard
+    // m_GroundIntakeTab.setIntakeSpeed(getIntakeVelocity());
+    // m_intakeSetSpeed = m_GroundIntakeTab.getIntakeSetSpeed();
   }
 
-  private void burnFlash() {
-    m_HornRightMotor.burnFlash();
-    m_HornLeftMotor.burnFlash();
+  public void burnFlash() {
+    m_HornMotor.burnFlash();
   }
 }

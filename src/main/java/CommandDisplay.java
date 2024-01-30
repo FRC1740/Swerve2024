@@ -1,5 +1,5 @@
 /* This file scans every file in the src/java path and writes the public callable functions to a file in build/generated
-called AccessbileCommands.jtxt. 
+called AccessibleCommands.jtxt. 
 .jtxt is a custom extention for java txt files as defined in .vscode/settings.json. It just makes them have silly colors
 The build gradle calls this java file every build. It costs about 35 ms every build.
 This could be optimized by keeping the file open, writing the avalible commands and then one write but it's not worth it.
