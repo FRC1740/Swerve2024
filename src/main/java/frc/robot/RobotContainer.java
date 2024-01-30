@@ -16,6 +16,7 @@ import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -39,6 +40,7 @@ public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
   private ConveyorSubsystem m_conveyorSubsystem;
+  private HornSubsystem m_hornSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -98,6 +100,7 @@ public class RobotContainer {
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
+    m_hornSubsystem = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
   }
   private void initInputDevices() {
@@ -149,7 +152,10 @@ public class RobotContainer {
       ));
       m_driverController.y()
       .whileTrue(new RunCommand(
-        () -> m_conveyorSubsystem.setConveyorSpeed(1)));
+        () -> m_hornSubsystem.setHornSpeed(1)))
+      .onFalse(
+        new InstantCommand(() -> m_hornSubsystem.stopHorn())
+      );
       // m_driverController.y()
       // .whileTrue(
       //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
