@@ -14,7 +14,7 @@ public class GroundIntakeSubsystem {
     m_GroundIntakeMotor.getEncoder();
     m_GroundIntakeMotor.burnFlash();
   }
-  public void setConveyorSpeed(double speed) {
+  public void setGroundIntakeSpeed(double speed) {
     m_GroundIntakeMotor.set(speed);
   }
 }

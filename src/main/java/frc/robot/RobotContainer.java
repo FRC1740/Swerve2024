@@ -21,6 +21,7 @@ import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -159,10 +160,17 @@ public class RobotContainer {
       );
       //intake
     m_driverController.x()
-      .whileTrue(
-        new RunCommand(() -> m_groundIntakeSubsystem.setConveyorSpeed(1)))
+      .whileTrue( 
+        new ParallelCommandGroup(
+        new RunCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(1)),
+        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)),
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.1)))
+      )
       .onFalse(
-        new InstantCommand(() -> m_groundIntakeSubsystem.setConveyorSpeed(0))
+        new ParallelCommandGroup(
+        new RunCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0)),
+        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(0)))
       );
       // m_driverController.y()
       // .whileTrue(
