@@ -107,6 +107,7 @@ public class HornSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    setVelocity(m_HornTab.getRightVelocitySetPoint(), m_HornTab.getLeftVelocitySetPoint());
     m_HornTab.setRightHornVelocity(getRightVelocity());
     m_HornTab.setLeftHornVelocity(getLeftVelocity());
     if(m_HornTab.getP() != currentP){
