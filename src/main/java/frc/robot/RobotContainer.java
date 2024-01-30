@@ -14,7 +14,7 @@ import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
-import frc.robot.subsystems.ConveyorSubsystem;
+// import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
@@ -39,7 +39,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-  private ConveyorSubsystem m_conveyorSubsystem;
+  // private ConveyorSubsystem m_conveyorSubsystem;
   private HornSubsystem m_hornSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
@@ -101,7 +101,7 @@ public class RobotContainer {
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
     m_hornSubsystem = m_robotShared.getHornSubsystem();
-    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
+    m_robotShared.getConveyorSubsystem();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
@@ -151,8 +151,8 @@ public class RobotContainer {
         AutoBuilder.followPath(m_ExamplePath)
       ));
       m_driverController.y()
-      .whileTrue(new RunCommand(
-        () -> m_hornSubsystem.setHornSpeed(1)))
+      .whileTrue(
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(1)))
       .onFalse(
         new InstantCommand(() -> m_hornSubsystem.stopHorn())
       );
