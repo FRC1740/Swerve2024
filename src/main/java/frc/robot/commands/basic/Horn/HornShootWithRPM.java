@@ -10,7 +10,7 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 
-public class HornShoot extends Command {
+public class HornShootWithRPM extends Command {
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
@@ -18,14 +18,12 @@ public class HornShoot extends Command {
 
   private long startingTime;
 
-  private double m_shootSpeed;
 
-  /** Creates a new Shoot. Takes in a normalized -1 - 1 input and runs shoot at that speed*/
-  public HornShoot(double shootSpeed) {
+  /** Creates a new Shoot, runs at the set shuffleboard RPM*/
+  public HornShootWithRPM() {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
-    m_shootSpeed = shootSpeed * HornConstants.kMaxHornRPM;
     addRequirements(m_horn);
   }
 
@@ -38,7 +36,7 @@ public class HornShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_horn.setRpmSetpoint(m_shootSpeed);
+    // m_horn.setRpmSetpoint(m_shootSpeed);
     // wait until shooter is at speed
     if(startingTime + HornConstants.kShootConveyorDelay < System.currentTimeMillis()){
       m_conveyorSubsystem.setConveyorSpeed(1.0);
@@ -48,7 +46,7 @@ public class HornShoot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_horn.setRpmSetpoint(0.0);
+    // m_horn.setRpmSetpoint(0.0);
     m_conveyorSubsystem.setConveyorSpeed(0.0);
   }
 

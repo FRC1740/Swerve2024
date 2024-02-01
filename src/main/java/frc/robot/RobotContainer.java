@@ -17,6 +17,7 @@ import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.commands.basic.GroundIntake;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
+import frc.robot.commands.basic.Horn.HornShootWithRPM;
 import frc.robot.subsystems.DriveSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -155,12 +156,12 @@ public class RobotContainer {
 
       m_driverController.start()
       .whileTrue( 
-        new HornShoot(1)
+        new HornShootWithRPM()
       );
       //intake
     m_driverController.x()
     .whileTrue( 
-      new GroundIntake(.3)
+      new GroundIntake(1)
     );
       // m_driverController.y()
       // .whileTrue(
