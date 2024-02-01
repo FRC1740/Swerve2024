@@ -98,7 +98,6 @@ public class RobotContainer {
   }
 
   private void initSubsystems() {
-    // New ------------------------------------------------------------------------------------------
     m_robotShared = RobotShared.getInstance();
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
@@ -153,9 +152,11 @@ public class RobotContainer {
         new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
         AutoBuilder.followPath(m_ExamplePath)
       ));
+      
       m_driverController.y()
       .whileTrue(new HornIntake(-0.2)
       )
+
       .onFalse(
         new ParallelCommandGroup(
         new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),

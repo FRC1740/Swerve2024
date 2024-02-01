@@ -79,11 +79,11 @@ public class HornTab {
     m_nte_IntakeFromHornMode = m_sbt_Horn.add("IntakeFromHorn", false)
       .withSize(1, 1).withPosition(8, 3).getEntry();
   }
-  public Double getHornMaxSpeed() {
+  public Double getHornTargetSpeed() {
     return m_nte_HornSpeedSetter.getDouble(0.0);
   }
 
-  public void setHornMaxSpeed(Double value) {
+  public void setHornTargetSpeed(Double value) {
     m_nte_HornSpeedSetter.setDouble(value);
   }
   public Double getHornSpeed() {

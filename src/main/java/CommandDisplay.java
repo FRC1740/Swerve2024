@@ -36,7 +36,8 @@ public class CommandDisplay {
       paths
         .filter(Files::isRegularFile) // filter 
         .filter(path -> path.toString().endsWith(".java"))
-        .filter(path -> !path.toString().contains("CommandDisplay"))
+        .filter(path -> !path.toString().contains("CommandDisplay")) // don't print this file
+        .filter(path -> !path.toString().contains("Constants")) // don't constants have to accessible functions
         .forEach(path -> {
           writeLineToFile(path.toString());
           printFile(path.toFile());
@@ -87,19 +88,23 @@ public class CommandDisplay {
     try (BufferedReader br = new BufferedReader(new FileReader(fileToPrint))) {
       String line;
       List<String> commentedFunctions  = new ArrayList<>();
+
       while ((line = br.readLine()) != null) {
         String editedLine = line.toLowerCase();
         if(editedLine.contains("public") && editedLine.contains("{") && editedLine.contains("(") && !editedLine.contains("}") 
         && !editedLine.contains(fileName) && !editedLine.contains("periodic")){
+          // if it is a comment
           if(editedLine.trim().charAt(0) == '/' && editedLine.trim().charAt(1) == '/'){
             commentedFunctions.add(line);
           }else{
+            // normal case
             line = line.replaceAll("\\{","");
             line = line.trim();
             writeLineToFile("  " + line + ";");
           }
         }
       }
+      // write the saved commented functions for the end
       for (String function : commentedFunctions) {
         function = function.replaceAll("\\{","");
         function = function.trim();
