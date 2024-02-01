@@ -6,15 +6,18 @@ package frc.robot.commands.basic.Horn;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotShared;
+import frc.robot.constants.SensorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
 
 public class HornIntake extends Command {
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private RobotShared m_robotShared;
+  private SensorSubsystem m_sensorSubsystem;
   private double m_intakeSpeed;
 
   /** Creates a new IntakeDeploy. 
@@ -24,6 +27,7 @@ public class HornIntake extends Command {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
+    m_sensorSubsystem = m_robotShared.getSensorSubsystem();
     m_intakeSpeed = intakeSpeed;
     addRequirements(m_horn);
   }
@@ -49,6 +53,10 @@ public class HornIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Note has hit the ground intake sensor
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false){
+      return true;
+    }
     return false;
   }
 }

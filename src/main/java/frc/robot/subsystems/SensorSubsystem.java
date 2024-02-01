@@ -29,7 +29,10 @@ public class SensorSubsystem extends SubsystemBase{
     }
   }
   /**
-   * Returns the value at a port, if it does not exist, it is created
+   * Returns true if the sensors can see eachother, there is nothing there, 
+   * otherwise it returns false, and there is something there,
+   * if it does not exist, it is created. 
+   * In the event the sensors are not hooked up correctly, it will return false when they should see eachother
    * @param port The port to check 
   */
   public boolean getSensorValue(int port){

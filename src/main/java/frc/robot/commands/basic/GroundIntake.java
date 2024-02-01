@@ -2,16 +2,19 @@ package frc.robot.commands.basic;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotShared;
+import frc.robot.constants.SensorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
 
 public class GroundIntake extends Command{
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
+  private SensorSubsystem m_sensorSubsystem;
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
 
@@ -23,6 +26,7 @@ public class GroundIntake extends Command{
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
+    m_sensorSubsystem = m_robotShared.getSensorSubsystem();
     m_intakeSpeed = intakeSpeed;
     addRequirements(m_horn);
   }
@@ -50,6 +54,9 @@ public class GroundIntake extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false){
+      return true;
+    }
     return false;
   }
 }
