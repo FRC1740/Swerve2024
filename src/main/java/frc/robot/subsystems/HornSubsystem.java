@@ -33,6 +33,9 @@ public class HornSubsystem extends SubsystemBase {
   public HornSubsystem() {
     m_HornRightMotor.setInverted(false);
     m_HornLeftMotor.setInverted(true);
+    m_HornLeftMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
+    m_HornRightMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
+
     m_HornLeftEncoder = m_HornLeftMotor.getEncoder();
     m_HornRightEncoder = m_HornRightMotor.getEncoder();
     m_HornLeftEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);

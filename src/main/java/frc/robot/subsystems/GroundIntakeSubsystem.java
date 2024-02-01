@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import frc.robot.constants.CanIds;
+import frc.robot.constants.SubsystemConstants.GroundIntakeConstants;
 
 public class GroundIntakeSubsystem {
   private final CANSparkMax m_GroundIntakeMotor = 
@@ -12,6 +13,8 @@ public class GroundIntakeSubsystem {
   public GroundIntakeSubsystem() {
     m_GroundIntakeMotor.setInverted(false);
     m_GroundIntakeMotor.getEncoder();
+    m_GroundIntakeMotor.setSmartCurrentLimit(GroundIntakeConstants.kGroundIntakeLimit);
+
     m_GroundIntakeMotor.burnFlash();
   }
   public void setGroundIntakeSpeed(double speed) {
