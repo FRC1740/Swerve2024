@@ -117,6 +117,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [x] See how the flap works
 - [x] Create stub code for testing
 - [x] See [Shuffleboard](#Shuffleboard)
+- [ ] Add a homing mode where if nothing is happening it centers a note
 
 `Ground Intake`
 - [ ] See how the ground intake works

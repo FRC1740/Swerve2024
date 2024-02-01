@@ -15,6 +15,7 @@ import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.commands.basic.Horn.HornIntake;
+import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
@@ -155,23 +156,11 @@ public class RobotContainer {
       
       m_driverController.y()
       .whileTrue(new HornIntake(-0.2)
-      )
-
-      .onFalse(
-        new ParallelCommandGroup(
-        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
-        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
       );
+
       m_driverController.start()
       .whileTrue( 
-        new ParallelCommandGroup(
-        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)),
-        new RunCommand(() -> m_hornSubsystem.setHornSpeed(1)))
-      )
-      .onFalse(
-        new ParallelCommandGroup(
-        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
-        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
+        new HornShoot(1)
       );
       //intake
     m_driverController.x()

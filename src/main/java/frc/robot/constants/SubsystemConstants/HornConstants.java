@@ -17,8 +17,9 @@ public class HornConstants {
   public static final int kMaxHornRPM = 2800; // TODO: rough estimate
 
   public static final double kP = 0;
-
   public static final double kI = 0;
-
   public static final double kD = 0;
+
+
+  public static final int kShootConveyorDelay = 500; // TODO: tune
 }
