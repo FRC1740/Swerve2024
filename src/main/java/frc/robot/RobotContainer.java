@@ -14,6 +14,7 @@ import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
+import frc.robot.commands.basic.GroundIntake;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -23,7 +24,6 @@ import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -43,9 +43,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-  private ConveyorSubsystem m_conveyorSubsystem;
-  private GroundIntakeSubsystem m_groundIntakeSubsystem;
-  private HornSubsystem m_hornSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -104,9 +101,9 @@ public class RobotContainer {
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
-    m_hornSubsystem = m_robotShared.getHornSubsystem();
-    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
-    m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
+    m_robotShared.getHornSubsystem();
+    m_robotShared.getConveyorSubsystem();
+    m_robotShared.getGroundIntakeSubsystem();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
@@ -155,7 +152,8 @@ public class RobotContainer {
       ));
       
       m_driverController.y()
-      .whileTrue(new HornIntake(-0.2)
+      .whileTrue(
+        new HornIntake(-0.2)
       );
 
       m_driverController.start()
@@ -164,18 +162,9 @@ public class RobotContainer {
       );
       //intake
     m_driverController.x()
-      .whileTrue( 
-        new ParallelCommandGroup(
-        new RunCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(1)),
-        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)),
-        new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.1)))
-      )
-      .onFalse(
-        new ParallelCommandGroup(
-        new InstantCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0)),
-        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
-        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
-      );
+    .whileTrue( 
+      new GroundIntake(.3)
+    );
       // m_driverController.y()
       // .whileTrue(
       //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
