@@ -7,10 +7,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.OIConstants;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.SensorSubsystem;
 
 public class RobotShared {
 
@@ -18,11 +21,13 @@ public class RobotShared {
 
   protected DriveSubsystem m_robotDrive = null;
   protected HornSubsystem m_horn = null;
-
+  protected ConveyorSubsystem m_conveyor = null;
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
+  protected SensorSubsystem m_sensorSubsystem = null;
+  protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
 
   private static RobotShared instance;
 
@@ -44,6 +49,24 @@ public class RobotShared {
       m_horn = new HornSubsystem();
     }
     return m_horn;
+  }
+  public ConveyorSubsystem getConveyorSubsystem() {
+    if(m_conveyor == null) {
+      m_conveyor = new ConveyorSubsystem();
+    }
+    return m_conveyor;
+  }
+  public GroundIntakeSubsystem getGroundIntakeSubsystem() {
+    if(m_groundIntakeSubsystem == null) {
+      m_groundIntakeSubsystem = new GroundIntakeSubsystem();
+    }
+    return m_groundIntakeSubsystem;
+  }
+  public SensorSubsystem getSensorSubsystem() {
+    if(m_sensorSubsystem == null) {
+      m_sensorSubsystem = new SensorSubsystem();
+    }
+    return m_sensorSubsystem;
   }
   public CommandXboxController getDriverController() {
     return m_driverController;

@@ -2,14 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AlignAndDrive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
-import frc.robot.constants.DriveConstants;
+import frc.robot.constants.AutoConstants;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -19,13 +20,14 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveWhileAligning extends PIDCommand {
   /** Creates a new DriveWhileAligning. */
   
+    private static DriveTrainTab m_driveTab = DriveTrainTab.getInstance();
   static RobotShared m_robotShared = RobotShared.getInstance();
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
   private static CommandXboxController m_driverController = m_robotShared.getDriverController();
   public DriveWhileAligning(double angle, boolean fieldRelative, boolean rateLimit) {
     super(
       // The controller that the command will use
-      new PIDController(DriveConstants.kDriveWhileAligningP, 0, 0),
+      new PIDController(AutoConstants.kDriveWhileAligningP, 0, 0),
       // This should return the measurement
       () -> m_drive.getHeading(), // replacing this with getRotation2d could mean I don't have to reverse the for loop
       // This should return the setpoint (can also be a constant)
@@ -41,6 +43,15 @@ public class DriveWhileAligning extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
     addRequirements(m_drive);
     getController().enableContinuousInput(-180, 180);
+    getController().setTolerance(3, 1);
+  }
+  @Override
+  public void end(boolean interrupted) {
+    m_driveTab.setHasRotationControl(true);
+  }
+  @Override
+  public void initialize() {
+    m_driveTab.setHasRotationControl(false);
   }
 
   // Returns true when the command should end.

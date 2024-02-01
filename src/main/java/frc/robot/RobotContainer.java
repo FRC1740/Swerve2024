@@ -9,17 +9,22 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
 import frc.robot.constants.OIConstants;
 import frc.robot.commands.AlignToTagPhotonVision;
-import frc.robot.commands.DriveWhileAligning;
+import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
+import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
+import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
+import frc.robot.commands.basic.Horn.HornIntake;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.utils.OnTheFlyPathing;
+import frc.robot.subsystems.GroundIntakeSubsystem;
+import frc.robot.subsystems.HornSubsystem;
+// import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -37,7 +42,10 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
-
+  private ConveyorSubsystem m_conveyorSubsystem;
+  private GroundIntakeSubsystem m_groundIntakeSubsystem;
+  private HornSubsystem m_hornSubsystem;
+  
   private RobotShared m_robotShared = RobotShared.getInstance();
 
   PathPlannerPath m_ExamplePath = PathPlannerPath.fromPathFile("Example Path");
@@ -67,28 +75,26 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
       // The left stick controls translation of the robot.
       // Turning is controlled by the X axis of the right stick.
       // If any changes are made to this, please update DPad driver controls
-      new RunCommand(
-        () -> m_robotDrive.drive(
-          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-          true, true, OIConstants.kUseQuadraticInput),
-        m_robotDrive));
-      // NEW command NOT UPDATED DPad driver controls TESTING
-    // double angleOfRightStick = Math.atan2(-MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband),
-    //   -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband));
-    // m_robotDrive.setDefaultCommand(
-    //   new RunCommand(
-    //     () -> m_robotDrive.drive(
-    //       -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-    //       -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-    //       (m_robotDrive.getHeading() - angleOfRightStick),
-    //       true, true, OIConstants.kUseQuadraticInput),
-    //     m_robotDrive));
+      if(OIConstants.kUseFieldRelitiveRotation){
+        m_robotDrive.setDefaultCommand(new RunCommand(() -> 
+          new AlignToJoystickAndDrive(
+            m_driverController.getRightX(),
+            m_driverController.getRightY(),
+            true, true, 
+            (-MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) + 
+            -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband) != 0) ? 1 : 0).execute(), m_robotDrive));
+      }else{
+        m_robotDrive.setDefaultCommand(
+          new RunCommand(() -> m_robotDrive.drive(
+              -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+              -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+              -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+              true, true, OIConstants.kUseQuadraticInput),
+            m_robotDrive));
+        }
   }
 
   private void initSubsystems() {
@@ -96,7 +102,11 @@ public class RobotContainer {
     m_robotShared = RobotShared.getInstance();
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
-    // ----------------------------------------------------------------------------------------------
+    m_robotShared.getSensorSubsystem(); // no setting because not used
+    m_robotShared.getLimelight();
+    m_hornSubsystem = m_robotShared.getHornSubsystem();
+    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
+    m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
@@ -112,8 +122,6 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_driverController.x()
-      .whileTrue(new RunCommand(() -> m_robotDrive.setXFormation()));
 
     m_driverController.a()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
@@ -145,24 +153,57 @@ public class RobotContainer {
         new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
         AutoBuilder.followPath(m_ExamplePath)
       ));
-      
-    m_driverController.y()
-      .whileTrue(
-        OnTheFlyPathing.getOnTheFlyPath(0, 0)
+      m_driverController.y()
+      .whileTrue(new HornIntake(-0.2)
+      )
+      .onFalse(
+        new ParallelCommandGroup(
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
       );
+      m_driverController.start()
+      .whileTrue( 
+        new ParallelCommandGroup(
+        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)),
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(1)))
+      )
+      .onFalse(
+        new ParallelCommandGroup(
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
+      );
+      //intake
+    m_driverController.x()
+      .whileTrue( 
+        new ParallelCommandGroup(
+        new RunCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(1)),
+        new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1)),
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.1)))
+      )
+      .onFalse(
+        new ParallelCommandGroup(
+        new InstantCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0)),
+        new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)))
+      );
+      // m_driverController.y()
+      // .whileTrue(
+      //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
+      // );
 
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
         // double normalizedAngle = (int)((m_robotDrive.getHeading() + 180) / (360 / 8)),  // This is the uncondensed code
-        new DriveWhileAligning((int)((m_robotDrive.getHeading() + 180) / (360 / 8)), true, true).withTimeout(3))
+        new AlignToNearestAngleAndDrive(true, true).withTimeout(3))
+        
       );
     // Something super janky is happening here but it works so
     for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
       new POVButton(m_driverController.getHID(), angleForDPad * 45)
-        .onTrue(new SequentialCommandGroup(
-          new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3), // -45 could be 45 
-          new WaitCommand(.1))); // small delay to prevent reinput after angled DPad input
+        .onTrue(
+          new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
+
   }
 
   /**

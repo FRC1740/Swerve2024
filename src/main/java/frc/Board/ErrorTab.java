@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-public class ErrorTab {
+public class ErrorTab{
   Shuffleboard m_sb;
 
   ShuffleboardTab m_sbt_Errors;
 
   GenericEntry m_nte_Errors;
 
+  // private String ErrorsLastFrame = "";
   private String CurrentErrors = "";
   private String UsedNames = "";
 
@@ -38,7 +39,20 @@ public class ErrorTab {
 
     m_nte_Errors = m_sbt_Errors.add("Errors", CurrentErrors).getEntry();
   }
+  public void update() {
+    // // Check all errors previously
+    // // If there is an error last frame that no longer exists remove it
+    // String[] lastFrameSubErrors = ErrorsLastFrame.split(":");
 
+    // // Loop over the substrings
+    // for (String lastFrameSubError : lastFrameSubErrors) {
+    //   if(!errorExists(CurrentErrors, lastFrameSubError)){
+    //     m_nte_Errors = m_sbt_Errors.add("Drive", "").getEntry();
+    //   }
+    // }
+    // ErrorsLastFrame = CurrentErrors;
+    // CurrentErrors = "";
+  }
 
   public void logError(String nameOfCaller, String newError) {
     if(!UsedNames.contains(nameOfCaller)){
@@ -47,16 +61,16 @@ public class ErrorTab {
       DriverStation.reportError(newError, false);
     }
   }
-  public boolean errorExists(String nameOfCaller, String newError) { // this is seperate because I want it to be able to be called
-    if(CurrentErrors.contains(newError)){
+  public boolean errorExists(String stringToCheck, String error) { // this is seperate because I want it to be able to be called
+    if(stringToCheck.contains(error)){
       return true;
     }
     return false;
   }
   public boolean handleError(String nameOfCaller, String newError){
-    boolean errorExists = errorExists(nameOfCaller, newError);
+    boolean errorExists = errorExists(CurrentErrors, newError);
     if(!errorExists){ // meaning it hasn't been logged yet
-      CurrentErrors += newError;
+      CurrentErrors += newError + ":"; // update list
       logError(nameOfCaller, newError);
     }
     return errorExists;

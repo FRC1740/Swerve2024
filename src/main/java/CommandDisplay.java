@@ -1,8 +1,8 @@
 /* This file scans every file in the src/java path and writes the public callable functions to a file in build/generated
 called AccessibleCommands.jtxt. 
 .jtxt is a custom extention for java txt files as defined in .vscode/settings.json. It just makes them have silly colors
-The build gradle calls this java file every build. It costs about 35 ms every build.
-This could be optimized by keeping the file open, writing the avalible commands and then one write but it's not worth it.
+The build gradle calls this java file every build. It costs ~35 ms every build.
+This could be optimized by keeping the file open, writing the avalible commands to a string and then one write but it's not worth it.
 */
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
-
+// This is a build-time file, this should NEVER be called any other time
 public class CommandDisplay {
   public static void main(String[] args) {
     // Check if the correct number of command-line arguments is provided
@@ -31,6 +31,7 @@ public class CommandDisplay {
 
     // List functions 
     createFile();
+    
     try (Stream<Path> paths = Files.walk(Paths.get(sourceDirectory), FileVisitOption.FOLLOW_LINKS)) { // check every file in dir
       paths
         .filter(Files::isRegularFile) // filter 
@@ -45,7 +46,7 @@ public class CommandDisplay {
         e.printStackTrace();
     }
   }
-
+  /** Creates or erases contents of AccessibleCommands.jtxt */
   private static void createFile() {
     try {
       File myObj = new File("build/generated/AccessibleCommands.jtxt");
@@ -59,6 +60,10 @@ public class CommandDisplay {
       e.printStackTrace();
     }
   }
+  /** Writes one string to AccessibleCommands.jtxt
+   * @param str 
+   * The string that is written to the file 
+  */
   private static void writeLineToFile(String str) {
     // str = str.replaceAll("\\s",""); // remove whitespace
     str = str.replaceAll("\\{",""); // remove {
@@ -71,6 +76,10 @@ public class CommandDisplay {
       e.printStackTrace();
     }
   }
+  /** Prints the contents of the file to AccessibleCommands.jtxt with formatting to trim and make it consistent
+   * @param fileToPrint 
+   * The file that is read to print 
+  */
   private static void printFile(File fileToPrint) {
     String fileName = fileToPrint.getName();
     fileName = fileName.replaceAll("\\.java",""); // remove .java
