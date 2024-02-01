@@ -32,7 +32,7 @@ public class HornIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_horn.setHornSpeed(m_intakeSpeed);
+    m_horn.setHornSpeed(m_intakeSpeed); // TODO: make this a set target so that way PID is always in control
     m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed);
   }
 

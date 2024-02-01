@@ -22,8 +22,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
-import frc.robot.constants.DriveConstants;
+import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
+import frc.robot.constants.SubsystemConstants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -33,23 +34,23 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
-    DriveConstants.kFrontLeftDrivingCanId,
-    DriveConstants.kFrontLeftTurningCanId,
+    CanIds.kFrontLeftDrivingCanId,
+    CanIds.kFrontLeftTurningCanId,
     DriveConstants.kFrontLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
-    DriveConstants.kFrontRightDrivingCanId,
-    DriveConstants.kFrontRightTurningCanId,
+    CanIds.kFrontRightDrivingCanId,
+    CanIds.kFrontRightTurningCanId,
     DriveConstants.kFrontRightChassisAngularOffset);
 
   private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-    DriveConstants.kRearLeftDrivingCanId,
-    DriveConstants.kRearLeftTurningCanId,
+    CanIds.kRearLeftDrivingCanId,
+    CanIds.kRearLeftTurningCanId,
     DriveConstants.kBackLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
-    DriveConstants.kRearRightDrivingCanId,
-    DriveConstants.kRearRightTurningCanId,
+    CanIds.kRearRightDrivingCanId,
+    CanIds.kRearRightTurningCanId,
     DriveConstants.kBackRightChassisAngularOffset);
 
   private RobotShared m_robotShared = RobotShared.getInstance();

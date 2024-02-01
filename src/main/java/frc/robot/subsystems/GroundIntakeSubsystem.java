@@ -2,11 +2,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import frc.robot.constants.SubsystemConstants;
+import frc.robot.constants.CanIds;
 
 public class GroundIntakeSubsystem {
   private final CANSparkMax m_GroundIntakeMotor = 
-  new CANSparkMax(SubsystemConstants.GroundIntakeConstants.kGroundIntakeMotorPort, CANSparkMax.MotorType.kBrushless);
+  new CANSparkMax(CanIds.kGroundIntakeMotorPort, CANSparkMax.MotorType.kBrushless);
 
   /** Creates a new GroundIntake. */
   public GroundIntakeSubsystem() {

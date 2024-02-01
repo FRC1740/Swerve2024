@@ -107,6 +107,7 @@ task listFunctions(type: JavaExec) {
     getMainClass().set("CommandDisplay");
 
     // Pass the source directory as a command-line argument
+    // This is the directory that commands will be printed from
     args 'src/main/java'
 }
 build.dependsOn listFunctions

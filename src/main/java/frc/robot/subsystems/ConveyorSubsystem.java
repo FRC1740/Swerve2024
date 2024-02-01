@@ -3,10 +3,10 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import frc.Board.HornTab;
-import frc.robot.constants.SubsystemConstants;
+import frc.robot.constants.CanIds;
 
 public class ConveyorSubsystem {
-  private final CANSparkMax m_HornConveyorMotor = new CANSparkMax(SubsystemConstants.ConveyorConstants.kConveyorMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornConveyorMotor = new CANSparkMax(CanIds.kConveyorMotorPort, CANSparkMax.MotorType.kBrushless);
   HornTab m_HornTab = HornTab.getInstance();
 
   /** Creates a new GroundIntake. */

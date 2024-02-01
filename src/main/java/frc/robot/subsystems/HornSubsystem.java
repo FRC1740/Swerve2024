@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import frc.Board.HornTab;
-import frc.robot.constants.HornConstants;
+import frc.robot.constants.CanIds;
+import frc.robot.constants.SubsystemConstants.HornConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -15,8 +16,8 @@ import com.revrobotics.CANSparkBase.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
-  private final CANSparkMax m_HornRightMotor = new CANSparkMax(HornConstants.kHornRightMotorPort, CANSparkMax.MotorType.kBrushless);
-  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornLeftMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornRightMotor = new CANSparkMax(CanIds.kHornRightMotorCanId, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(CanIds.kHornLeftMotorCanId, CANSparkMax.MotorType.kBrushless);
   private final RelativeEncoder m_HornLeftEncoder;
   private final RelativeEncoder m_HornRightEncoder;
   private SparkPIDController m_RightPidController;
