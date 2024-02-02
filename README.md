@@ -219,6 +219,8 @@ This is a guide for setting up Github with VSCode
 ### Style Guide
 If you are reading this, you have configured git and are set up to write code. Here we use two space indenting, so you need to go to the VSCode setting and change the default tab spacing for the workspace. It should be noted, this is a **guideline**, not hard rules; there will always be exceptions.
 #### Functional
+* :warning: Whenever creating a subsystem, it is VITAL to set current limits. Without these NEOs can burn up extremely easily, Roughly 50 seems to work well.
+
 * When possible, static and final is always better, if it doesn't change, it should be marked as so. This mostly applies with constants in constant files
 ```java
 public static final double kPXController = 1;
