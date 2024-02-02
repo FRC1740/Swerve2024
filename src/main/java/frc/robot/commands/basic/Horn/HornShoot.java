@@ -20,12 +20,12 @@ public class HornShoot extends Command {
 
   private double m_shootSpeed;
 
-  /** Creates a new Shoot. Takes in a normalized -1 - 1 input and runs shoot at that speed*/
+  /** Creates a new Shoot. Takes in an RPM*/
   public HornShoot(double shootSpeed) {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
-    m_shootSpeed = shootSpeed * HornConstants.kMaxHornRPM;
+    m_shootSpeed = shootSpeed;
     addRequirements(m_horn);
   }
 

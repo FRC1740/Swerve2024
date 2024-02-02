@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
@@ -10,14 +9,15 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
+import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
+import frc.robot.commands.basic.GroundEject;
 import frc.robot.commands.basic.GroundIntake;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
-import frc.robot.commands.basic.Horn.HornShootWithRPM;
 import frc.robot.subsystems.DriveSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -118,7 +118,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    m_driverController.a()
+    m_driverController.start()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
     //Robot relative mode
@@ -143,31 +143,42 @@ public class RobotContainer {
     
 
     //Testing path following
-    m_driverController.b()
-      .whileTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
-        AutoBuilder.followPath(m_ExamplePath)
-      ));
+    // m_driverController.b()
+    //   .whileTrue(new SequentialCommandGroup(
+    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+    //     AutoBuilder.followPath(m_ExamplePath)
+    //   ));
       
-      m_driverController.y()
+    m_driverController.y()
       .whileTrue(
         new HornIntake(-0.2)
       );
-
-      m_driverController.start()
-      .whileTrue( 
-        new HornShootWithRPM()
-      );
-      //intake
     m_driverController.x()
-    .whileTrue( 
-      new GroundIntake(1)
-    );
+      .whileTrue( 
+        new HornShoot(HornConstants.kHornAmpShotMotorRPM)
+      );
+    m_driverController.b()
+      .whileTrue( 
+        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
+      );
+      //intake and then home down
+    m_driverController.a()
+      .whileTrue( 
+        new SequentialCommandGroup(
+          new GroundIntake(.3),
+          new HornIntake(-0.2))
+      );
+      // UNTESTED
+    m_driverController.back()
+      .whileTrue( 
+          new GroundEject(.3)
+      );
       // m_driverController.y()
       // .whileTrue(
       //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
       // );
 
+    // This is a stick click
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(
         // double normalizedAngle = (int)((m_robotDrive.getHeading() + 180) / (360 / 8)),  // This is the uncondensed code
