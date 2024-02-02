@@ -6,21 +6,27 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Middle Speaker to Middle Note"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Middle Note to Middle Speaker"
+            "name": "GroundIntake"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ShootSpeaker"
+            "pathName": "Middle Note to Middle Speaker"
           }
         }
       ]

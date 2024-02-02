@@ -24,6 +24,8 @@ public class HornTab {
 
   GenericEntry m_nte_RightVelocityOffset;
 
+  GenericEntry m_nte_AmpVelocity;
+
   GenericEntry m_nte_P;
   GenericEntry m_nte_I;
   GenericEntry m_nte_D;
@@ -78,10 +80,20 @@ public class HornTab {
 
     m_nte_IntakeFromHornMode = m_sbt_Horn.add("IntakeFromHorn", false)
       .withSize(1, 1).withPosition(8, 3).getEntry();
+
+    m_nte_AmpVelocity = m_sbt_Horn.add("AmpShotRPM", HornConstants.kHornAmpShotMotorRPM)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", 0, "max", 600)) // specify widget properties here
+      .getEntry();
+ 
   }
   public Double getHornTargetSpeed() {
     return m_nte_HornSpeedSetter.getDouble(0.0);
   }
+  public Double getAmpTargetSpeed() {
+    return m_nte_HornSpeedSetter.getDouble(HornConstants.kHornAmpShotMotorRPM);
+  }
+
 
   public void setHornTargetSpeed(Double value) {
     m_nte_HornSpeedSetter.setDouble(value);

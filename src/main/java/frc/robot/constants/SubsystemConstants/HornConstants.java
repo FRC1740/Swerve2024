@@ -25,6 +25,6 @@ public class HornConstants {
 
   public static final int kHornCurrentLimit = 50;
 
-  public static final double kHornAmpShotMotorRPM = 360; // tuned
+  public static final double kHornAmpShotMotorRPM = 350; // tuned
   public static final double kHornSpeakerShotMotorRPM = kMaxHornRPM ; // 2800 RPM  = 1 ie. full speed
 }

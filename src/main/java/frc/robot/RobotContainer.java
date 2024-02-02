@@ -16,6 +16,7 @@ import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.commands.basic.GroundEject;
 import frc.robot.commands.basic.GroundIntake;
+import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.subsystems.DriveSubsystem;
@@ -64,7 +65,7 @@ public class RobotContainer {
 
     //Must register commands used in PathPlanner autos
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
-    NamedCommands.registerCommand("GroundIntake", new InstantCommand()); //place holder
+    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.3));
     NamedCommands.registerCommand("ShootSpeaker", new InstantCommand()); //place holder
 
     // Configure the button bindings
@@ -117,7 +118,6 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-
     m_driverController.start()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
@@ -151,7 +151,7 @@ public class RobotContainer {
       
     m_driverController.y()
       .whileTrue(
-        new HornIntake(-0.2)
+        new HornIntake(-0.4)
       );
     m_driverController.x()
       .whileTrue( 
@@ -159,19 +159,19 @@ public class RobotContainer {
       );
     m_driverController.b()
       .whileTrue( 
-        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
+        new HornAmpShoot()
       );
       //intake and then home down
     m_driverController.a()
       .whileTrue( 
         new SequentialCommandGroup(
-          new GroundIntake(.3),
+          new GroundIntake(.6),
           new HornIntake(-0.2))
       );
       // UNTESTED
     m_driverController.back()
       .whileTrue( 
-          new GroundEject(.3)
+          new GroundEject(-.3)
       );
       // m_driverController.y()
       // .whileTrue(
