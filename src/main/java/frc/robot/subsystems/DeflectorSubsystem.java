@@ -1,10 +1,17 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.CanIds;
 
 import frc.robot.constants.SubsystemConstants.DeflectorConstants;
+
+public class DeflectorSubsystem extends SubsystemBase {
+  private final AbsoluteEncoder m_DeflectorEncoder;
+}
 
 public class DeflectorSubsystem {
   private final CANSparkMax m_DeflectorMotor = new CANSparkMax(CanIds.kDeflectorMotorTalonId, CANSparkMax.MotorType.kBrushless);
@@ -16,7 +23,10 @@ public class DeflectorSubsystem {
     m_DeflectorMotor.setSmartCurrentLimit(DeflectorConstants.kDeflectorMotorCurrentLimit);
     m_DeflectorMotor.burnFlash();
   }
-  public void setDeflectorSpeed(double speed) {
-    m_DeflectorMotor.set(speed);
+  public void setDeflectorPosition(double position) {
+    m_DeflectorMotor.set(position);
+  }
+  public void setDeflectorZeroPosition() {
+    
   }
 }
