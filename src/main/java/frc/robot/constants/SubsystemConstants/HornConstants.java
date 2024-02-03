@@ -21,7 +21,7 @@ public class HornConstants {
   public static final double kD = 0;
 
 
-  public static final int kShootConveyorDelay = 500; // TODO: tune
+  public static final int kShootConveyorDelay = 250; // TODO: tune
 
   public static final int kHornCurrentLimit = 50;
 

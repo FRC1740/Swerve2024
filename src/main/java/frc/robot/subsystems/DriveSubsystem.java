@@ -214,6 +214,7 @@ public class DriveSubsystem extends SubsystemBase {
     if(quadraticInput){
       xSpeed = quadraticControlFalloff(xSpeed);
       ySpeed = quadraticControlFalloff(ySpeed);
+      rot = quadraticControlFalloff(rot);
     }
 
     if (rateLimit) {
