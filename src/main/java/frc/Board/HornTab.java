@@ -90,10 +90,10 @@ public class HornTab {
   public Double getHornTargetSpeed() {
     return m_nte_HornSpeedSetter.getDouble(0.0);
   }
+  
   public Double getAmpTargetSpeed() {
-    return m_nte_HornSpeedSetter.getDouble(HornConstants.kHornAmpShotMotorRPM);
+    return m_nte_AmpVelocity.getDouble(HornConstants.kHornAmpShotMotorRPM);
   }
-
 
   public void setHornTargetSpeed(Double value) {
     m_nte_HornSpeedSetter.setDouble(value);

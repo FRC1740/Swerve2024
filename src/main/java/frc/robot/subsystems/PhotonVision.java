@@ -20,6 +20,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Networking.LimelightTable;
 import frc.robot.constants.VisionConstants;
 
 public class PhotonVision extends SubsystemBase {
@@ -29,6 +30,7 @@ public class PhotonVision extends SubsystemBase {
   PhotonPoseEstimator PoseEstimator;
 
   public PhotonVision() {
+    LimelightTable.getInstance();
     cam = new PhotonCamera(VisionConstants.camName);
     try{
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile); }

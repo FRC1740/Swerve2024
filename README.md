@@ -34,16 +34,15 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 
 ### Software Todo List (sorted by priority)
 `Current things to test`
-- [ ] Drive to point
-- [ ] Test error tab
-- [ ] Dpad rotation delay (probably needs to be fixed) BROKEN
-- [ ] Shuffleboard logging (scary) maybe
-- [ ] OTF pathing 
-- [ ] Swerve logging check
-- [ ] Check drivewhile aligning tolerences
+- [x] Drive to point
+- [x] Test error tab
+- [x] Shuffleboard logging (scary) maybe
+- [x] OTF pathing 
+- [x] Swerve logging check
+- [x] Check drivewhile aligning tolerences
 `People`
-- [ ] Cordinate the software team and see who wants to help with software
-- [ ] Inform software team of structure and git and PID
+- [x] Cordinate the software team and see who wants to help with software
+- [x] Inform software team of structure and git and PID
 - [ ] Make sure they all have a solid understanding of the principles the code runs on ([see last year's repo](#last-year-repo))
 - [ ] Make sure everyone has a solid understanding of java
 - [ ] Cordinate tasks

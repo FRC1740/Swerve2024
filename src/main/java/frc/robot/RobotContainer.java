@@ -123,6 +123,59 @@ public class RobotContainer {
 
     //Robot relative mode
     m_driverController.leftBumper()
+      .whileTrue(
+        new HornIntake(-0.4)
+      );
+    
+    //Half Speed mode
+    m_driverController.rightBumper()
+      .whileTrue( 
+        new SequentialCommandGroup(
+          new GroundIntake(.6),
+          new HornIntake(-0.2))
+      );
+
+    m_driverController.rightTrigger()
+      .whileTrue( 
+        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
+      );
+    m_driverController.leftTrigger()
+      .whileTrue(
+        new HornAmpShoot()
+      );
+
+    //Testing path following
+    // m_driverController.b()
+    //   .whileTrue(new SequentialCommandGroup(
+    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+    //     AutoBuilder.followPath(m_ExamplePath)
+    //   ));
+      
+      // TESTED
+    m_driverController.back()
+      .whileTrue(
+        new GroundEject(-.3)
+      );
+
+    // This is a stick click
+    m_driverController.rightStick()
+      .onTrue(new SequentialCommandGroup(
+        // double normalizedAngle = (int)((m_robotDrive.getHeading() + 180) / (360 / 8)),  // This is the uncondensed code
+        new AlignToNearestAngleAndDrive(true, true).withTimeout(3))
+      );
+    // Something super janky is happening here but it works so
+    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
+      new POVButton(m_driverController.getHID(), angleForDPad * 45)
+        .onTrue(
+          new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
+    }
+  }
+  void testingControls(){
+      m_driverController.start()
+      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+
+    //Robot relative mode
+    m_driverController.leftBumper()
       .whileTrue(new RunCommand(
         () -> m_robotDrive.drive(
           -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
@@ -155,11 +208,11 @@ public class RobotContainer {
       );
     m_driverController.x()
       .whileTrue( 
-        new HornShoot(HornConstants.kHornAmpShotMotorRPM)
+        new HornAmpShoot()
       );
     m_driverController.b()
       .whileTrue( 
-        new HornAmpShoot()
+        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
       );
       //intake and then home down
     m_driverController.a()
@@ -191,9 +244,7 @@ public class RobotContainer {
         .onTrue(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
-
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

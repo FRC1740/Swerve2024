@@ -14,8 +14,9 @@
     "**/.factorypath": true,
     "**/*~": true
   },
-  "files.associations": { // makes java txt files have text hignlighting
-    "*.jtxt": "java"
+  "files.associations": {
+    "*.jtxt": "java",
+    "iostream": "cpp"
   },
   "java.test.config": [
     {
