@@ -22,4 +22,6 @@ public class CanIds {
 
   public static final int kHornLeftMotorCanId = 12;
   public static final int kHornRightMotorCanId = 13;
+
+  public static final int kDeflectorMotorCanId = 1000;
 }
