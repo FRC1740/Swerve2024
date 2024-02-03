@@ -43,7 +43,7 @@ public class DriveWhileAligning extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
     addRequirements(m_drive);
     getController().enableContinuousInput(-180, 180);
-    getController().setTolerance(3, 1);
+    getController().setTolerance(30, 10);
   }
   @Override
   public void end(boolean interrupted) {
