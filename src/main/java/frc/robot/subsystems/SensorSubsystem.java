@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Board.DriverTab;
 import frc.Board.SensorTab;
 import frc.robot.constants.SensorConstants;
 
@@ -13,20 +14,29 @@ public class SensorSubsystem extends SubsystemBase{
   */
   private DigitalInput[] m_breakBeamSensors;
   private SensorTab m_sensorTab;
+  private DriverTab m_driverTab;
+  private boolean hasNote = false;
+
   public SensorSubsystem() {
     m_breakBeamSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
     m_sensorTab = SensorTab.getInstance();
+    m_driverTab = DriverTab.getInstance();
     getSensorValue(1);
   }
 
   @Override
   public void periodic() {
+    hasNote = false;
     // Loop over every port and update them if they exist
     for(int index = 0; index < SensorConstants.kDIOPorts; index++){
       if(m_sensorTab.sensorStatePortExists(index)){
         m_sensorTab.setSensorStatePort(m_breakBeamSensors[index].get(), index);
+        if(m_breakBeamSensors[index].get() == false){
+          hasNote = true;
+        }
       }
     }
+    m_driverTab.setHasNote(hasNote);
   }
   /**
    * Returns true if the sensors can see eachother, there is nothing there, 

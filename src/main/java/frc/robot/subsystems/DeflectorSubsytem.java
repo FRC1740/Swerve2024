@@ -18,4 +18,7 @@ public class DeflectorSubsytem {
   public void setDeflectorSpeed(double speed) {
     m_DeflectorMotor.set(speed);
   }
+  public void stopDeflector() {
+    m_DeflectorMotor.stopMotor();
+  }
 }

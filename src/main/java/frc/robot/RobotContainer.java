@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
+import frc.Board.DriverTab;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
@@ -103,6 +104,8 @@ public class RobotContainer {
     m_robotShared.getHornSubsystem();
     m_robotShared.getConveyorSubsystem();
     m_robotShared.getGroundIntakeSubsystem();
+
+    DriverTab.getInstance();
   }
   private void initInputDevices() {
     m_driverController = m_robotShared.getDriverController();
