@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.DeflectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
@@ -22,6 +23,7 @@ public class RobotShared {
   protected DriveSubsystem m_robotDrive = null;
   protected HornSubsystem m_horn = null;
   protected ConveyorSubsystem m_conveyor = null;
+  protected DeflectorSubsystem m_deflector = null;
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   protected LimelightSubsystem m_limelight = null;
@@ -55,6 +57,12 @@ public class RobotShared {
       m_conveyor = new ConveyorSubsystem();
     }
     return m_conveyor;
+  }
+  public DeflectorSubsystem getDeflectorSubsystem() {
+    if(m_deflector == null) {
+      m_deflector = new DeflectorSubsystem();
+    }
+    return m_deflector;
   }
   public GroundIntakeSubsystem getGroundIntakeSubsystem() {
     if(m_groundIntakeSubsystem == null) {
