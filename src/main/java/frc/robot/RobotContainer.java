@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
+import frc.robot.commands.AlignToTagLimelight;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
@@ -128,6 +129,10 @@ public class RobotContainer {
     m_driverController.leftBumper()
       .whileTrue(
         new HornIntake(-0.4)
+      );
+    m_driverController.y()
+      .whileTrue(
+        new AlignToTagLimelight()
       );
     
     //Half Speed mode
