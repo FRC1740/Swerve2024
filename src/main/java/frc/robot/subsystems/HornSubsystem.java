@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import frc.Board.HornTab;
-import frc.robot.constants.HornConstants;
+import frc.robot.constants.CanIds;
+import frc.robot.constants.SubsystemConstants.HornConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -15,8 +16,8 @@ import com.revrobotics.CANSparkBase.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HornSubsystem extends SubsystemBase {
-  private final CANSparkMax m_HornRightMotor = new CANSparkMax(HornConstants.kHornRightMotorPort, CANSparkMax.MotorType.kBrushless);
-  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(HornConstants.kHornLeftMotorPort, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornRightMotor = new CANSparkMax(CanIds.kHornRightMotorCanId, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax m_HornLeftMotor = new CANSparkMax(CanIds.kHornLeftMotorCanId, CANSparkMax.MotorType.kBrushless);
   private final RelativeEncoder m_HornLeftEncoder;
   private final RelativeEncoder m_HornRightEncoder;
   private SparkPIDController m_RightPidController;
@@ -24,9 +25,9 @@ public class HornSubsystem extends SubsystemBase {
   HornTab m_HornTab = HornTab.getInstance();
 
   private double currentP; // stores the current P without checking m_RightPidController
-  private double currentI; // stores the current P without checking m_RightPidController
-  private double currentD; // stores the current P without checking m_RightPidController
-  private double currentFF; // stores the current P without checking m_RightPidController
+  private double currentI; // stores the current I without checking m_RightPidController
+  private double currentD; // stores the current D without checking m_RightPidController
+  private double currentFF; // stores the current FF without checking m_RightPidController
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
@@ -107,6 +108,7 @@ public class HornSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    setVelocity(m_HornTab.getRightVelocitySetPoint(), m_HornTab.getLeftVelocitySetPoint());
     m_HornTab.setRightHornVelocity(getRightVelocity());
     m_HornTab.setLeftHornVelocity(getLeftVelocity());
     if(m_HornTab.getP() != currentP){
@@ -121,10 +123,9 @@ public class HornSubsystem extends SubsystemBase {
     if(m_HornTab.getFF() != currentFF){
       setFF(m_HornTab.getFF());
     }
-    
   }
 
-  private void burnFlash() {
+  public void burnFlash() {
     m_HornRightMotor.burnFlash();
     m_HornLeftMotor.burnFlash();
   }

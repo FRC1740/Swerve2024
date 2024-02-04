@@ -11,12 +11,14 @@ import frc.robot.RobotShared;
 import frc.robot.constants.AutoConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
-//This command drives the robot to a specified point
-//This is the janky homemade drive to point function, consider using OnTheFlyPathing.java
 public class DriveToPoint extends PIDCommand {
-  /** Creates a new DriveToPoint. */
   static RobotShared m_robotShared = RobotShared.getInstance();
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
+  /** Creates a new DriveToPoint. 
+   * This command drives the robot to a specified point
+   * This is the janky homemade drive to point function, consider using <pre>OnTheFlyPathing.java</pre>
+   * It also doesn't work.
+  */
   public DriveToPoint(double targetX, double targetY) { 
     super(
         // The controller that the command will use
@@ -30,7 +32,7 @@ public class DriveToPoint extends PIDCommand {
           double desiredAngle = Math.atan2((m_drive.getPose().getY() - targetY), (m_drive.getPose().getX() - targetX));
           desiredAngle = Math.toDegrees(desiredAngle);
           // desiredAngle = Math.abs(desiredAngle); // normalize it
-          double XSpeed = Math.cos(Math.toRadians(desiredAngle)) * 190000;
+          double XSpeed = Math.cos(Math.toRadians(desiredAngle)) * 190000; //Aribtrarily large tesing value
           double YSpeed = Math.sin(Math.toRadians(desiredAngle)) * 100000;
           //Janky clamp because Java doesn't have a native one
           double clampedXSpeed = (Math.max(0.0, Math.min(AutoConstants.kMaxSpeedDriveToPointMetersPerSecond, XSpeed)));

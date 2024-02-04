@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import frc.robot.constants.DriveConstants;
+import frc.robot.constants.SubsystemConstants.DriveConstants;
 
 /** Add your docs here. */
 public class DriveTrainTab {

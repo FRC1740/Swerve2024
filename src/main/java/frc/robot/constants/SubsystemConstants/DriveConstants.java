@@ -1,4 +1,4 @@
-package frc.robot.constants;
+package frc.robot.constants.SubsystemConstants;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -11,7 +11,7 @@ import edu.wpi.first.math.util.Units;
 public final class DriveConstants {
   // Driving Parameters - Note that these are not the maximum capable speeds of
   // the robot, rather the allowed maximum speeds
-  public static final double kMaxSpeedMetersPerSecond = 4.8;
+  public static final double kMaxSpeedMetersPerSecond = 4.8; // 4.8 is the top speed possible with our modules 
   public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
   public static final double kDirectionSlewRate = 4; // radians per second was 1.2
@@ -37,17 +37,6 @@ public final class DriveConstants {
   public static final double kFrontRightChassisAngularOffset = 0;
   public static final double kBackLeftChassisAngularOffset = Math.PI;
   public static final double kBackRightChassisAngularOffset = Math.PI / 2;
-
-  // SPARK MAX CAN IDs
-  public static final int kFrontLeftDrivingCanId = 2;
-  public static final int kRearLeftDrivingCanId = 4;
-  public static final int kFrontRightDrivingCanId = 15;
-  public static final int kRearRightDrivingCanId = 7;
-
-  public static final int kFrontLeftTurningCanId = 6;
-  public static final int kRearLeftTurningCanId = 3;
-  public static final int kFrontRightTurningCanId = 14;
-  public static final int kRearRightTurningCanId = 5;
 
   public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
     new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants

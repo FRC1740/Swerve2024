@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
@@ -26,6 +27,7 @@ public class RobotShared {
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
   protected SensorSubsystem m_sensorSubsystem = null;
+  protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
 
   private static RobotShared instance;
 
@@ -53,6 +55,12 @@ public class RobotShared {
       m_conveyor = new ConveyorSubsystem();
     }
     return m_conveyor;
+  }
+  public GroundIntakeSubsystem getGroundIntakeSubsystem() {
+    if(m_groundIntakeSubsystem == null) {
+      m_groundIntakeSubsystem = new GroundIntakeSubsystem();
+    }
+    return m_groundIntakeSubsystem;
   }
   public SensorSubsystem getSensorSubsystem() {
     if(m_sensorSubsystem == null) {

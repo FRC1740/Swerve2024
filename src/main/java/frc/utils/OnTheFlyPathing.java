@@ -40,7 +40,11 @@ public class OnTheFlyPathing {
   }
 
   /**
-    Returns a command for the path to a point
+   * x and y are zeroed on the <b>right blue side</b> or the bottom left corner on the shuffleboard in <b>meters</b>
+   *  <br></br> +-Red -+
+   *  <br></br> |       |   (0, 0)
+   *  <br></br> +-Blue-O ↗
+   * @Return a command for the path to a point
   */
   public Command getOnTheFlyPath(double x, double y, double rot){
     // Since we are using a holonomic drivetrain, the rotation component of this pose

@@ -6,6 +6,11 @@ import frc.Board.SensorTab;
 import frc.robot.constants.SensorConstants;
 
 public class SensorSubsystem extends SubsystemBase{
+  /* example usage:
+    if(m_SensorSubsystem,getSensorValue(1) == true){
+      //do something
+    }  
+  */
   private DigitalInput[] m_breakBeamSensors;
   private SensorTab m_sensorTab;
   public SensorSubsystem() {
