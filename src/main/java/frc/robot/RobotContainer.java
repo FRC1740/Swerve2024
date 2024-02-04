@@ -101,8 +101,6 @@ public class RobotContainer {
     m_robotShared = RobotShared.getInstance();
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
-    m_horn = m_robotShared.getHornSubsystem();
-    m_hornTab = HornTab.getInstance();
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
     m_hornSubsystem = m_robotShared.getHornSubsystem();
