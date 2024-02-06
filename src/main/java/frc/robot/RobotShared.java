@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
@@ -22,7 +23,11 @@ public class RobotShared {
   protected DriveSubsystem m_robotDrive = null;
   protected HornSubsystem m_horn = null;
   protected ConveyorSubsystem m_conveyor = null;
+  protected DeflectorSubsytem m_deflector = null;
+  
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  protected final CommandXboxController m_coDriverController = new CommandXboxController(OIConstants.kCoDriverControllerPort);
+
 
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
@@ -56,6 +61,12 @@ public class RobotShared {
     }
     return m_conveyor;
   }
+  public DeflectorSubsytem getDeflectorSubsystem() {
+    if(m_deflector == null) {
+      m_deflector = new DeflectorSubsytem();
+    }
+    return m_deflector;
+  } 
   public GroundIntakeSubsystem getGroundIntakeSubsystem() {
     if(m_groundIntakeSubsystem == null) {
       m_groundIntakeSubsystem = new GroundIntakeSubsystem();
@@ -70,6 +81,9 @@ public class RobotShared {
   }
   public CommandXboxController getDriverController() {
     return m_driverController;
+  }
+  public CommandXboxController getCoDriverController() {
+    return m_coDriverController;
   }
   public LimelightSubsystem getLimelight() {
     if(m_limelight == null) {

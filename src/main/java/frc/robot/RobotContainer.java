@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
-import frc.robot.commands.AlignToTagLimelight;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
@@ -23,6 +22,8 @@ import frc.robot.commands.basic.GroundIntake;
 import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,6 +47,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
+  private DeflectorSubsytem m_deflectorSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -53,6 +55,8 @@ public class RobotContainer {
 
   // The driver's controller
   CommandXboxController m_driverController;
+  CommandXboxController m_coDriverController;
+
 
   SendableChooser<Command> autoChooser;
 
@@ -96,6 +100,9 @@ public class RobotContainer {
               true, true, OIConstants.kUseQuadraticInput),
             m_robotDrive));
         }
+    m_deflectorSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-m_coDriverController.getRightY()),
+      m_deflectorSubsystem));
   }
 
   private void initSubsystems() {
@@ -107,10 +114,12 @@ public class RobotContainer {
     m_robotShared.getHornSubsystem();
     m_robotShared.getConveyorSubsystem();
     m_robotShared.getGroundIntakeSubsystem();
+    m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
     DriverTab.getInstance();
   }
   private void initInputDevices() {
+    m_coDriverController = m_robotShared.getCoDriverController();
     m_driverController = m_robotShared.getDriverController();
   }
 
@@ -136,7 +145,6 @@ public class RobotContainer {
       .whileTrue(
         new VisionAlign(m_robotDrive, m_robotShared.getLimelight())
       );
-    
     //Half Speed mode
     m_driverController.rightBumper()
       .whileTrue( 
@@ -153,7 +161,7 @@ public class RobotContainer {
       .whileTrue(
         new HornAmpShoot()
       );
-
+  
     //Testing path following
     // m_driverController.b()
     //   .whileTrue(new SequentialCommandGroup(
