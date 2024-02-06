@@ -1,4 +1,5 @@
 // Copyright (c) FIRST and other WPILib contributors.
+//
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
@@ -13,6 +14,7 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
 import frc.robot.commands.AlignToTagLimelight;
 import frc.robot.commands.AlignToTagPhotonVision;
+import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
@@ -132,14 +134,14 @@ public class RobotContainer {
       );
     m_driverController.y()
       .whileTrue(
-        new AlignToTagLimelight()
+        new VisionAlign(m_robotDrive, m_robotShared.getLimelight())
       );
     
     //Half Speed mode
     m_driverController.rightBumper()
       .whileTrue( 
         new SequentialCommandGroup(
-          new GroundIntake(.6),
+          new GroundIntake(1),
           new HornIntake(-0.2))
       );
 
