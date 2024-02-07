@@ -98,8 +98,11 @@ public class DriveSubsystem extends SubsystemBase {
   // StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
   //   .getStructArrayTopic("Poses", Pose2d.struct).publish();
 
-  StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable
+  StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable  //Publishes Odometry Data to network tables
     .getStructTopic("Odometry", Pose2d.struct).publish();
+
+  StructPublisher<Pose2d> PoseEstimatorPublisher = DriveTrainTable  //Publishes pose estimator data to network tables (Odometry + Vision)
+    .getStructTopic("PoseEstimator", Pose2d.struct).publish();
 
   StructArrayPublisher<SwerveModuleState> SwerveModuleStatePublisher = DriveTrainTable
     .getStructArrayTopic("SwerveModuleStates", SwerveModuleState.struct).publish();
@@ -160,7 +163,11 @@ public class DriveSubsystem extends SubsystemBase {
     //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
     // });
 
+    //Publish Odometry data to network tables
     OdometryPublisher.set(getPose());
+
+    //Publish PoseEstimator data to network tables
+    PoseEstimatorPublisher.set(getEstimatedVisionPose());
 
     //Publish Swerve data to network tables
     SwerveModuleStatePublisher.set(getModuleStates());
@@ -196,6 +203,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       },
     pose);
+  }
+
+  /** Returns the pose estimator's estimated robot pose (Odometry + Vision)*/ 
+  public Pose2d getEstimatedVisionPose(){
+    return PoseEstimator.getEstimatedPosition();
   }
 
   /**

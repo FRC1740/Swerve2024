@@ -9,7 +9,6 @@ public final class AutoConstants {
 
   //constant for aligning to an angle while driving
   public static final double kDriveWhileAligningP = .01;
-
   public static final double kMaxSpeedMetersPerSecond = 3;
   public static final double kMaxAccelerationMetersPerSecondSquared = 3;
   public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;

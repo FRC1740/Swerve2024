@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
-import frc.robot.commands.AlignToTagPhotonVision;
+import frc.Board.HornTab;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
@@ -67,7 +67,6 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     //Must register commands used in PathPlanner autos
-    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
     NamedCommands.registerCommand("GroundIntake", new InstantCommand()); //place holder
     NamedCommands.registerCommand("ShootSpeaker", new InstantCommand()); //place holder
 
@@ -147,7 +146,13 @@ public class RobotContainer {
         m_robotDrive));
     
 
-    //Testing path following
+    // //Testing path following
+    // m_driverController.b()
+    //   .whileTrue(new SequentialCommandGroup(
+    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+    //     AutoBuilder.followPath(m_ExamplePath)
+    //   ));
+
     m_driverController.b()
       .whileTrue(new SequentialCommandGroup(
         new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
@@ -190,6 +195,8 @@ public class RobotContainer {
       // .whileTrue(
       //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
       // );
+
+    
 
     m_driverController.rightStick()
       .onTrue(new SequentialCommandGroup(

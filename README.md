@@ -74,6 +74,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [ ] Finish the system functionality
 - [ ] Tune the system so it works well
 - [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
+- [ ] Try using choreo paths
 
 `Controls`
 - [x] Get drive controls working
@@ -123,6 +124,13 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [ ] Create stub code
 - [ ] Create subsystem
 - [ ] See [Shuffleboard](#Shuffleboard)
+
+### Choreo Important information
+* I have setup choreo to work with the pathplanner gui in this project
+* To open the choreo file, open Choreo -> Open File -> Select Choreo.chor in the project's root directory. This will give access to all choreo paths
+* In PathPlanner GUI, you can use choreo paths in the Auto Builder by selecting the Plus icon and then selecting new choreo auto
+* For future reference when saving a new choreo project, the .chor file must be placed in the root directory of the robot code (Same location as the build.gradle), Choreo will subsequently save the trajectory files in Deploy/Choreo. This is where the files must be located for compatibility with PathPlanner
+* If using the PathPlanner GUI/AutoBuilder, no code changes are required to run the Choreo paths.
 
 ### Last Year's Repo
 * :warning: This is intended as a place of reference to see the general structure, not to copy code without understanding it
