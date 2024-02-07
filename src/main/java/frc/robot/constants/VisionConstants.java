@@ -27,4 +27,12 @@ public final class VisionConstants {
         return ID;
     }
   }
+  public static boolean isSpeakerID(int testID){
+    if(testID == AprilTagIDs.RedSpeakerCenter.getID() || testID == AprilTagIDs.RedSpeakerCenter.getID() ||
+      testID == AprilTagIDs.RedSpeakerCenter.getID() || testID == AprilTagIDs.RedSpeakerCenter.getID()){
+      return true;
+
+    }
+    return false;
+  }
 }

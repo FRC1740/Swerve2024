@@ -22,7 +22,7 @@ import frc.robot.commands.basic.GroundIntake;
 import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.commands.basic.Horn.HornShootVision;
 import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 // import frc.utils.OnTheFlyPathing;
@@ -100,9 +100,9 @@ public class RobotContainer {
               true, true, OIConstants.kUseQuadraticInput),
             m_robotDrive));
         }
-    m_deflectorSubsystem.setDefaultCommand(
-      new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
-      m_deflectorSubsystem));
+    // m_deflectorSubsystem.setDefaultCommand(
+    //   new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
+    //   m_deflectorSubsystem));
   }
 
   private void initSubsystems() {
@@ -114,7 +114,7 @@ public class RobotContainer {
     m_robotShared.getHornSubsystem();
     m_robotShared.getConveyorSubsystem();
     m_robotShared.getGroundIntakeSubsystem();
-    m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
+    // m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
     DriverTab.getInstance();
   }
@@ -160,6 +160,10 @@ public class RobotContainer {
     m_driverController.leftTrigger()
       .whileTrue(
         new HornAmpShoot()
+      );
+    m_driverController.b()
+      .whileTrue(
+        new HornShootVision()
       );
   
     //Testing path following

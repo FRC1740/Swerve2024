@@ -1,0 +1,60 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands.basic.Horn;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotShared;
+import frc.robot.constants.SubsystemConstants.HornConstants;
+import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.constants.VisionConstants;
+
+public class HornShootVision extends Command {
+
+  private HornSubsystem m_horn;
+  private RobotShared m_robotShared;
+  private LimelightSubsystem m_limelight;
+
+  private boolean isSpeakerShot;
+  private Command m_hornShoot;
+
+  /** Creates a new Shoot. Takes in an RPM*/
+  public HornShootVision() {
+    m_robotShared = RobotShared.getInstance();
+    m_horn = m_robotShared.getHornSubsystem();
+    m_limelight = m_robotShared.getLimelight();
+    addRequirements(m_horn);
+    addRequirements(m_limelight);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    isSpeakerShot = VisionConstants.isSpeakerID((int) m_limelight.getTargetedID());
+    if(isSpeakerShot){
+      m_hornShoot = new HornShoot(HornConstants.kHornSpeakerShotMotorRPM);
+    } else {
+      m_hornShoot = new HornAmpShoot();
+    }
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_hornShoot.execute();
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_horn.setRpmSetpoint(0.0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
