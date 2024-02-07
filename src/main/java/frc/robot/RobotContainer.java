@@ -101,7 +101,7 @@ public class RobotContainer {
             m_robotDrive));
         }
     m_deflectorSubsystem.setDefaultCommand(
-      new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-m_coDriverController.getRightY()),
+      new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
       m_deflectorSubsystem));
   }
 
@@ -188,6 +188,7 @@ public class RobotContainer {
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
   }
+
   void testingControls(){
       m_driverController.start()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));

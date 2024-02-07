@@ -22,6 +22,9 @@ public class HornTab {
   GenericEntry m_nte_IntakeFromHornMode;
   GenericEntry m_nte_HornSpeedSetter;
 
+  GenericEntry m_nte_DeflectorSetpoint;
+  GenericEntry m_nte_DeflectorEncoder;
+
   GenericEntry m_nte_RightVelocityOffset;
 
   GenericEntry m_nte_AmpVelocity;
@@ -85,6 +88,13 @@ public class HornTab {
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withProperties(Map.of("min", 0, "max", 600)) // specify widget properties here
       .getEntry();
+
+    m_nte_DeflectorSetpoint = m_sbt_Horn.add("Deflector Setpoint", 0)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+      .getEntry();
+    m_nte_DeflectorEncoder = m_sbt_Horn.add("Deflector Encoder", 0)
+      .getEntry();
  
   }
   public Double getHornTargetSpeed() {
@@ -137,5 +147,12 @@ public class HornTab {
   }
   private double truncate(double input, int decimalPlaces){
     return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));
+  }
+
+  public double getDeflectorSetpoint() {
+    return m_nte_DeflectorSetpoint.getDouble(0.0);
+  }
+  public void setDeflectorEncoder(double value) {
+    m_nte_DeflectorEncoder.setDouble(value);
   }
 }
