@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.Networking.LimelightTable;
 
 public class LimelightSubsystem extends SubsystemBase {
+  private double lastSeenAprilTag;
+
   private LimelightTable m_LimelightTable;
 
   public LimelightSubsystem() {
@@ -24,7 +26,9 @@ public class LimelightSubsystem extends SubsystemBase {
   public double[] getTranslationToAprilTag(){
     return m_LimelightTable.getTranslationToAprilTag();
   }
-
+  public double getLastSeenAprilTag(){
+    return lastSeenAprilTag;
+  }
   public void enableVisionProcessing() {
     m_LimelightTable.setCamMode(0);
     m_LimelightTable.setPipeline(1);
@@ -72,5 +76,9 @@ public class LimelightSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double seenID = getTargetedID();
+    if (seenID != -1.0) {
+      lastSeenAprilTag = seenID;
+    } 
   }
 }
