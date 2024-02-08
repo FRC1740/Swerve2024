@@ -32,7 +32,7 @@ public class HornShootVision extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isSpeakerShot = VisionConstants.isSpeakerID((int) m_limelight.getTargetedID());
+    isSpeakerShot = VisionConstants.isSpeakerID((int) m_limelight.getLastSeenAprilTag());
     if(isSpeakerShot){
       m_hornShoot = new HornShoot(HornConstants.kHornSpeakerShotMotorRPM);
     } else {
@@ -49,7 +49,7 @@ public class HornShootVision extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_horn.setRpmSetpoint(0.0);
+    m_hornShoot.end(true);
   }
 
   // Returns true when the command should end.

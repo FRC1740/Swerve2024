@@ -27,7 +27,7 @@ public class LimelightTable {
   private static Double Target_Area_Default = 0.0;
 
   private static String CurrentTag = "tid";
-  private static Double CurrentTag_Default = 0.0;
+  private static Double CurrentTag_Default = -1.0;
 
   private static String CamMode_Entry = "camMode";
   private static Double CamMode_Default = 0.0;

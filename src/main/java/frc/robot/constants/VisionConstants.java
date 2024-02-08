@@ -28,8 +28,8 @@ public final class VisionConstants {
     }
   }
   public static boolean isSpeakerID(int testID){
-    if(testID == AprilTagIDs.RedSpeakerCenter.getID() || testID == AprilTagIDs.RedSpeakerCenter.getID() ||
-      testID == AprilTagIDs.RedSpeakerCenter.getID() || testID == AprilTagIDs.RedSpeakerCenter.getID()){
+    if(testID == AprilTagIDs.RedSpeakerCenter.getID() || testID == AprilTagIDs.BlueSpeakerCenter.getID() ||
+      testID == AprilTagIDs.RedSpeakerSide.getID() || testID == AprilTagIDs.BlueSpeakerSide.getID()){
       return true;
 
     }
