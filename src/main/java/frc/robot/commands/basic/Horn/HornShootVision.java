@@ -32,7 +32,7 @@ public class HornShootVision extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isSpeakerShot = VisionConstants.isSpeakerID((int) m_limelight.getLastSeenAprilTag());
+    isSpeakerShot = VisionConstants.isSpeakerID((int) m_limelight.getLastSeenScoringAprilTag());
     if(isSpeakerShot){
       m_hornShoot = new HornShoot(HornConstants.kHornSpeakerShotMotorRPM);
     } else {

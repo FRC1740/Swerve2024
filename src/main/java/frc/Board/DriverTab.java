@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 /** Add your docs here. */
-public class DriverTab {
+public class DriverTab{
   Field2d m_Field = new Field2d();
   ShuffleboardTab m_sbt_DriverTab;
   GenericEntry m_nte_HasNote;
+  GenericEntry m_nte_TimeLeft;
 
   private static DriverTab instance = null;
 
@@ -38,6 +39,9 @@ public class DriverTab {
 
     m_nte_HasNote = m_sbt_DriverTab.add("HasNote", false)
       .withSize(1, 1).withPosition(8, 2).getEntry();
+
+    m_nte_TimeLeft = m_sbt_DriverTab.add("Time Left", 0)
+      .withSize(1, 1).withPosition(0, 4).getEntry();
   }
 
   public void setTrajectory(Trajectory traj){
@@ -47,4 +51,8 @@ public class DriverTab {
   public void setHasNote(boolean hasNote) {
     m_nte_HasNote.setBoolean(hasNote);
   }
+  // @Override
+  // public void periodic() {
+  //   m_nte_TimeLeft.setDouble(DriverStation.getMatchTime());
+  // }
 }

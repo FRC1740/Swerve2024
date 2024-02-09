@@ -20,6 +20,7 @@ import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.commands.basic.GroundEject;
 import frc.robot.commands.basic.GroundIntake;
 import frc.robot.commands.basic.Horn.HornAmpShoot;
+import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.commands.basic.Horn.HornShootVision;
@@ -114,7 +115,7 @@ public class RobotContainer {
     m_robotShared.getHornSubsystem();
     m_robotShared.getConveyorSubsystem();
     m_robotShared.getGroundIntakeSubsystem();
-    // m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
+    m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
     DriverTab.getInstance();
   }
@@ -159,12 +160,25 @@ public class RobotContainer {
       );
     m_driverController.leftTrigger()
       .whileTrue(
-        new HornAmpShoot()
+        new HornAmpShootWithDeflector()
       );
     m_driverController.b()
       .whileTrue(
         new HornShootVision()
       );
+    m_driverController.a()
+      .whileTrue(
+        new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-.3),
+         m_deflectorSubsystem)
+      )
+      .onFalse(new InstantCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(0)));
+
+    m_driverController.y()
+      .whileTrue(
+        new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(.3),
+         m_deflectorSubsystem)
+      )
+      .onFalse(new InstantCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(0)));
   
     //Testing path following
     // m_driverController.b()

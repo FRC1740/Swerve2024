@@ -6,9 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.Networking.LimelightTable;
+import frc.robot.constants.VisionConstants;
 
 public class LimelightSubsystem extends SubsystemBase {
-  private double lastSeenAprilTag;
+  private double lastSeenScoringAprilTag;
 
   private LimelightTable m_LimelightTable;
 
@@ -26,8 +27,8 @@ public class LimelightSubsystem extends SubsystemBase {
   public double[] getTranslationToAprilTag(){
     return m_LimelightTable.getTranslationToAprilTag();
   }
-  public double getLastSeenAprilTag(){
-    return lastSeenAprilTag;
+  public double getLastSeenScoringAprilTag(){
+    return lastSeenScoringAprilTag;
   }
   public void enableVisionProcessing() {
     m_LimelightTable.setCamMode(0);
@@ -78,7 +79,10 @@ public class LimelightSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     double seenID = getTargetedID();
     if (seenID != -1.0) {
-      lastSeenAprilTag = seenID;
+      if(VisionConstants.isSpeakerID((int) seenID)){
+        lastSeenScoringAprilTag = seenID;
+      }
+      lastSeenScoringAprilTag = seenID;
     } 
   }
 }
