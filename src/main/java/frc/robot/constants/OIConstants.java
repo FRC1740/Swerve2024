@@ -11,8 +11,8 @@ public final class OIConstants {
   /**
    * This is the flag for using absolute angles for joystick rotations 
    * <br></br>
-   * ie. → on the joystick makes the robot go 
-   * <code>[↑] to /↗/ to [→]</code>
+   * ie.  <code>(→) </code> on the joystick makes the robot go 
+   * <code>[↑]</code> to <code>/↗/</code> to  <code>[→]</code>
    * <br></br>
    * Until it reaches the specified angle
   */

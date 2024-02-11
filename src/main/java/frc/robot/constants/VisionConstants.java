@@ -35,4 +35,10 @@ public final class VisionConstants {
     }
     return false;
   }
+  public static boolean isAmpID(int testID){
+    if(testID == AprilTagIDs.RedAmp.getID() || testID == AprilTagIDs.BlueAmp.getID()){
+      return true;
+    }
+    return false;
+  }
 }

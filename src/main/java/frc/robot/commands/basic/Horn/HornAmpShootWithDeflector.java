@@ -43,21 +43,22 @@ public class HornAmpShootWithDeflector extends Command {
   @Override
   public void execute() {
     m_horn.setRpmSetpoint(m_HornTab.getAmpTargetSpeed());
+    double currentTime = System.currentTimeMillis();
     // wait until shooter is at speed
-    if(startingTime + HornConstants.kShootConveyorDelay < System.currentTimeMillis()){
+    if(startingTime + HornConstants.kShootConveyorDelay < currentTime){
       m_conveyorSubsystem.setConveyorSpeed(1.0);
     }
 
-    if(startingTime + 50 > System.currentTimeMillis()){ // run for .25 second
+    if(startingTime + 50 > currentTime){ // run for .25 second
       m_deflectorSubsystem.setDeflectorSpeed(.3);
 
-    }else if(startingTime + 1500 > System.currentTimeMillis()){ // run for .25 second
+    }else if(startingTime + 1500 > currentTime){ // run for .25 second
       m_deflectorSubsystem.setDeflectorSpeed(0);
 
-    }else if(startingTime + 1750 > System.currentTimeMillis()){ // run for .25 second
+    }else if(startingTime + 1750 > currentTime){ // run for .25 second
       m_deflectorSubsystem.setDeflectorSpeed(.7);
 
-    }else if(startingTime + 2000 > System.currentTimeMillis()){ // run for .25 second
+    }else if(startingTime + 2000 > currentTime){ // run for .25 second
       m_deflectorSubsystem.setDeflectorSpeed(-.7);
 
     }
