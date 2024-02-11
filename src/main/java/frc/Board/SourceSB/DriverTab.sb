@@ -1,0 +1,25 @@
+-- Tab Name is autofilled from file name so DriverTab.sb = DriverTab
+imports = (
+  "edu.wpi.first.math.trajectory.Trajectory",
+)
+
+Field.type = Field2d
+Field.create -- runs new Field2d()
+Field.size = {4, 2}
+Field.pos = {0, 0}
+-- To add non-implemented java features as commands
+Field.addCommand (
+  public void setTrajectory(Trajectory traj){
+    m_Field.getObject("trajectory").setTrajectory(traj);
+  }
+)
+
+-- Note, type is autofilled from true
+HasNote = true -- get and set are auto added
+HasNote.pos = {0, 3}
+HasNote.size = {1, 1}
+
+TimeLeft = 0.0 -- can be 0
+TimeLeft.pos = {0, 4}
+TimeLeft.size = {1, 1}
+
