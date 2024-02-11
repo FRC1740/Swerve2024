@@ -2,6 +2,8 @@ package frc.robot.constants.SubsystemConstants;
 
 import com.revrobotics.CANSparkBase.ControlType;
 
+import frc.robot.constants.CurrentLimitDefaults;
+
 public class HornConstants {  
   public static final double HornMotorSpeed = .1;
 
@@ -23,7 +25,7 @@ public class HornConstants {
 
   public static final int kShootConveyorDelay = 250; // TODO: tune
 
-  public static final int kHornCurrentLimit = 50;
+  public static final int kHornCurrentLimit = CurrentLimitDefaults.kNeo;
 
   public static final double kHornAmpShotMotorRPM = 350; // tuned
   public static final double kHornSpeakerShotMotorRPM = kMaxHornRPM ; // 2800 RPM  = 1 ie. full speed

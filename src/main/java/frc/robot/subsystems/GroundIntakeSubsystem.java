@@ -13,7 +13,7 @@ public class GroundIntakeSubsystem {
   public GroundIntakeSubsystem() {
     m_GroundIntakeMotor.setInverted(false);
     m_GroundIntakeMotor.getEncoder();
-    m_GroundIntakeMotor.setSmartCurrentLimit(GroundIntakeConstants.kGroundIntakeLimit);
+    m_GroundIntakeMotor.setSmartCurrentLimit(GroundIntakeConstants.kGroundIntakeCurrentLimit);
 
     m_GroundIntakeMotor.burnFlash();
   }
