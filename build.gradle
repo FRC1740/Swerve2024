@@ -113,18 +113,14 @@ task listFunctions(type: JavaExec) {
 
 build.dependsOn listFunctions
 
-task parseShuffleboard(type: JavaExec) {
-    dependsOn 'compileJava'
-    // Configure the JavaExec task
-    classpath = sourceSets.main.runtimeClasspath
-
-    // Specify the main class of your Java program
-    getMainClass().set("frc.Board.ShuffleboardLoader");
-
-    // Pass the source directory as a command-line argument
-    args 'src/main/java'
-
+// I strongly dislike python, but it's the only way to generate the shuffleboard json becuase java has to get compiled
+task generateArtifacts() {
+    doFirst {
+        exec {
+            commandLine 'python', 'src/main/java/frc/Board/ShuffleboardLoader.py'
+        }
+    }
 }
 
-// Make 'compileJava' task depend on 'precompileJava' task
-build.dependsOn parseShuffleboard
+// Step 2: Ensure 'compileJava' task runs after 'generateArtifacts' task
+compileJava.dependsOn generateArtifacts
