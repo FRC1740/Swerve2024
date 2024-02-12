@@ -39,7 +39,7 @@ public class CommandDisplay {
         .filter(path -> !path.toString().contains("CommandDisplay")) // don't print this file
         .filter(path -> !path.toString().contains("Constants")) // don't constants have to accessible functions
         .forEach(path -> {
-          writeLineToFile(path.toString());
+          writeLineToFile(path.toString()); // print name
           printFile(path.toFile());
           writeLineToFile(""); // new line (because \n is inserted every time)
         });

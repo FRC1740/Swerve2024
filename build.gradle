@@ -110,4 +110,21 @@ task listFunctions(type: JavaExec) {
     // This is the directory that commands will be printed from
     args 'src/main/java'
 }
+
 build.dependsOn listFunctions
+
+task parseShuffleboard(type: JavaExec) {
+    dependsOn 'compileJava'
+    // Configure the JavaExec task
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Specify the main class of your Java program
+    getMainClass().set("frc.Board.ShuffleboardLoader");
+
+    // Pass the source directory as a command-line argument
+    args 'src/main/java'
+
+}
+
+// Make 'compileJava' task depend on 'precompileJava' task
+build.dependsOn parseShuffleboard
