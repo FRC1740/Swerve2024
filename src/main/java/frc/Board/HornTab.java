@@ -91,7 +91,7 @@ public class HornTab {
 
     m_nte_DeflectorSetpoint = m_sbt_Horn.add("Deflector Setpoint", 0)
       .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+      .withProperties(Map.of("min", 0, "max", 18)) // specify widget properties here
       .getEntry();
     m_nte_DeflectorEncoder = m_sbt_Horn.add("Deflector Encoder", 0)
       .getEntry();
