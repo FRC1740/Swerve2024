@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
@@ -68,14 +69,14 @@ public class RobotContainer {
     initSubsystems();
     initInputDevices();
 
+    //Must register commands used in PathPlanner autos
+    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
+    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6));
+    NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1)); //place holder
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
-
-    //Must register commands used in PathPlanner autos
-    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
-    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.3));
-    NamedCommands.registerCommand("ShootSpeaker", new InstantCommand()); //place holder
+    SmartDashboard.putData("Auto Mode", autoChooser);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -162,10 +163,16 @@ public class RobotContainer {
       .whileTrue(
         new HornAmpShootWithDeflector()
       );
-    m_driverController.b()
-      .whileTrue(
-        new HornShootVision()
-      );
+    // // Testing path following
+    // m_driverController.b()
+    //   .whileTrue(new SequentialCommandGroup(
+    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
+    //     autoChooser.getSelected()
+    //   ));
+    // m_driverController.b()
+    //   .whileTrue(
+    //     new HornShootVision()
+    //   );
     m_driverController.a()
       .whileTrue(
         new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-.3),
@@ -232,7 +239,7 @@ public class RobotContainer {
         m_robotDrive));
     
 
-    //Testing path following
+    // // Testing path following
     // m_driverController.b()
     //   .whileTrue(new SequentialCommandGroup(
     //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),

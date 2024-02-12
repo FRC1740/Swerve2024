@@ -13,7 +13,7 @@ import frc.robot.constants.ModuleConstants;
 import frc.robot.constants.SubsystemConstants.DeflectorConstants;
 
 public class DeflectorSubsytem extends SubsystemBase{
-  private final CANSparkMax m_DeflectorMotor = new CANSparkMax(CanIds.kDeflectorMotorCanId, CANSparkMax.MotorType.kBrushed);
+  private final CANSparkMax m_DeflectorMotor = new CANSparkMax(CanIds.kDeflectorMotorCanId, CANSparkMax.MotorType.kBrushless);
 
   // private final AbsoluteEncoder m_deflectorEncoder;
   // private final SparkPIDController m_deflectorPidController;

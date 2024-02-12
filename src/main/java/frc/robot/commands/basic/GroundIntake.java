@@ -29,6 +29,9 @@ public class GroundIntake extends Command{
     m_sensorSubsystem = m_robotShared.getSensorSubsystem();
     m_intakeSpeed = intakeSpeed;
     addRequirements(m_horn);
+    addRequirements(m_groundIntakeSubsystem);
+    addRequirements(m_conveyorSubsystem);
+    addRequirements(m_sensorSubsystem);
   }
 
   // Called when the command is initially scheduled.

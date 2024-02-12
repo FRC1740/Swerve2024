@@ -25,8 +25,9 @@ public class HornShoot extends Command {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
-    m_shootSpeed = shootSpeed;
     addRequirements(m_horn);
+    addRequirements(m_conveyorSubsystem);
+    m_shootSpeed = shootSpeed;
   }
 
   // Called when the command is initially scheduled.
