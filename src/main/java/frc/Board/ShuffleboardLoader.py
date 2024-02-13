@@ -27,7 +27,8 @@ def parse_file(input_file, output_file):
   try:
     with open(input_file, "r") as input_file, open(output_file, "w") as output_file:
       # reads variables from .sb files and returns an array with data
-      # [0] is name [1] is type [2] is value [3] is size [4] is positon
+      # [0] is name [1] is type [2] is value [3] is size [4] is positon 
+      # [5] is widget [6] is wiget properties (array of 4)
       # size and position are tuples, they are arrays
       variableData = ShuffleboardVariables.getVariableData(input_file) 
       fileName = output_file.name.split("/")[-1].split(".")[0]
@@ -53,6 +54,7 @@ def addCustomImports(input_file, output_file):
       line = line.replace("\"", "") # remove quotes
       line = line.replace("import", "") # remove import
       line = line.replace(";", "") # remove semicolon if it exists
+      line = line.replace(",", "") # remove comma if it exists
       line = line.strip()
       output_file.write("import " + line + ";\n")
 

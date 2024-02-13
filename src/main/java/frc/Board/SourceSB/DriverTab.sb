@@ -20,10 +20,10 @@ HaDNote.size = {1, 1}
 -- HasNote.widget = "kNumberSlider"
 -- HasNote.properties = {min, 0, max, 4000}
 
-Field.type = Field2d
--- Field.create -- runs new Field2d()
-Field.size = {4, 2}
-Field.pos = {0, 0}
+-- Field.type = Field2d
+-- -- Field.create -- runs new Field2d()
+-- Field.size = {4, 2}
+-- Field.pos = {0, 0}
 -- To add non-implemented java commands
 -- You have to use "Field." because the parser wont know where to put it, it needs to put it with the other Field commands
 -- Without it, it will just stick it in there at the current line. 
