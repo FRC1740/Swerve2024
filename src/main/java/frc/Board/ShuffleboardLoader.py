@@ -82,6 +82,7 @@ def parse_file(input_file, output_file):
           previousName = name
         
       # done
+      endOfEntry(output_file, noGetEntry)
       endOfFile(output_file)
       addVariables(output_file, variables)
 
@@ -138,6 +139,9 @@ def addEntry(output_file, line, variables):
   
   if line.__contains__(".widget"):
     #TODO: implement addCommand
+    # .withWidget(BuiltInWidgets.kNumberSlider)
+    # AmpVelocity.widget = "kNumberSlider"
+    output_file.write(".withWidget(BuiltInWidgets." + line.split("= ")[1] + ")")
     return 1
   
   if line.__contains__(".properties"): # Broken

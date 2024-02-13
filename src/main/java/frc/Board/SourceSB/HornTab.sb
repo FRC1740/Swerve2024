@@ -1,6 +1,4 @@
 imports = {
-  "java.util.Map",
-  "edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets",
   "frc.robot.constants.SubsystemConstants.HornConstants"
 }
 
@@ -16,7 +14,7 @@ LeftHornSpeed.size = {2, 1}
 LeftHornSpeed.pos = {4, 3}
 
 HornSpeedSetter = 0
-HornSpeedSetter.widget = "kNumberSlider"
+HornSpeedSetter.widget = kNumberSlider
 HornSpeedSetter.properties = {min, 0, max, 4000}
 
 -- should add PID template
@@ -38,7 +36,7 @@ FF.size = {1, 1}
 FF.pos = {8, 4}
 
 RightVelocityOffset = 0.0
-RightVelocityOffset.widget = "kNumberSlider"
+RightVelocityOffset.widget = kNumberSlider
 RightVelocityOffset.properties = {min, 0, max, 400}
 
 IntakeFromHornMode = false
@@ -46,13 +44,11 @@ IntakeFromHornMode.size = {1, 1}
 IntakeFromHornMode.pos = {8, 3}
 
 AmpVelocity = HornConstants.kHornAmpShotMotorRPM
-AmpVelocity.widget = "kNumberSlider"
+AmpVelocity.widget = kNumberSlider
 AmpVelocity.properties = {min, 0, max, 600}
 
 DeflectorSetpoint = 0
-DeflectorSetpoint.widget = "kNumberSlider"
+DeflectorSetpoint.widget = kNumberSlider
 DeflectorSetpoint.properties = {min, 0, max, 1}
 
 DeflectorEncoder = 0
-
-endof

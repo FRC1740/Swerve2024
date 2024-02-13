@@ -33,5 +33,3 @@ Field.pos = {0, 0}
 TimeLeft = true -- can be a constant such as ConstantskTimeLeft
 TimeLeft.pos = {0, 4}
 TimeLeft.size = {1, 1}
-
-endof
