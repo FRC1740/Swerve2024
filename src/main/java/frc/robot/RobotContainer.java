@@ -102,9 +102,9 @@ public class RobotContainer {
               true, true, OIConstants.kUseQuadraticInput),
             m_robotDrive));
         }
-    // m_deflectorSubsystem.setDefaultCommand(
-    //   new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
-    //   m_deflectorSubsystem));
+    m_deflectorSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
+      m_deflectorSubsystem));
   }
 
   private void initSubsystems() {
