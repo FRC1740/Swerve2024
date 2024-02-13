@@ -80,4 +80,87 @@ public class HornTab {
   GenericEntry m_nte_DeflectorSetpoint;
   GenericEntry m_nte_DeflectorEncoder;
 
+  public void setRightHornSpeed(null value) {
+    m_nte_RightHornSpeed.setNull(value);
+  }
+  public null getRightHornSpeed() {
+    return m_nte_RightHornSpeed.getNull(null);
+  }
+
+  public void setLeftHornSpeed(null value) {
+    m_nte_LeftHornSpeed.setNull(value);
+  }
+  public null getLeftHornSpeed() {
+    return m_nte_LeftHornSpeed.getNull(null);
+  }
+
+  public void setHornSpeedSetter(null value) {
+    m_nte_HornSpeedSetter.setNull(value);
+  }
+  public null getHornSpeedSetter() {
+    return m_nte_HornSpeedSetter.getNull(null);
+  }
+
+  public void setP(null value) {
+    m_nte_P.setNull(value);
+  }
+  public null getP() {
+    return m_nte_P.getNull(null);
+  }
+
+  public void setI(null value) {
+    m_nte_I.setNull(value);
+  }
+  public null getI() {
+    return m_nte_I.getNull(null);
+  }
+
+  public void setD(null value) {
+    m_nte_D.setNull(value);
+  }
+  public null getD() {
+    return m_nte_D.getNull(null);
+  }
+
+  public void setFF(null value) {
+    m_nte_FF.setNull(value);
+  }
+  public null getFF() {
+    return m_nte_FF.getNull(null);
+  }
+
+  public void setRightVelocityOffset(null value) {
+    m_nte_RightVelocityOffset.setNull(value);
+  }
+  public null getRightVelocityOffset() {
+    return m_nte_RightVelocityOffset.getNull(null);
+  }
+
+  public void setIntakeFromHornMode(boolean value) {
+    m_nte_IntakeFromHornMode.setBoolean(value);
+  }
+  public boolean getIntakeFromHornMode() {
+    return m_nte_IntakeFromHornMode.getBoolean(false);
+  }
+
+  public void setAmpVelocity(null value) {
+    m_nte_AmpVelocity.setNull(value);
+  }
+  public null getAmpVelocity() {
+    return m_nte_AmpVelocity.getNull(null);
+  }
+
+  public void setDeflectorSetpoint(null value) {
+    m_nte_DeflectorSetpoint.setNull(value);
+  }
+  public null getDeflectorSetpoint() {
+    return m_nte_DeflectorSetpoint.getNull(null);
+  }
+
+  public void setDeflectorEncoder(null value) {
+    m_nte_DeflectorEncoder.setNull(value);
+  }
+  public null getDeflectorEncoder() {
+    return m_nte_DeflectorEncoder.getNull(null);
+  }
 }

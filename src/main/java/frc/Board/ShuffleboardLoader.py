@@ -30,6 +30,7 @@ def parse_file(input_file, output_file):
   noGetEntry = False
   previousName = ""
   variables = []
+  variableValues = [] # stores type like false or 0.0, etc.
   try:
     with open(input_file, "r") as input_file, open(output_file, "w") as output_file:
       # add default imports
@@ -56,7 +57,7 @@ def parse_file(input_file, output_file):
             fileStart = True # done with imports and ready to start writing the class
 
         elif fileStart:
-          addClass(output_file, output_file.name, variables)
+          addClass(output_file, output_file.name, variables, variableValues)
           fileStart = False
 
         elif readingEntryParams: 
@@ -67,7 +68,7 @@ def parse_file(input_file, output_file):
             name = line.split(" ")[0]
           # output_file.write("\nname :" + name + "\n") # debugf
           # output_file.write("\nprev :" + previousName + "\n") # debugf
-          if line.__contains__(".type"):
+          if line.__contains__("Field2d"):
             noGetEntry = True
           if name != previousName and previousName != "":
             endOfEntry(output_file, noGetEntry)
@@ -75,7 +76,7 @@ def parse_file(input_file, output_file):
             readingEntryParams = False
             previousName = ""
             name = ""
-          elif addEntry(output_file, line, variables) == 0:
+          elif addEntry(output_file, line, variables, variableValues) == 0:
             readingEntryParams = False
             noGetEntry = False
 
@@ -84,7 +85,9 @@ def parse_file(input_file, output_file):
       # done
       endOfEntry(output_file, noGetEntry)
       endOfFile(output_file)
-      addVariables(output_file, variables)
+      addVariables(output_file, variables, variableValues)
+      addGettersAndSetters(output_file, variables, variableValues)
+      output_file.write("}\n")
 
   except IOError:
     print("An error occurred while parsing files.")
@@ -102,10 +105,9 @@ def addImports(output_file, line):
   output_file.write("import" + line + ";\n")
   return 1
 
-def addEntry(output_file, line, variables):
+def addEntry(output_file, line, variables, variableValues):
   fileName = output_file.name.split("/")[-1].split(".")[0]
-  #     m_sbt_DriverTab.add(m_Field)
-  #    .withSize(4, 2).withPosition(0, 0);
+
   if line.__contains__(".size"): # look in {0, 0}
     match = re.search(r'\{(\d*\.?\d+), (\d*\.?\d+)\}', line) # find decimal numbers in the line
     size_value_1 = match.group(1)
@@ -120,18 +122,24 @@ def addEntry(output_file, line, variables):
     output_file.write(".withPosition(" + size_value_1 + ", "+ size_value_2 + ")")
     return 1
   
-  if line.__contains__(".type"): # special types don't have generic entries
-      name = line.split(" ")[0]
-      # remove the .type
-      name = name.replace(".type", "")
-
-      output_file.write("\n    m_sbt_" + fileName + ".add(m_" + name + ")\n      ")
-
-      # variables.append("GenericEntry m_nte_" + name + ";")
-      # Field2d m_Field = new Field2d();
-      type = line.split("= ")[1]
-      variables.append(type + " m_" + name + " = new " + type + "();")
+  if line.__contains__(".type"):
+      # change the type to the type of the last variable
+      variableValues[-1] = line.split(" ")[2]
       return 1
+  
+  if line.__contains__(".Field2d"): # can add more types here
+    name = line.split(" ")[0]
+    # remove the .type
+    name = name.replace(".type", "")
+
+    output_file.write("\n    m_sbt_" + fileName + ".add(m_" + name + ")\n      ")
+
+    # variables.append("GenericEntry m_nte_" + name + ";")
+    # Field2d m_Field = new Field2d();
+    type = line.split("= ")[1]
+    variables.append(type + " m_" + name + " = new " + type + "();")
+    variableValues.append("null")
+    return 1
   
   if line.__contains__(".addCommand"):
     #TODO: implement addCommand
@@ -164,15 +172,17 @@ def addEntry(output_file, line, variables):
   output_file.write("\n    m_nte_" + name + " = m_sbt_" + fileName + ".add(\"" + name + "\", " + value + ")\n      ")
 
   variables.append("GenericEntry m_nte_" + name + ";")
+  variableValues.append(value)
   return 1
 
-def addVariables(output_file, variables):
+def addVariables(output_file, variables, variableValues):
   output_file.write("\n\n")
   
   for variable in variables:
     output_file.write("  " + variable + "\n")
+  # for variableType in variableValues:
+  #   output_file.write("  " + variableType + "\n")
   
-  output_file.write("\n}")
 
 
 def endOfEntry(output_file, noGetEntry):
@@ -185,8 +195,43 @@ def endOfEntry(output_file, noGetEntry):
 
 
 
+def addGettersAndSetters(output_file, variables, variableValues):
+  varCount = 0
+  for variable in variables:
+    type = getType(variableValues[varCount])
+    capitalizedType = type.capitalize()
+    name = variable.split(" ")[1]
+    if name.__contains__("m_nte_"):
+      name = name.replace("m_nte_", "")
+      name = name.replace(";", "")
 
-def addClass(output_file, filename, variables):
+      output_file.write("\n  public void set" + name + "(" + type + " value) {\n")
+      output_file.write("    m_nte_" + name + ".set" + capitalizedType + "(value);\n")
+      output_file.write("  }\n")
+      output_file.write("  public " + type + " get" + name + "() {\n")
+      output_file.write("    return m_nte_" + name + ".get" + capitalizedType + "(" + getTypeDefaultReturn(type) + ");\n")
+      output_file.write("  }\n")
+
+    varCount += 1
+  return 1
+def getType(value):
+  if value.lower() == "true" or value.lower() == "false":
+    return "boolean"
+  if value.lower() == "double":
+    return "double"
+  if value.__contains__("\""):
+    return "String"
+  return "null"
+  
+def getTypeDefaultReturn(type):
+  if type == "boolean":
+    return "false"
+  if type == "double":
+    return "0.0"
+  if type == "String":
+    return ""
+  return "null"
+def addClass(output_file, filename, variables, variableValues):
   name = filename.split("/")[-1].split(".")[0]
   output_file.write("\n")
   output_file.write("public class " + name + " {\n\n")
@@ -206,6 +251,7 @@ def addClass(output_file, filename, variables):
   output_file.write("    m_sbt_" + name + " = Shuffleboard.getTab(\"" + name + "\");\n")
   
   variables.append("ShuffleboardTab m_sbt_" + name + ";")
+  variableValues.append("null")
 
 def endOfFile(output_file):
   output_file.write("  }")
