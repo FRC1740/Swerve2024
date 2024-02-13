@@ -2,12 +2,17 @@
 -- if a comment has weird characters, it will mess with the parser
 imports = {
   "edu.wpi.first.math.trajectory.Trajectory",
+  "edu.wpi.first.wpilibj.smartdashboard.Field2d",
 }
 
 -- Note, type is autofilled from true
 HasNote = true -- get and set are auto added
 HasNote.pos = {0, 3}
 HasNote.size = {1, 1}
+
+HaDNote = 0.0 -- get and set are auto added
+HaDNote.pos = {0, 3}
+HaDNote.size = {1, 1}
 -- Add a widget
 -- HasNote.widget = "kNumberSlider"
 -- HasNote.properties = {min, 0, max, 4000}

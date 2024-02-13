@@ -31,72 +31,55 @@ public class HornTab {
     // Create and get reference to SB tab
     m_sbt_HornTab = Shuffleboard.getTab("HornTab");
 
-    m_nte_RightHornSpeed = m_sbt_DriverTab.add("RightHornSpeed", 0)
+    m_nte_RightHornSpeed = m_sbt_HornTab.add("RightHornSpeed", 0)
       .withSize(2, 1).withPosition(4, 1).getEntry();
 
-    m_nte_LeftHornSpeed = m_sbt_DriverTab.add("LeftHornSpeed", 0.0
-)
-      .getEntry();
-.withPosition(4, 3).getEntry();
+    m_nte_LeftHornSpeed = m_sbt_HornTab.add("LeftHornSpeed", 0)
+      .withSize(2, 1).withPosition(4, 3).getEntry();
 
-    m_nte_HornSpeedSetter = m_sbt_DriverTab.add("HornSpeedSetter", 0.0
-)
-      .getEntry();
+    m_nte_HornSpeedSetter = m_sbt_HornTab.add("HornSpeedSetter", 0)
+      .withProperties(Map.of("min", 0, "max", 4000)).getEntry();
 
-    m_nte_HornSpeedSetter.properties = m_sbt_DriverTab.add("HornSpeedSetter.properties", {min,)
-      .getEntry();
+    m_nte_P = m_sbt_HornTab.add("P", HornConstants.kP)
+      .withSize(1, 1).withPosition(8, 1).getEntry();
 
-    m_nte_P = m_sbt_DriverTab.add("P", HornConstants.kP
-)
-      .getEntry();
-.withPosition(8, 1).getEntry();
+    m_nte_I = m_sbt_HornTab.add("I", HornConstants.kI)
+      .withSize(1, 1).withPosition(8, 2).getEntry();
 
-    m_nte_I = m_sbt_DriverTab.add("I", HornConstants.kI
-)
-      .getEntry();
-.withPosition(8, 2).getEntry();
-
-    m_nte_D = m_sbt_DriverTab.add("D", HornConstants.kD
-)
-      .getEntry();
-.withPosition(8, 3).getEntry();
-
-    m_nte_FF = m_sbt_DriverTab.add("FF", 0.0
-)
-      .getEntry();
-.withPosition(8, 4).getEntry();
-
-    m_nte_RightVelocityOffset = m_sbt_DriverTab.add("RightVelocityOffset", 0.0
-)
-      .getEntry();
-
-    m_nte_RightVelocityOffset.properties = m_sbt_DriverTab.add("RightVelocityOffset.properties", {min,)
-      .getEntry();
-
-    m_nte_IntakeFromHornMode = m_sbt_DriverTab.add("IntakeFromHornMode", false
-)
+    m_nte_D = m_sbt_HornTab.add("D", HornConstants.kD)
       .withSize(1, 1).withPosition(8, 3).getEntry();
 
-    m_nte_AmpVelocity = m_sbt_DriverTab.add("AmpVelocity", HornConstants.kHornAmpShotMotorRPM
-)
+    m_nte_FF = m_sbt_HornTab.add("FF", 0)
+      .withSize(1, 1).withPosition(8, 4).getEntry();
+
+    m_nte_RightVelocityOffset = m_sbt_HornTab.add("RightVelocityOffset", 0.0)
+      .withProperties(Map.of("min", 0, "max", 400)).getEntry();
+
+    m_nte_IntakeFromHornMode = m_sbt_HornTab.add("IntakeFromHornMode", false)
+      .withSize(1, 1).withPosition(8, 3).getEntry();
+
+    m_nte_AmpVelocity = m_sbt_HornTab.add("AmpVelocity", HornConstants.kHornAmpShotMotorRPM)
+      .withProperties(Map.of("min", 0, "max", 600)).getEntry();
+
+    m_nte_DeflectorSetpoint = m_sbt_HornTab.add("DeflectorSetpoint", 0)
+      .withProperties(Map.of("min", 0, "max", 1)).getEntry();
+
+    m_nte_DeflectorEncoder = m_sbt_HornTab.add("DeflectorEncoder", 0)
       .getEntry();
+  }
 
-    m_nte_AmpVelocity.properties = m_sbt_DriverTab.add("AmpVelocity.properties", {min,)
-      .getEntry();
-
-    m_nte_DeflectorSetpoint = m_sbt_DriverTab.add("DeflectorSetpoint", 0
-)
-      
-    m_nte_DeflectorSetpoint.widget = m_sbt_DriverTab.add("DeflectorSetpoint.widget", "kNumberSlider"
-)
-      
-    m_nte_DeflectorSetpoint.properties = m_sbt_DriverTab.add("DeflectorSetpoint.properties", {min,)
-      .getEntry();
-
-    m_nte_DeflectorEncoder = m_sbt_DriverTab.add("DeflectorEncoder", 0
-)
-        }
-
-ShuffleboardTab m_sbt_DriverTab;
+  ShuffleboardTab m_sbt_HornTab;
+  GenericEntry m_nte_RightHornSpeed;
+  GenericEntry m_nte_LeftHornSpeed;
+  GenericEntry m_nte_HornSpeedSetter;
+  GenericEntry m_nte_P;
+  GenericEntry m_nte_I;
+  GenericEntry m_nte_D;
+  GenericEntry m_nte_FF;
+  GenericEntry m_nte_RightVelocityOffset;
+  GenericEntry m_nte_IntakeFromHornMode;
+  GenericEntry m_nte_AmpVelocity;
+  GenericEntry m_nte_DeflectorSetpoint;
+  GenericEntry m_nte_DeflectorEncoder;
 
 }
