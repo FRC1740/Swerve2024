@@ -1,5 +1,8 @@
 # this is a simple function that scans for whether some basic imports are used in the file
 # This does not check for user defined imports
+import os
+
+
 def getImports(input_file, output_file):
   usedImports = []
   for line in input_file:
@@ -35,6 +38,7 @@ def getCustomImports(input_file, output_file):
       readingImports = False
 
     if readingImports:
+      # findShorthandImports(input_file, line)
       line = line.strip()
       line = line.replace("\"", "") # remove quotes
       line = line.replace("import", "") # remove import
@@ -49,3 +53,9 @@ def getCustomImports(input_file, output_file):
   input_file.seek(0)
 
   return imports
+
+# def findShorthandImports(input_file, import_line):
+#   for root, dirs, files in os.walk(input_file):
+#     for file in files:
+#       if file.__contains__(import_line):
+#         return "import " + dirs + ";\n"

@@ -22,3 +22,15 @@ MaxDrivingSpeed.pos = {4, 2}
 HasRotationControl = false
 HasRotationControl.size = {1, 1}
 HasRotationControl.pos = {4, 3}
+
+test = false
+test.declaration = "boolean[] test"
+test.init - "test = new boolean[SensorConstants.kDIOPorts];"
+test.size = {1, 1}
+test.pos = {4, 3}
+
+-- test.addCommand (
+--   public void setTest(boolean[] test){
+--     this.test = test;
+--   }
+-- )

@@ -21,6 +21,7 @@ public class DriveTrainTab {
   GenericEntry m_nte_IMU_PitchAngle;
   GenericEntry m_nte_MaxDrivingSpeed;
   GenericEntry m_nte_HasRotationControl;
+  GenericEntry m_nte_test;
 
   private static DriveTrainTab instance = null;
 
@@ -57,6 +58,10 @@ public class DriveTrainTab {
       .withSize(1, 1)
       .withPosition(4, 3)
       .getEntry();
+    m_nte_test = m_sbt_DriveTrainTab.add("test", false)
+      .withSize(1, 1)
+      .withPosition(4, 3)
+      .getEntry();
   }
 
   public void setIMU_ZAngle(double value) {
@@ -85,5 +90,12 @@ public class DriveTrainTab {
   }
   public boolean getHasRotationControl() {
     return m_nte_HasRotationControl.getBoolean(false);
+  }
+
+  public void setTest(boolean value) {
+    m_nte_test.setBoolean(value);
+  }
+  public boolean getTest() {
+    return m_nte_test.getBoolean(false);
   }
 }

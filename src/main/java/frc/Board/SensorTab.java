@@ -17,7 +17,7 @@ public class SensorTab {
 
   GenericEntry[] m_nte_SensorStates;
 
-  private boolean filledPorts[];
+  private boolean[] filledPorts;
 
 
   private static SensorTab instance = null;

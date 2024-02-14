@@ -9,10 +9,12 @@ def addGettersAndSetters(output_file, variableData):
     if variable_isComplexWidget: # complex widgets don't have getters and setters
       continue
     capitalizedType = variable_type.capitalize()
-    output_file.write("\n  public void set" + variable_name + "(" + variable_type + " value) {\n")
+    capitalizedName = variable_name[0].capitalize() + variable_name[1:]
+    
+    output_file.write("\n  public void set" + capitalizedName + "(" + variable_type + " value) {\n")
     output_file.write("    m_nte_" + variable_name + ".set" + capitalizedType + "(value);\n")
     output_file.write("  }\n")
-    output_file.write("  public " + variable_type + " get" + variable_name + "() {\n")
+    output_file.write("  public " + variable_type + " get" + capitalizedName + "() {\n")
     output_file.write("    return m_nte_" + variable_name + ".get" + capitalizedType + "(" + variable_value + ");\n")
     output_file.write("  }\n")
 
@@ -28,6 +30,15 @@ def getCustomFunctions(input_file):
   reading_function = False
   customFunctionLines = []
   for line in input_file:
+    # skip comments and empty lines
+    if line.startswith("--") or "=" not in line or "imports" in line:
+      continue
+    # remove comments and anything after them
+
+    commentPos = line.find("--")
+    if commentPos != -1:
+      line = line[:commentPos]
+
     if line.strip().startswith(")"): # can do this because it will always be on a new line
       reading_function = False
 

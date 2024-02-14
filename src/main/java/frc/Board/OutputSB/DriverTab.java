@@ -74,7 +74,4 @@ public class DriverTab {
   public boolean getTimeLeft() {
     return m_nte_TimeLeft.getBoolean(true);
   }
-  public void setTrajectory(Trajectory traj){
-    m_Field.getObject("trajectory").setTrajectory(traj);
-  }
 }
