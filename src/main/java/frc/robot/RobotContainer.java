@@ -169,10 +169,10 @@ public class RobotContainer {
     //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
     //     autoChooser.getSelected()
     //   ));
-    // m_driverController.b()
-    //   .whileTrue(
-    //     new HornShootVision()
-    //   );
+    m_driverController.b()
+      .whileTrue(
+        new HornShootVision()
+      );
     m_driverController.a()
       .whileTrue(
         new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-.3),
