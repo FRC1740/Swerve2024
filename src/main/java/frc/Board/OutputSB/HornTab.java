@@ -3,15 +3,31 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.Board.OutputSB;
 
-import java.util.Map;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
+import java.util.Map;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 
+
 public class HornTab {
+
+  ShuffleboardTab m_sbt_HornTab;
+
+  GenericEntry m_nte_RightHornSpeed;
+  GenericEntry m_nte_LeftHornSpeed;
+  GenericEntry m_nte_HornSpeedSetter;
+  GenericEntry m_nte_P;
+  GenericEntry m_nte_I;
+  GenericEntry m_nte_D;
+  GenericEntry m_nte_FF;
+  GenericEntry m_nte_RightVelocityOffset;
+  GenericEntry m_nte_IntakeFromHornMode;
+  GenericEntry m_nte_AmpVelocity;
+  GenericEntry m_nte_DeflectorSetpoint;
+  GenericEntry m_nte_DeflectorEncoder;
 
   private static HornTab instance = null;
 
@@ -76,19 +92,4 @@ public class HornTab {
     m_nte_DeflectorEncoder = m_sbt_HornTab.add("DeflectorEncoder", 0)
       .getEntry();
   }
-
-  ShuffleboardTab m_sbt_HornTab;
-
-  GenericEntry m_nte_RightHornSpeed;
-  GenericEntry m_nte_LeftHornSpeed;
-  GenericEntry m_nte_HornSpeedSetter;
-  GenericEntry m_nte_P;
-  GenericEntry m_nte_I;
-  GenericEntry m_nte_D;
-  GenericEntry m_nte_FF;
-  GenericEntry m_nte_RightVelocityOffset;
-  GenericEntry m_nte_IntakeFromHornMode;
-  GenericEntry m_nte_AmpVelocity;
-  GenericEntry m_nte_DeflectorSetpoint;
-  GenericEntry m_nte_DeflectorEncoder;
 }

@@ -1,6 +1,7 @@
 import os
 import ShuffleboardParserHelpers.ShuffleboardTemplate as ShuffleboardTemplate
 import ShuffleboardParserHelpers.ShuffleboardVariables as ShuffleboardVariables
+import ShuffleboardParserHelpers.ShuffleboardImports as ShuffleboardImports
 
 source_directory = "src/main/java/frc/Board/SourceSB/"
 output_directory = "src/main/java/frc/Board/OutputSB/"
@@ -32,36 +33,19 @@ def parse_file(input_file, output_file):
       # size and position are tuples, they are arrays
       variableData = ShuffleboardVariables.getVariableData(input_file) 
       fileName = output_file.name.split("/")[-1].split(".")[0]
-      # add default imports
-      ShuffleboardTemplate.addDefaultImports(output_file)
-      addCustomImports(input_file, output_file)
-      ShuffleboardTemplate.addClass(output_file, fileName)
-      ShuffleboardVariables.addVariables(output_file, fileName, variableData)
+
+      imports = ShuffleboardImports.getImports(input_file, output_file) # get used imports and user defined imports
+      ShuffleboardTemplate.addImports(output_file, imports) # adds imports as well as default
+
+      ShuffleboardTemplate.addMainClass(output_file, fileName)
       ShuffleboardVariables.addVariablesDeclarations(output_file, variableData, fileName)
+
+      ShuffleboardTemplate.addInit(output_file, fileName)
+      ShuffleboardVariables.addVariables(output_file, fileName, variableData)
+      
       output_file.write("}\n")
   except IOError:
     print("An error occurred while parsing files.")
-
-def addCustomImports(input_file, output_file):
-  #TODO: add shorthand imports so HornContants expands to frc.robot.HornConstants
-  readingImports = False
-  for line in input_file:
-    if line.__contains__("}"):
-      readingImports = False
-
-    if readingImports:
-      line = line.strip()
-      line = line.replace("\"", "") # remove quotes
-      line = line.replace("import", "") # remove import
-      line = line.replace(";", "") # remove semicolon if it exists
-      line = line.replace(",", "") # remove comma if it exists
-      line = line.strip()
-      output_file.write("import " + line + ";\n")
-
-    if line.__contains__("import"):
-      readingImports = True
-  # reset file pointer to the beginning of the file
-  input_file.seek(0)
 
     
 

@@ -3,16 +3,22 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.Board.OutputSB;
 
-import java.util.Map;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 import edu.wpi.first.math.trajectory.Trajectory;
+
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
+
 public class DriverTab {
+
+  ShuffleboardTab m_sbt_DriverTab;
+
+  GenericEntry m_nte_HasNote;
+  GenericEntry m_nte_HaDNote;
+  GenericEntry m_nte_TimeLeft;
 
   private static DriverTab instance = null;
 
@@ -43,10 +49,4 @@ public class DriverTab {
       .withPosition(0, 4)
       .getEntry();
   }
-
-  ShuffleboardTab m_sbt_DriverTab;
-
-  GenericEntry m_nte_HasNote;
-  GenericEntry m_nte_HaDNote;
-  GenericEntry m_nte_TimeLeft;
 }
