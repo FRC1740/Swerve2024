@@ -1,8 +1,8 @@
 import os
-import ShuffleboardParserHelpers.ShuffleboardTemplate as ShuffleboardTemplate
-import ShuffleboardParserHelpers.ShuffleboardVariables as ShuffleboardVariables
-import ShuffleboardParserHelpers.ShuffleboardImports as ShuffleboardImports
-import ShuffleboardParserHelpers.ShuffleboardFunctions as ShuffleboardFunctions
+import Helpers.ShuffleboardTemplate as ShuffleboardTemplate
+import Helpers.ShuffleboardVariables as ShuffleboardVariables
+import Helpers.ShuffleboardImports as ShuffleboardImports
+import Helpers.ShuffleboardFunctions as ShuffleboardFunctions
 
 source_directory = "src/main/java/frc/Board/SourceSB/"
 output_directory = "src/main/java/frc/Board/OutputSB/"

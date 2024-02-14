@@ -117,7 +117,7 @@ build.dependsOn listFunctions
 task generateArtifacts() {
     doFirst {
         exec {
-            commandLine 'python', 'src/main/java/frc/Board/ShuffleboardLoader.py'
+            commandLine 'python', 'src/main/java/frc/Board/ShuffleboardParser/ShuffleboardLoader.py'
         }
     }
 }
