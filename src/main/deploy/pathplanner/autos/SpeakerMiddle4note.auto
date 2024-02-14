@@ -68,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "speaker out"
+                  "pathName": "speaker To middle note"
                 }
               },
               {
@@ -87,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "speaker in"
+                  "pathName": "Middle note to speaker"
                 }
               },
               {

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2406901758247963,
-      "y": 5.540384316879745
+      "x": 1.3389713214671353,
+      "y": 5.572511265393898
     },
-    "rotation": -177.27380211524425
+    "rotation": 179.30439287912955
   },
   "command": {
     "type": "sequential",
@@ -24,13 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "speaker To middle note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
+                  "pathName": "MiddleSpeakerTo5"
                 }
               }
             ]
@@ -41,15 +35,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "GroundIntake"
+                  "pathName": "5 to middle Speaker"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Middle note to speaker"
+                  "name": "GroundIntake"
                 }
               }
             ]

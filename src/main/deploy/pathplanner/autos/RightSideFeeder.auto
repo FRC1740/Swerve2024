@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2406901758247963,
-      "y": 5.540384316879745
+      "x": 0.9224492939726622,
+      "y": 2.103097747862163
     },
-    "rotation": -177.27380211524425
+    "rotation": 101.8488361253332
   },
   "command": {
     "type": "sequential",
@@ -14,26 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSpeaker"
+            "name": "ShootAmp"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "speaker To middle note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
+            "pathName": "RightSide5"
           }
         },
         {
@@ -49,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Middle note to speaker"
+                  "pathName": "5 RightToInside"
                 }
               }
             ]
@@ -58,7 +45,38 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSpeaker"
+            "name": "ShootAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightInside to 4"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "GroundIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4RightToInside"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootAmp"
           }
         }
       ]

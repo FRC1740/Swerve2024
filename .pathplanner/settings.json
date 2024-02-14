@@ -3,6 +3,8 @@
   "robotLength": 0.66,
   "holonomicMode": true,
   "pathFolders": [
+    "RightInsdeBounds",
+    "Right side",
     "SpeakerLeft",
     "SpeakerMiddle"
   ],

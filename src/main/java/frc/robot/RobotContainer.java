@@ -72,7 +72,8 @@ public class RobotContainer {
     //Must register commands used in PathPlanner autos
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
     NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6));
-    NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1)); //place holder
+    NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1));
+    NamedCommands.registerCommand("ShootAmp", new HornAmpShootWithDeflector().withTimeout(1));
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
