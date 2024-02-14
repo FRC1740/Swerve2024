@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.665915248503137,
-        "y": 6.762574201075325
+        "x": 2.499995296286659,
+        "y": 6.892804142092779
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.246872618745238,
-        "y": 7.336286677202984
+        "x": 3.0809526665287597,
+        "y": 7.466516618220438
       },
       "isLocked": false,
       "linkedName": "LeftNoteClose"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "SpeakerMiddle",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

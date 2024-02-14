@@ -49,7 +49,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "SpeakerMiddle",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

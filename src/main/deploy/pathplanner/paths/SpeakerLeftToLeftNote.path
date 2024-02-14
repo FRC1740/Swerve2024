@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.854104342467944,
-        "y": 5.586110287961317
+        "x": 0.9535073236813143,
+        "y": 6.508765369382591
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2154847411546674,
-        "y": 5.605113288930281
+        "x": 1.249479063769078,
+        "y": 6.622902143956747
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SpeakerLeft"
     },
     {
       "anchor": {
-        "x": 1.3389713214671353,
-        "y": 5.572511265393898
+        "x": 2.499995296286659,
+        "y": 6.892804142092779
       },
       "prevControl": {
-        "x": 2.1547939068160096,
-        "y": 5.5293388225675315
+        "x": 1.6924865238617066,
+        "y": 6.876473438135076
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Speaker middle"
+      "linkedName": "LeftNoteClose"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.22845725320437,
+    "rotation": -171.54940829517824,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SpeakerMiddle",
+  "folder": "SpeakerLeft",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }
