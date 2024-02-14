@@ -7,8 +7,8 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import java.util.Map;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 
 

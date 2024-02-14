@@ -9,7 +9,9 @@ output_directory = "src/main/java/frc/Board/OutputSB/"
 
   #TODO: add shorthand imports so HornContants expands to frc.robot.HornConstants
   #add constructor arguments for complex widgets so new Mechanism(0, 0) works
-  # 
+  # add setting to the value of other widget
+  # ie. widget1 = widget2
+  # add a outputsb cache and if the file does not match, it will update the source sb file
 def main():
   # check all .sb files in the source directory
   for root, dirs, files in os.walk(source_directory):
@@ -39,6 +41,7 @@ def parse_file(input_file, output_file):
       fileName = output_file.name.split("/")[-1].split(".")[0]
 
       imports = ShuffleboardImports.getImports(input_file, output_file) # get used imports and user defined imports
+
       ShuffleboardTemplate.addImports(output_file, imports) # adds imports as well as default
 
       ShuffleboardTemplate.addMainClass(output_file, fileName)
@@ -46,6 +49,7 @@ def parse_file(input_file, output_file):
 
       ShuffleboardTemplate.addInit(output_file, fileName)
       ShuffleboardVariables.addVariables(output_file, fileName, variableData)
+      #TODO: add custom variables
 
       # getters and setters time :sunglasses:
       ShuffleboardFunctions.addGettersAndSetters(output_file, variableData)

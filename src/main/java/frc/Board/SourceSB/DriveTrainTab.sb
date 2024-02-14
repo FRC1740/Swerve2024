@@ -1,0 +1,24 @@
+imports = {
+  "edu.wpi.first.wpilibj.smartdashboard.Field2d",
+  "frc.robot.constants.SubsystemConstants.DriveConstants"
+}
+
+Field.type = Field2d
+Field.size = {4, 2}
+Field.pos = {8, 0}
+
+IMU_ZAngle = 0
+IMU_ZAngle.size = {2, 1}
+IMU_ZAngle.pos = {4, 0}
+
+IMU_PitchAngle = 0
+IMU_PitchAngle.size = {2, 1}
+IMU_PitchAngle.pos = {4, 1}
+
+MaxDrivingSpeed = DriveConstants.kMaxSpeedMetersPerSecond -- warning: if no type is given, it will default to double
+MaxDrivingSpeed.size = {1, 1}
+MaxDrivingSpeed.pos = {4, 2}
+
+HasRotationControl = false
+HasRotationControl.size = {1, 1}
+HasRotationControl.pos = {4, 3}
