@@ -20,7 +20,7 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
-import frc.Board.DriveTrainTab;
+import frc.Board.OutputSB.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;

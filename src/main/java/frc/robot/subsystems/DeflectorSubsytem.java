@@ -6,8 +6,8 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.Board.DriverTab;
-import frc.Board.HornTab;
+import frc.Board.OutputSB.DriverTab;
+import frc.Board.OutputSB.HornTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.ModuleConstants;
 import frc.robot.constants.SubsystemConstants.DeflectorConstants;

@@ -23,14 +23,14 @@ HasRotationControl = false
 HasRotationControl.size = {1, 1}
 HasRotationControl.pos = {4, 3}
 
-test = false
-test.declaration = "boolean[] test"
-test.init - "test = new boolean[SensorConstants.kDIOPorts];"
-test.size = {1, 1}
-test.pos = {4, 3}
+-- test = false
+-- test.declaration = "boolean[] test"
+-- test.init - "test = new boolean[SensorConstants.kDIOPorts];"
+-- test.size = {1, 1}
+-- test.pos = {4, 3}
 
--- test.addCommand (
---   public void setTest(boolean[] test){
---     this.test = test;
---   }
--- )
+Field.addCommand (
+  public void setRobotPose(Trajectory traj){
+    m_Field.getObject("trajectory").setTrajectory(traj);
+  }
+)

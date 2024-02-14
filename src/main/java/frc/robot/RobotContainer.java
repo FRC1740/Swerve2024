@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
-import frc.Board.DriverTab;
+import frc.Board.OutputSB.DriverTab;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
