@@ -6,9 +6,13 @@ def addVariables(output_file, filename, variables):
     variable_position = variable[4]
     variable_widget = variable[5]
     variable_properties = variable[6]
+    variable_isComplexWidget = variable[7]
 
-    output_file.write("    m_nte_" + variable_name + " = " +
-    "m_sbt_" + filename + ".add(\"" + variable_name + "\", " + variable_value + ")\n")
+    if variable_isComplexWidget:
+      output_file.write("    m_sbt_" + filename + ".add(m_" + variable_name + ")\n")
+    else:
+      output_file.write("    m_nte_" + variable_name + " = " +
+      "m_sbt_" + filename + ".add(\"" + variable_name + "\", " + variable_value + ")\n")
 
     if variable_widget != "":
       output_file.write("      .withWidget(BuiltInWidgets." + variable_widget + ")\n")
@@ -20,17 +24,25 @@ def addVariables(output_file, filename, variables):
     if variable_size[0] != -1 and variable_size[1] != -1:
       output_file.write("      .withSize(" + str(variable_size[0]) + ", " + str(variable_size[1]) + ")\n")
     if variable_position[0] != -1 and variable_position[1] != -1:
-      output_file.write("      .withPosition(" + str(variable_position[0]) + ", " + str(variable_position[1]) + ")\n")
+      output_file.write("      .withPosition(" + str(variable_position[0]) + ", " + str(variable_position[1]) + ")")
+      if not variable_isComplexWidget: # need to not make a new line if it's a complex widget
+        output_file.write("\n")
 
-
-    output_file.write("      .getEntry();\n")
+    if not variable_isComplexWidget:
+      output_file.write("      .getEntry();\n")
+    else:
+      output_file.write(";\n")
+      
   output_file.write("  }\n")
   return 0
 
 def addVariablesDeclarations(output_file, variables, fileName):
   output_file.write("\n  ShuffleboardTab m_sbt_" + fileName + ";\n\n")
   for variable in variables:
-    output_file.write("  " + "GenericEntry" + " m_nte_" + variable[0] + ";\n")
+    if variable[7]: # if the widget is a complex widget
+      output_file.write("  " + variable[2] + " m_" + variable[0] + " = new " + variable[1] + "();\n")
+    else:
+      output_file.write("  " + "GenericEntry" + " m_nte_" + variable[0] + ";\n")
   return 0
 
 def getVariableData(input_file):
@@ -43,6 +55,7 @@ def getVariableData(input_file):
   variable_position = [-1, -1] # Initialize an empty list to store variable position
   variable_widget = ""
   variable_properties = [-1, -1, -1, -1]
+  variable_isComplexWidget = False
   for line in input_file:
     line = line.strip()  # Remove leading/trailing whitespaces including '\n'
 
@@ -66,7 +79,7 @@ def getVariableData(input_file):
     # Check if the variable name has changed, if so log the previous variable
     if variable_name != lastVariableName:
       if lastVariableName:  # Check if it's not the first variable
-        variableData.append((lastVariableName, variable_type, variable_value, variable_size, variable_position, variable_widget, variable_properties))  # Add to the list
+        variableData.append((lastVariableName, variable_type, variable_value, variable_size, variable_position, variable_widget, variable_properties, variable_isComplexWidget))  # Add to the list
       # Reset variables for the new variable
       lastVariableName = variable_name
       variable_type = ""
@@ -75,9 +88,12 @@ def getVariableData(input_file):
       variable_position = [-1] * len(variable_position)
       variable_widget = ""
       variable_properties = [-1] * len(variable_properties)
+      variable_isComplexWidget = False
 
     if not variable_value:  # If it's the first entry for the variable, expect a value
       variable_value = parts[1].strip()
+      if ".type" in line: # special case for variables with no value, meaning they are complex wigets
+        variable_isComplexWidget = True
       
       if not variable_type:  # If type hasn't been manually set with .type=
         if "true" in variable_value or "false" in variable_value:
@@ -118,7 +134,7 @@ def getVariableData(input_file):
 
   # Log the last variable after the loop
   if lastVariableName:
-    variableData.append((lastVariableName, variable_type, variable_value, variable_size, variable_position, variable_widget, variable_properties))
+    variableData.append((lastVariableName, variable_type, variable_value, variable_size, variable_position, variable_widget, variable_properties, variable_isComplexWidget))
 
   # reset file pointer to the beginning of the file
   input_file.seek(0)

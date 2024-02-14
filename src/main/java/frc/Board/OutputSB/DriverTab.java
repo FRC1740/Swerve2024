@@ -18,6 +18,7 @@ public class DriverTab {
 
   GenericEntry m_nte_HasNote;
   GenericEntry m_nte_HaDNote;
+  Field2d m_Field = new Field2d();
   GenericEntry m_nte_TimeLeft;
 
   private static DriverTab instance = null;
@@ -44,6 +45,9 @@ public class DriverTab {
       .withSize(1, 1)
       .withPosition(0, 3)
       .getEntry();
+    m_sbt_DriverTab.add(m_Field)
+      .withSize(4, 2)
+      .withPosition(0, 0);
     m_nte_TimeLeft = m_sbt_DriverTab.add("TimeLeft", true)
       .withSize(1, 1)
       .withPosition(0, 4)

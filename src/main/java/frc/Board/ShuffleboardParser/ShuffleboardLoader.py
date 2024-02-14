@@ -7,6 +7,9 @@ import Helpers.ShuffleboardFunctions as ShuffleboardFunctions
 source_directory = "src/main/java/frc/Board/SourceSB/"
 output_directory = "src/main/java/frc/Board/OutputSB/"
 
+  #TODO: add shorthand imports so HornContants expands to frc.robot.HornConstants
+  #add constructor arguments for complex widgets so new Mechanism(0, 0) works
+  # 
 def main():
   # check all .sb files in the source directory
   for root, dirs, files in os.walk(source_directory):
@@ -30,7 +33,7 @@ def parse_file(input_file, output_file):
     with open(input_file, "r") as input_file, open(output_file, "w") as output_file:
       # reads variables from .sb files and returns an array with data
       # [0] is name [1] is type [2] is value [3] is size [4] is positon 
-      # [5] is widget [6] is wiget properties (array of 4)
+      # [5] is widget [6] is wiget properties (array of 4) [7] is whether the widget is a complex widget
       # size and position are tuples, they are arrays
       variableData = ShuffleboardVariables.getVariableData(input_file) 
       fileName = output_file.name.split("/")[-1].split(".")[0]

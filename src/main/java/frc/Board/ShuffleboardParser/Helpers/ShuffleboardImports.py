@@ -28,7 +28,6 @@ def getImports(input_file, output_file):
   return usedImports
 
 def getCustomImports(input_file, output_file):
-  #TODO: add shorthand imports so HornContants expands to frc.robot.HornConstants
   imports = []
   readingImports = False
   for line in input_file:

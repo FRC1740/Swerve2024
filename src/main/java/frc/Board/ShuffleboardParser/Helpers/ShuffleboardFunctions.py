@@ -4,6 +4,10 @@ def addGettersAndSetters(output_file, variableData):
     variable_name = variable[0]
     variable_value = variable[2]
     variable_type = variable[1]
+    variable_isComplexWidget = variable[7]
+
+    if variable_isComplexWidget: # complex widgets don't have getters and setters
+      continue
     capitalizedType = variable_type.capitalize()
     output_file.write("\n  public void set" + variable_name + "(" + variable_type + " value) {\n")
     output_file.write("    m_nte_" + variable_name + ".set" + capitalizedType + "(value);\n")
