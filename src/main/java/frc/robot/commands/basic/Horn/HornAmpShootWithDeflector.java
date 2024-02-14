@@ -30,7 +30,6 @@ public class HornAmpShootWithDeflector extends Command {
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     addRequirements(m_horn);
-    addRequirements(m_deflectorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -50,17 +49,16 @@ public class HornAmpShootWithDeflector extends Command {
     }
 
     if(startingTime + 50 > currentTime){ // run for .25 second
-      m_deflectorSubsystem.setDeflectorSpeed(.3);
+      m_HornTab.setDeflectorSetpoint(3);
 
-    }else if(startingTime + 1500 > currentTime){ // run for .25 second
-      m_deflectorSubsystem.setDeflectorSpeed(0);
-
+    }else if(startingTime + 1500 > currentTime){
+      // do nothing and keep at .3
+      m_HornTab.setDeflectorSetpoint(3);
     }else if(startingTime + 1750 > currentTime){ // run for .25 second
-      m_deflectorSubsystem.setDeflectorSpeed(.7);
+      m_HornTab.setDeflectorSetpoint(18);
 
     }else if(startingTime + 2000 > currentTime){ // run for .25 second
-      m_deflectorSubsystem.setDeflectorSpeed(-.7);
-
+      m_HornTab.setDeflectorSetpoint(0);
     }
   }
 

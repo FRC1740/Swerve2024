@@ -152,6 +152,9 @@ public class HornTab {
   public double getDeflectorSetpoint() {
     return m_nte_DeflectorSetpoint.getDouble(0.0);
   }
+  public void setDeflectorSetpoint(double value) {
+    m_nte_DeflectorSetpoint.setDouble(value);
+  }
   public void setDeflectorEncoder(double value) {
     m_nte_DeflectorEncoder.setDouble(value);
   }

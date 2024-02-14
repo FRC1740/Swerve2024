@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,8 +25,13 @@ public class DeflectorSubsytem extends SubsystemBase{
   /** Creates a new GroundIntake. */
   public DeflectorSubsytem() {
     m_DeflectorMotor.setInverted(false);
+
+    m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kForward, 16);
-    m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kReverse, 1);
+    m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.5f); // Slightly over, because of overshoot
+    m_DeflectorMotor.setIdleMode(IdleMode.kBrake);
+
     m_deflectorEncoder = m_DeflectorMotor.getEncoder();
     m_deflectorEncoder.setPosition(0);
     m_DeflectorMotor.setSmartCurrentLimit(DeflectorConstants.kDeflectorMotorCurrentLimit);
@@ -39,7 +45,7 @@ public class DeflectorSubsytem extends SubsystemBase{
 
 
 
-    m_deflectorPidController.setP(.1);
+    m_deflectorPidController.setP(.01);
     m_deflectorPidController.setI(0);
     m_deflectorPidController.setD(0);
     m_deflectorPidController.setFF(0);
