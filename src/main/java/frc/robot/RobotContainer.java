@@ -73,7 +73,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
     NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6));
     NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1));
-    NamedCommands.registerCommand("ShootAmp", new HornAmpShootWithDeflector().withTimeout(1));
+    NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(1)); // We don't use the amp so deflector not needed
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
