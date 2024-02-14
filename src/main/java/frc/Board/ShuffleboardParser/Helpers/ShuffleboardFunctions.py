@@ -31,7 +31,7 @@ def getCustomFunctions(input_file):
   customFunctionLines = []
   for line in input_file:
     # skip comments and empty lines
-    if line.startswith("--") or "=" not in line or "imports" in line:
+    if line.startswith("--") or "imports" in line:
       continue
     # remove comments and anything after them
 
