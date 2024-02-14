@@ -2,6 +2,7 @@ import os
 import ShuffleboardParserHelpers.ShuffleboardTemplate as ShuffleboardTemplate
 import ShuffleboardParserHelpers.ShuffleboardVariables as ShuffleboardVariables
 import ShuffleboardParserHelpers.ShuffleboardImports as ShuffleboardImports
+import ShuffleboardParserHelpers.ShuffleboardFunctions as ShuffleboardFunctions
 
 source_directory = "src/main/java/frc/Board/SourceSB/"
 output_directory = "src/main/java/frc/Board/OutputSB/"
@@ -42,7 +43,10 @@ def parse_file(input_file, output_file):
 
       ShuffleboardTemplate.addInit(output_file, fileName)
       ShuffleboardVariables.addVariables(output_file, fileName, variableData)
-      
+
+      # getters and setters time :sunglasses:
+      ShuffleboardFunctions.addGettersAndSetters(output_file, variableData)
+
       output_file.write("}\n")
   except IOError:
     print("An error occurred while parsing files.")

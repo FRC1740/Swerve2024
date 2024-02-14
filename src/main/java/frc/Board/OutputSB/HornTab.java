@@ -92,4 +92,88 @@ public class HornTab {
     m_nte_DeflectorEncoder = m_sbt_HornTab.add("DeflectorEncoder", 0)
       .getEntry();
   }
+
+  public void setRightHornSpeed(double value) {
+    m_nte_RightHornSpeed.setDouble(value);
+  }
+  public double getRightHornSpeed() {
+    return m_nte_RightHornSpeed.getDouble(0);
+  }
+
+  public void setLeftHornSpeed(double value) {
+    m_nte_LeftHornSpeed.setDouble(value);
+  }
+  public double getLeftHornSpeed() {
+    return m_nte_LeftHornSpeed.getDouble(0);
+  }
+
+  public void setHornSpeedSetter(double value) {
+    m_nte_HornSpeedSetter.setDouble(value);
+  }
+  public double getHornSpeedSetter() {
+    return m_nte_HornSpeedSetter.getDouble(0);
+  }
+
+  public void setP(double value) {
+    m_nte_P.setDouble(value);
+  }
+  public double getP() {
+    return m_nte_P.getDouble(HornConstants.kP);
+  }
+
+  public void setI(double value) {
+    m_nte_I.setDouble(value);
+  }
+  public double getI() {
+    return m_nte_I.getDouble(HornConstants.kI);
+  }
+
+  public void setD(double value) {
+    m_nte_D.setDouble(value);
+  }
+  public double getD() {
+    return m_nte_D.getDouble(HornConstants.kD);
+  }
+
+  public void setFF(double value) {
+    m_nte_FF.setDouble(value);
+  }
+  public double getFF() {
+    return m_nte_FF.getDouble(0);
+  }
+
+  public void setRightVelocityOffset(double value) {
+    m_nte_RightVelocityOffset.setDouble(value);
+  }
+  public double getRightVelocityOffset() {
+    return m_nte_RightVelocityOffset.getDouble(0.0);
+  }
+
+  public void setIntakeFromHornMode(boolean value) {
+    m_nte_IntakeFromHornMode.setBoolean(value);
+  }
+  public boolean getIntakeFromHornMode() {
+    return m_nte_IntakeFromHornMode.getBoolean(false);
+  }
+
+  public void setAmpVelocity(double value) {
+    m_nte_AmpVelocity.setDouble(value);
+  }
+  public double getAmpVelocity() {
+    return m_nte_AmpVelocity.getDouble(HornConstants.kHornAmpShotMotorRPM);
+  }
+
+  public void setDeflectorSetpoint(double value) {
+    m_nte_DeflectorSetpoint.setDouble(value);
+  }
+  public double getDeflectorSetpoint() {
+    return m_nte_DeflectorSetpoint.getDouble(0);
+  }
+
+  public void setDeflectorEncoder(double value) {
+    m_nte_DeflectorEncoder.setDouble(value);
+  }
+  public double getDeflectorEncoder() {
+    return m_nte_DeflectorEncoder.getDouble(0);
+  }
 }

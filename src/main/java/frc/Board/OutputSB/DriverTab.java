@@ -49,4 +49,25 @@ public class DriverTab {
       .withPosition(0, 4)
       .getEntry();
   }
+
+  public void setHasNote(boolean value) {
+    m_nte_HasNote.setBoolean(value);
+  }
+  public boolean getHasNote() {
+    return m_nte_HasNote.getBoolean(true);
+  }
+
+  public void setHaDNote(double value) {
+    m_nte_HaDNote.setDouble(value);
+  }
+  public double getHaDNote() {
+    return m_nte_HaDNote.getDouble(0.0);
+  }
+
+  public void setTimeLeft(boolean value) {
+    m_nte_TimeLeft.setBoolean(value);
+  }
+  public boolean getTimeLeft() {
+    return m_nte_TimeLeft.getBoolean(true);
+  }
 }
