@@ -46,6 +46,7 @@ def parse_file(input_file, output_file):
 
       # getters and setters time :sunglasses:
       ShuffleboardFunctions.addGettersAndSetters(output_file, variableData)
+      ShuffleboardFunctions.addCustomFunctions(input_file, output_file)
 
       output_file.write("}\n")
   except IOError:
