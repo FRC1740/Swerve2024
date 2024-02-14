@@ -13,9 +13,9 @@ LeftHornSpeed = 0
 LeftHornSpeed.size = {2, 1}
 LeftHornSpeed.pos = {4, 3}
 
-HornSpeedSetter = 0
-HornSpeedSetter.widget = kNumberSlider
-HornSpeedSetter.properties = {min, 0, max, 4000}
+HornTargetSpeed = 0
+HornTargetSpeed.widget = kNumberSlider
+HornTargetSpeed.properties = {min, 0, max, 4000}
 
 -- should add PID template
 -- PID = HornConstants.kPID
@@ -43,9 +43,9 @@ IntakeFromHornMode = false
 IntakeFromHornMode.size = {1, 1}
 IntakeFromHornMode.pos = {8, 3}
 
-AmpVelocity = HornConstants.kHornAmpShotMotorRPM
-AmpVelocity.widget = kNumberSlider
-AmpVelocity.properties = {min, 0, max, 600}
+AmpTargetSpeed = HornConstants.kHornAmpShotMotorRPM
+AmpTargetSpeed.widget = kNumberSlider
+AmpTargetSpeed.properties = {min, 0, max, 600}
 
 DeflectorSetpoint = 0
 DeflectorSetpoint.widget = kNumberSlider

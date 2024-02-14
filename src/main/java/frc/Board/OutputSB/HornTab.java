@@ -18,14 +18,14 @@ public class HornTab {
 
   GenericEntry m_nte_RightHornSpeed;
   GenericEntry m_nte_LeftHornSpeed;
-  GenericEntry m_nte_HornSpeedSetter;
+  GenericEntry m_nte_HornTargetSpeed;
   GenericEntry m_nte_P;
   GenericEntry m_nte_I;
   GenericEntry m_nte_D;
   GenericEntry m_nte_FF;
   GenericEntry m_nte_RightVelocityOffset;
   GenericEntry m_nte_IntakeFromHornMode;
-  GenericEntry m_nte_AmpVelocity;
+  GenericEntry m_nte_AmpTargetSpeed;
   GenericEntry m_nte_DeflectorSetpoint;
   GenericEntry m_nte_DeflectorEncoder;
 
@@ -53,7 +53,7 @@ public class HornTab {
       .withSize(2, 1)
       .withPosition(4, 3)
       .getEntry();
-    m_nte_HornSpeedSetter = m_sbt_HornTab.add("HornSpeedSetter", 0)
+    m_nte_HornTargetSpeed = m_sbt_HornTab.add("HornTargetSpeed", 0)
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withProperties(Map.of("min", 0, "max", 4000))
       .getEntry();
@@ -81,7 +81,7 @@ public class HornTab {
       .withSize(1, 1)
       .withPosition(8, 3)
       .getEntry();
-    m_nte_AmpVelocity = m_sbt_HornTab.add("AmpVelocity", HornConstants.kHornAmpShotMotorRPM)
+    m_nte_AmpTargetSpeed = m_sbt_HornTab.add("AmpTargetSpeed", HornConstants.kHornAmpShotMotorRPM)
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withProperties(Map.of("min", 0, "max", 600))
       .getEntry();
@@ -107,11 +107,11 @@ public class HornTab {
     return m_nte_LeftHornSpeed.getDouble(0);
   }
 
-  public void setHornSpeedSetter(double value) {
-    m_nte_HornSpeedSetter.setDouble(value);
+  public void setHornTargetSpeed(double value) {
+    m_nte_HornTargetSpeed.setDouble(value);
   }
-  public double getHornSpeedSetter() {
-    return m_nte_HornSpeedSetter.getDouble(0);
+  public double getHornTargetSpeed() {
+    return m_nte_HornTargetSpeed.getDouble(0);
   }
 
   public void setP(double value) {
@@ -156,11 +156,11 @@ public class HornTab {
     return m_nte_IntakeFromHornMode.getBoolean(false);
   }
 
-  public void setAmpVelocity(double value) {
-    m_nte_AmpVelocity.setDouble(value);
+  public void setAmpTargetSpeed(double value) {
+    m_nte_AmpTargetSpeed.setDouble(value);
   }
-  public double getAmpVelocity() {
-    return m_nte_AmpVelocity.getDouble(HornConstants.kHornAmpShotMotorRPM);
+  public double getAmpTargetSpeed() {
+    return m_nte_AmpTargetSpeed.getDouble(HornConstants.kHornAmpShotMotorRPM);
   }
 
   public void setDeflectorSetpoint(double value) {

@@ -14,6 +14,7 @@ output_directory = "src/main/java/frc/Board/OutputSB/"
   # add setting to the value of other widget
   # ie. widget1 = widget2
   # add a outputsb cache and if the file does not match, it will update the source sb file
+  # HornTargetSpeed fix this
 def main():
   # check all .sb files in the source directory
   for root, dirs, files in os.walk(source_directory):
