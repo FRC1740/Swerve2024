@@ -50,13 +50,9 @@ def parse_file(input_file, output_file):
 
       ShuffleboardTemplate.addMainClass(output_file, fileName)
       ShuffleboardVariables.addVariablesDeclarations(output_file, variableData, fileName)
-      #TODO: add custom variables
-      # var.declaration = "custom declaration"
-
+      
       ShuffleboardTemplate.addInit(output_file, fileName)
       ShuffleboardVariables.addVariables(output_file, fileName, variableData)
-      #TODO: add custom variables
-      # var.init = "custom init"
 
       # getters and setters time :sunglasses:
       ShuffleboardFunctions.addGettersAndSetters(output_file, variableData)
