@@ -8,7 +8,6 @@ source_directory = "src/main/java/frc/Board/SourceSB/"
 output_directory = "src/main/java/frc/Board/OutputSB/"
 
   #TODO: add shorthand imports so HornContants expands to frc.robot.HornConstants
-  # = in addCommand breaking the variables
   # add a warning if the shorthand fails // WARNING: shorthand import failed
   #add constructor arguments for complex widgets so new Mechanism(0, 0) works
   # add setting to the value of other widget
@@ -50,7 +49,7 @@ def parse_file(input_file, output_file):
 
       ShuffleboardTemplate.addMainClass(output_file, fileName)
       ShuffleboardVariables.addVariablesDeclarations(output_file, variableData, fileName)
-      
+
       ShuffleboardTemplate.addInit(output_file, fileName)
       ShuffleboardVariables.addVariables(output_file, fileName, variableData)
 
