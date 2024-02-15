@@ -91,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
     }, new Pose2d());
     
   //Vision
-  // PhotonVision m_photonVision = m_robotShared.getPhotonVision();
+  PhotonVision m_photonVision;
   
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
@@ -111,6 +111,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    m_photonVision = m_robotShared.getPhotonVision();
     AutoBuilder.configureHolonomic(
       this::getPose, 
       this::resetOdometry, 
@@ -134,7 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
     //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
     // }
 
-    // //Odometry + Vision measurement
+    // // //Odometry + Vision measurement
     // PoseEstimator.update(  
     //   getRotation2d(),
     //   new SwerveModulePosition[] {
