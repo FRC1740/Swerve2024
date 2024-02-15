@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.Board.HornTab;
 import frc.robot.constants.CanIds;
-import frc.robot.constants.ModuleConstants;
 import frc.robot.constants.SubsystemConstants.DeflectorConstants;
 
 public class DeflectorSubsytem extends SubsystemBase{
@@ -28,8 +27,8 @@ public class DeflectorSubsytem extends SubsystemBase{
 
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kForward, 16);
-    m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.5f); // Slightly over, because of overshoot
+    m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kForward, DeflectorConstants.kDeflectorMotorForwardSoftLimit);
+    m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kReverse, DeflectorConstants.kDeflectorMotorBackwardSoftLimit); // Slightly over, because of overshoot
     m_DeflectorMotor.setIdleMode(IdleMode.kBrake);
 
     m_deflectorEncoder = m_DeflectorMotor.getEncoder();
@@ -40,17 +39,17 @@ public class DeflectorSubsytem extends SubsystemBase{
     m_deflectorPidController = m_DeflectorMotor.getPIDController();
 
     m_deflectorPidController.setPositionPIDWrappingEnabled(true);
-    m_deflectorPidController.setPositionPIDWrappingMinInput(ModuleConstants.kTurningEncoderPositionPIDMinInput);
-    m_deflectorPidController.setPositionPIDWrappingMaxInput(18);
+    m_deflectorPidController.setPositionPIDWrappingMinInput(DeflectorConstants.kEncoderMinOutput);
+    m_deflectorPidController.setPositionPIDWrappingMaxInput(DeflectorConstants.kEncoderMaxOutput);
 
 
 
-    m_deflectorPidController.setP(.01);
-    m_deflectorPidController.setI(0);
-    m_deflectorPidController.setD(0);
-    m_deflectorPidController.setFF(0);
-    m_deflectorPidController.setOutputRange(ModuleConstants.kTurningMinOutput,
-      ModuleConstants.kTurningMaxOutput);
+    m_deflectorPidController.setP(DeflectorConstants.kP);
+    m_deflectorPidController.setI(DeflectorConstants.kI);
+    m_deflectorPidController.setD(DeflectorConstants.kD);
+    m_deflectorPidController.setFF(DeflectorConstants.kFF);
+    m_deflectorPidController.setOutputRange(DeflectorConstants.kDeflectorMotorMinOutput,
+      DeflectorConstants.kDeflectorMotorMaxOutput);
 
     m_deflectorPidController.setFeedbackDevice(m_deflectorEncoder);
 

@@ -7,16 +7,15 @@ package frc.robot.commands.basic.Horn;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.Board.HornTab;
 import frc.robot.RobotShared;
+import frc.robot.constants.SubsystemConstants.DeflectorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.HornSubsystem;
 
 public class HornAmpShootWithDeflector extends Command {
 
   private HornSubsystem m_horn;
   private HornTab m_HornTab;
-  private DeflectorSubsytem m_deflectorSubsystem;
   private ConveyorSubsystem m_conveyorSubsystem;
   private RobotShared m_robotShared;
 
@@ -27,7 +26,9 @@ public class HornAmpShootWithDeflector extends Command {
     m_robotShared = RobotShared.getInstance();
     m_HornTab = HornTab.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
-    m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
+    // This is needed to make sure the deflector is initialized, 
+    // but because it is not used, it is not stored in a variable
+    m_robotShared.getDeflectorSubsystem(); 
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     addRequirements(m_horn);
   }
@@ -49,25 +50,25 @@ public class HornAmpShootWithDeflector extends Command {
     }
 
     if(startingTime + 50 > currentTime){ // run for .25 second
-      m_HornTab.setDeflectorSetpoint(3);
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
 
     }else if(startingTime + 1500 > currentTime){
       // do nothing and keep at .3
-      m_HornTab.setDeflectorSetpoint(3);
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
     }else if(startingTime + 1750 > currentTime){ // run for .25 second
-      m_HornTab.setDeflectorSetpoint(18);
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
 
     }else if(startingTime + 2000 > currentTime){ // run for .25 second
-      m_HornTab.setDeflectorSetpoint(0);
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
     }
   }
 
-  // Called once the command ends or is interrupted.
+  // Called once the command ends or is interrupted
   @Override
   public void end(boolean interrupted) {
     m_horn.setRpmSetpoint(0.0);
     m_conveyorSubsystem.setConveyorSpeed(0.0);
-    m_deflectorSubsystem.setDeflectorSpeed(0.0);
+    m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
   }
 
   // Returns true when the command should end.
