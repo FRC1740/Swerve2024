@@ -39,6 +39,7 @@ def parse_file(input_file, output_file):
       # reads variables from .sb files and returns an array with data
       # [0] is name [1] is type [2] is value [3] is size [4] is positon 
       # [5] is widget [6] is wiget properties (array of 4) [7] is whether the widget is a complex widget
+      # [8] is the declaration [9] is the initilizer
       # size and position are tuples, they are arrays
       variableData = ShuffleboardVariables.getVariableData(input_file) 
       fileName = output_file.name.split("/")[-1].split(".")[0]

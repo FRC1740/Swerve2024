@@ -24,11 +24,20 @@ HasRotationControl = false
 HasRotationControl.size = {1, 1}
 HasRotationControl.pos = {4, 3}
 
--- test = false
--- test.declaration = "boolean[] test"
--- test.init - "test = new boolean[SensorConstants.kDIOPorts];"
--- test.size = {1, 1}
--- test.pos = {4, 3}
+test.declaration = "boolean[] test;"
+test.init = "test = new boolean[3];"
+test.size = {1, 1}
+test.pos = {4, 3}
+
+test.addCommand (
+  public boolean[] getTest() {
+    return test;
+  }
+
+  public void setTest(boolean[] booleans) {
+    test = booleans;
+  }
+)
 
 Field.addCommand (
   public Pose2d getRobotPose() {

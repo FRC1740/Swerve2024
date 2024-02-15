@@ -5,8 +5,9 @@ def addGettersAndSetters(output_file, variableData):
     variable_value = variable[2]
     variable_type = variable[1]
     variable_isComplexWidget = variable[7]
+    variable_declaration = variable[8]
 
-    if variable_isComplexWidget: # complex widgets don't have getters and setters
+    if variable_isComplexWidget or variable_declaration: # complex widgets don't have getters and setters
       continue
     capitalizedType = variable_type.capitalize()
     capitalizedName = variable_name[0].capitalize() + variable_name[1:]
