@@ -1,0 +1,34 @@
+imports = {
+  "frc.robot.constants.SensorConstants",
+  "edu.wpi.first.wpilibj.DriverStation"
+}
+
+filledPorts.declaration = "boolean[] filledPorts;"
+filledPorts.init = "filledPorts = new boolean[3];"
+
+SensorStates.declaration = "GenericEntry[] m_nte_SensorStates;"
+SensorStates.init = "m_nte_SensorStates = new GenericEntry[SensorConstants.kDIOPorts];"
+
+SensorStates.addCommand (
+  public Boolean getSensorStatePort(int port) {
+    return m_nte_SensorStates[port].getBoolean(true);
+  }
+
+  public void setSensorStatePort(Boolean value, int port) {
+    m_nte_SensorStates[port].setBoolean(value);
+  }
+
+  public void addSensorStatePort(int port) {
+    if(filledPorts[port] != true){
+      filledPorts[port] = true;
+      m_nte_SensorStates[port] = m_sbt_SensorTab.add("Port " + port +" DIO", true)
+        .withSize(2, 1).withPosition((port * 2), 1).getEntry();
+    }else{
+      DriverStation.reportError("Port " + port + " could not be created, port already exists!", false);
+    }
+  }
+  public boolean sensorStatePortExists(int port) {
+    return filledPorts[port];
+  }
+)
+

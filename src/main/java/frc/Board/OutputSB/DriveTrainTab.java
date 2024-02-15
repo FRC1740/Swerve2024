@@ -60,7 +60,7 @@ public class DriveTrainTab {
       .withSize(1, 1)
       .withPosition(4, 3)
       .getEntry();
-    test = new boolean[3];;
+    test = new boolean[3];
   }
 
   public void setIMU_ZAngle(double value) {

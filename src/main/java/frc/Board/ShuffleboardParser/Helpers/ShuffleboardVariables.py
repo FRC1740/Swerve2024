@@ -10,7 +10,7 @@ def addVariables(output_file, filename, variables):
     variable_init = variable[9]
   
     if variable_init:
-      output_file.write("    " + variable_init + ";\n")
+      output_file.write("    " + variable_init + "\n")
       continue
 
     if variable_isComplexWidget:
@@ -65,8 +65,19 @@ def getVariableData(input_file):
   variable_isComplexWidget = False
   variable_declaration = "" #
   variable_init = "" # 
+  reading_function = False
   for line in input_file:
     line = line.strip()  # Remove leading/trailing whitespaces including '\n'
+
+    if reading_function: # skip addFunction lines
+      if line.strip().startswith(")"):
+        reading_function = False
+      else:
+        continue
+
+    if ".addCommand" in line: # skip addFunction lines
+      reading_function = True 
+      continue
 
     # Skip comments, non-variable lines, and imports
     if line.startswith("--") or "=" not in line or "imports" in line:
@@ -133,11 +144,17 @@ def getVariableData(input_file):
 
     if ".declaration" in line: # .type is stripped from the variable name in variable_type
       variable_declaration = '='.join(parts[1:]).strip() # gets everything after the '='
-      variable_declaration = variable_declaration.replace("\"", "")
+      if variable_declaration.startswith("\""):
+        variable_declaration = variable_declaration[1:] # remove the first quote
+      if variable_declaration.endswith("\""):
+        variable_declaration = variable_declaration[:-1] # remove the last quote
 
     if ".init" in line: # .type is stripped from the variable name in variable_type
       variable_init = '='.join(parts[1:]).strip() # gets everything after the '='
-      variable_init = variable_init.replace("\"", "")
+      if variable_init.startswith("\""):
+        variable_init = variable_init[1:] # remove the first quote
+      if variable_init.endswith("\""):
+        variable_init = variable_init[:-1] # remove the last quote
 
     if ".widget" in line: # .type is stripped from the variable name in variable_type
       variable_widget = parts[1].strip()

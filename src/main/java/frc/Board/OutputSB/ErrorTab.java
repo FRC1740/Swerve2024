@@ -1,24 +1,22 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.Board;
+package frc.Board.OutputSB;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-public class ErrorTab{
-  Shuffleboard m_sb;
+import edu.wpi.first.wpilibj.DriverStation;
 
-  ShuffleboardTab m_sbt_Errors;
+
+public class ErrorTab {
+
+  ShuffleboardTab m_sbt_ErrorTab;
 
   GenericEntry m_nte_Errors;
-
-  // private String ErrorsLastFrame = "";
-  private String CurrentErrors = "";
-  private String UsedNames = "";
-
+  private String CurrentErrors;
+  private String UsedNames;
 
   private static ErrorTab instance = null;
 
@@ -34,30 +32,25 @@ public class ErrorTab{
   }
 
   private void initShuffleboardTab() {
-    // Create and get reference to the tab
-    m_sbt_Errors = Shuffleboard.getTab("Errors");
-
-    m_nte_Errors = m_sbt_Errors.add("Errors", CurrentErrors).getEntry();
+    // Create and get reference to SB tab
+    m_sbt_ErrorTab = Shuffleboard.getTab("ErrorTab");
+    m_nte_Errors = m_sbt_ErrorTab.add("Errors", "")
+      .getEntry();
+    CurrentErrors = "";
+    UsedNames = "";
   }
-  public void update() {
-    // // Check all errors previously
-    // // If there is an error last frame that no longer exists remove it
-    // String[] lastFrameSubErrors = ErrorsLastFrame.split(":");
 
-    // // Loop over the substrings
-    // for (String lastFrameSubError : lastFrameSubErrors) {
-    //   if(!errorExists(CurrentErrors, lastFrameSubError)){
-    //     m_nte_Errors = m_sbt_Errors.add("Drive", "").getEntry();
-    //   }
-    // }
-    // ErrorsLastFrame = CurrentErrors;
-    // CurrentErrors = "";
+  public void setErrors(String value) {
+    m_nte_Errors.setString(value);
+  }
+  public String getErrors() {
+    return m_nte_Errors.getString("");
   }
 
   public void logError(String nameOfCaller, String newError) {
     if(!UsedNames.contains(nameOfCaller)){
       UsedNames += nameOfCaller;
-      m_nte_Errors = m_sbt_Errors.add(nameOfCaller, newError).getEntry();
+      m_nte_Errors = m_sbt_ErrorTab.add(nameOfCaller, newError).getEntry();
       DriverStation.reportError(newError, false);
     }
   }

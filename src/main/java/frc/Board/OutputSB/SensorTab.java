@@ -1,24 +1,23 @@
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.Board;
+package frc.Board.OutputSB;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 import frc.robot.constants.SensorConstants;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
+
 public class SensorTab {
-  Shuffleboard m_sb;
 
   ShuffleboardTab m_sbt_SensorTab;
 
+  boolean[] filledPorts;
   GenericEntry[] m_nte_SensorStates;
-
-  private boolean[] filledPorts;
-
 
   private static SensorTab instance = null;
 
@@ -34,10 +33,10 @@ public class SensorTab {
   }
 
   private void initShuffleboardTab() {
-    // Create and get reference to the tab
-    m_sbt_SensorTab = Shuffleboard.getTab("Sensor");
+    // Create and get reference to SB tab
+    m_sbt_SensorTab = Shuffleboard.getTab("SensorTab");
+    filledPorts = new boolean[3];
     m_nte_SensorStates = new GenericEntry[SensorConstants.kDIOPorts];
-    filledPorts = new boolean[SensorConstants.kDIOPorts];
   }
   public Boolean getSensorStatePort(int port) {
     return m_nte_SensorStates[port].getBoolean(true);
