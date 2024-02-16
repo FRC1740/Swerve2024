@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0809526665287597,
-        "y": 7.466516618220438
+        "x": 3.4273417435723763,
+        "y": 7.3263694860723065
       },
       "isLocked": false,
       "linkedName": "LeftNoteClose"
@@ -45,5 +45,5 @@
   "reversed": false,
   "folder": "SpeakerMiddle",
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

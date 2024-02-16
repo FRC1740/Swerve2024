@@ -28,6 +28,10 @@ import frc.robot.constants.SubsystemConstants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -134,16 +138,8 @@ public class DriveSubsystem extends SubsystemBase {
     //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
     //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
     // }
+    // updatePoseEstimater();
 
-    // // //Odometry + Vision measurement
-    // PoseEstimator.update(  
-    //   getRotation2d(),
-    //   new SwerveModulePosition[] {
-    //     m_frontLeft.getPosition(),
-    //     m_frontRight.getPosition(),
-    //     m_rearLeft.getPosition(),
-    //     m_rearRight.getPosition()
-    //   });
     
     //Just odometry
     m_odometry.update(
@@ -157,7 +153,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     //Pubilsh pose data to network tables
     // PosePublisher.set(new Pose2d[]{
-    //   getPose(), //Odometry pose
     //   (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
     //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
     // });
@@ -168,10 +163,31 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleStatePublisher.set(getModuleStates());
     DesiredSwerveModuleStatePublisher.set(getDesiredSwerveModuleStates());
     
-    DriveTab.setRobotPose(getPose());
+    // DriveTab.setRobotPose(getPose());
     // DriveTab.setTrajectory(examplePath);
     DriveTab.setIMU_PitchAngle((double) m_gyro.getPitch());
     DriveTab.setIMU_ZAngle((double) m_gyro.getYaw());
+  }
+
+  public void updatePoseEstimater(){
+
+    PoseEstimator.update(  
+      getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+      });
+
+    
+    Optional<EstimatedRobotPose> result = m_photonVision.getVisionPoseEstimationResult();
+
+    if (result.isPresent()){
+      EstimatedRobotPose visionPose = result.get();
+      PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
+    }
+    DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
   }
 
   /**

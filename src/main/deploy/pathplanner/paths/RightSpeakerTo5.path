@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.053562945088853,
-        "y": 2.3447921664361853
+        "x": 0.7125255176436281,
+        "y": 4.457747721050998
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.301070565104093,
-        "y": 1.5842564370313925
+        "x": 0.7907347435065242,
+        "y": 2.7083433287236947
       },
       "isLocked": false,
-      "linkedName": "4"
+      "linkedName": "RightSpeaker"
     },
     {
       "anchor": {
-        "x": 5.277699578547306,
-        "y": 1.1267591887035633
+        "x": 8.131297095927525,
+        "y": 0.7730064487906758
       },
       "prevControl": {
-        "x": 6.7348140622207175,
-        "y": 1.7845005597418604
+        "x": 6.3817739348441656,
+        "y": 0.1315363973320549
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "InsideRight"
+      "linkedName": "5"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.3084210099484,
+    "rotation": 174.7765582988882,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "RightInsdeBounds",
-  "previewStartingState": null,
-  "useDefaultConstraints": false
+  "folder": "SpeakerRight",
+  "previewStartingState": {
+    "rotation": 119.94402624971872,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
 }

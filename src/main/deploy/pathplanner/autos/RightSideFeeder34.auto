@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8369951739903483,
-      "y": 6.605621289946283
+      "x": 1.266284842754871,
+      "y": 2.0595096143896
     },
-    "rotation": -122.52702522923997
+    "rotation": 95.09129309429095
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSpeaker"
+            "name": "ShootAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightSide 3"
           }
         },
         {
@@ -24,13 +30,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SpeakerLeftToLeftNote"
+                  "pathName": "34 feeder"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "GroundIntake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "GroundIntake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShootAmp"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -43,7 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftNoteToSpeakerLeft"
+                  "pathName": "4RightToInside"
                 }
               },
               {
@@ -58,7 +77,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSpeaker"
+            "name": "ShootAmp"
           }
         }
       ]
