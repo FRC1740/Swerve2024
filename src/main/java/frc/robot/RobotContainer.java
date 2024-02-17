@@ -38,7 +38,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -53,7 +52,7 @@ public class RobotContainer {
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
-  PathPlannerPath m_ExamplePath = PathPlannerPath.fromPathFile("Example Path");
+  // PathPlannerPath m_ExamplePath = PathPlannerPath.fromPathFile("Example Path");
 
   // The driver's controller
   CommandXboxController m_driverController;
@@ -86,23 +85,23 @@ public class RobotContainer {
       // The left stick controls translation of the robot.
       // Turning is controlled by the X axis of the right stick.
       // If any changes are made to this, please update DPad driver controls
-      if(OIConstants.kUseFieldRelitiveRotation){
-        m_robotDrive.setDefaultCommand(new RunCommand(() -> 
-          new AlignToJoystickAndDrive(
-            m_driverController.getRightX(),
-            m_driverController.getRightY(),
-            true, true, 
-            (-MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) + 
-            -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband) != 0) ? 1 : 0).execute(), m_robotDrive));
-      }else{
-        m_robotDrive.setDefaultCommand(
-          new RunCommand(() -> m_robotDrive.drive(
-              -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-              -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-              -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-              true, true, OIConstants.kUseQuadraticInput),
-            m_robotDrive));
-        }
+    if(OIConstants.kUseFieldRelitiveRotation){
+      m_robotDrive.setDefaultCommand(new RunCommand(() -> 
+        new AlignToJoystickAndDrive(
+          m_driverController.getRightX(),
+          m_driverController.getRightY(),
+          true, true, 
+          (-MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) + 
+          -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband) != 0) ? 1 : 0).execute(), m_robotDrive));
+    }else{
+      m_robotDrive.setDefaultCommand(
+        new RunCommand(() -> m_robotDrive.drive(
+            -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+            -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+            true, true, OIConstants.kUseQuadraticInput),
+          m_robotDrive));
+    }
     m_deflectorSubsystem.setDefaultCommand(
       new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
       m_deflectorSubsystem));

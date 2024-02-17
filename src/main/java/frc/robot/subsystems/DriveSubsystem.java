@@ -115,7 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    m_photonVision = m_robotShared.getPhotonVision();
+    // m_photonVision = m_robotShared.getPhotonVision();
     AutoBuilder.configureHolonomic(
       this::getPose, 
       this::resetOdometry, 
