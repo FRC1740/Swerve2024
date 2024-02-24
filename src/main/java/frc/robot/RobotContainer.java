@@ -24,7 +24,6 @@ import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
-import frc.robot.commands.basic.Horn.HornShootVision;
 import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 // import frc.utils.OnTheFlyPathing;
@@ -80,12 +79,13 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    // flightStickControls();
 
     // Configure default commands
       // The left stick controls translation of the robot.
       // Turning is controlled by the X axis of the right stick.
       // If any changes are made to this, please update DPad driver controls
-    if(OIConstants.kUseFieldRelitiveRotation){
+    if(OIConstants.kUseFieldRelitiveRotation){ //TODO: fix this
       m_robotDrive.setDefaultCommand(new RunCommand(() -> 
         new AlignToJoystickAndDrive(
           m_driverController.getRightX(),
@@ -98,7 +98,7 @@ public class RobotContainer {
         new RunCommand(() -> m_robotDrive.drive(
             -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-            -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+            -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband),
             true, true, OIConstants.kUseQuadraticInput),
           m_robotDrive));
     }
@@ -116,6 +116,7 @@ public class RobotContainer {
     m_robotShared.getHornSubsystem();
     m_robotShared.getConveyorSubsystem();
     m_robotShared.getGroundIntakeSubsystem();
+    m_robotShared.getPhotonVision();
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
     DriverTab.getInstance();
@@ -170,9 +171,9 @@ public class RobotContainer {
     //     autoChooser.getSelected()
     //   ));
     m_driverController.b()
-      .whileTrue(
-        new HornShootVision()
-      );
+      .whileTrue(new RunCommand(
+        () -> m_robotShared.getHornSubsystem().Shoot(.5),
+        m_robotDrive));
     m_driverController.a()
       .whileTrue(
         new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-.3),
@@ -212,6 +213,38 @@ public class RobotContainer {
         .onTrue(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
+  }
+
+  void flightStickControls(){
+    m_driverController.x()
+      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+
+
+    m_driverController.button(22)
+      .whileTrue(
+        new HornAmpShootWithDeflector()
+      );
+      m_driverController.button(5)
+    .whileTrue( 
+      new SequentialCommandGroup(
+        new GroundIntake(1),
+        new HornIntake(-0.2))
+    );
+
+    m_driverController.a()
+      .whileTrue( 
+        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
+      );
+    m_driverController.button(10)
+      .whileTrue(
+        new GroundEject(-.3)
+      );
+    m_driverController.rightBumper()
+      .whileTrue( 
+        new SequentialCommandGroup(
+          new GroundIntake(1),
+          new HornIntake(-0.2))
+      );
   }
 
   void testingControls(){

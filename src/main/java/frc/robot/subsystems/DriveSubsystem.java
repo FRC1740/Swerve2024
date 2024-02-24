@@ -232,7 +232,7 @@ public class DriveSubsystem extends SubsystemBase {
     if(quadraticInput){
       xSpeed = quadraticControlFalloff(xSpeed);
       ySpeed = quadraticControlFalloff(ySpeed);
-      rot = quadraticControlFalloff(rot);
+      // rot = quadraticControlFalloff(rot);
     }
 
     if (rateLimit) {
@@ -312,7 +312,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
-    return Math.signum(input) * Math.abs((.9 * Math.pow(input, 2))) + (.1 * input);
+    return Math.signum(input) * Math.abs((1 * Math.pow(input, 2))) + (0 * input);
   }
 
   public void setXFormation() {
@@ -379,6 +379,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
+    // m_gyro.setAngleAdjustment(m_currentRotation);
   }
 
 //Gets gyro in form of Rotation2d

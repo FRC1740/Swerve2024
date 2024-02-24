@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.Board.DriverTab;
 import frc.Board.SensorTab;
+// import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 
 public class SensorSubsystem extends SubsystemBase{
@@ -16,6 +19,9 @@ public class SensorSubsystem extends SubsystemBase{
   private SensorTab m_sensorTab;
   private DriverTab m_driverTab;
   private boolean hasNote = false;
+  // private RobotShared m_robotShared = RobotShared.getInstance();
+  // private CommandXboxController m_driverController = m_robotShared.getDriverController();
+  // private double timeOfLastNote = System.currentTimeMillis() + SensorConstants.kTimeToRumbleController + 1; // When enabled, it will not be true
 
   public SensorSubsystem() {
     m_breakBeamSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
@@ -26,6 +32,8 @@ public class SensorSubsystem extends SubsystemBase{
 
   @Override
   public void periodic() {
+    // boolean previousNoteState = hasNote;
+
     hasNote = false;
     // Loop over every port and update them if they exist
     for(int index = 0; index < SensorConstants.kDIOPorts; index++){
@@ -36,6 +44,20 @@ public class SensorSubsystem extends SubsystemBase{
         }
       }
     }
+
+    // if(previousNoteState != hasNote){
+    //   timeOfLastNote = System.currentTimeMillis();
+    // }
+
+    // if(timeOfLastNote > System.currentTimeMillis() - SensorConstants.kTimeToRumbleController){
+    //   // the HID is the controller, commandXbox can't trust us with rumble apparently and it wont extend so I have to get HID
+    //   m_driverController.getHID().setRumble(RumbleType.kLeftRumble, SensorConstants.kRumbleStrength);
+    //   m_driverController.getHID().setRumble(RumbleType.kRightRumble, SensorConstants.kRumbleStrength);
+    // }else{
+    //   m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0);
+    //   m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0);
+    // }
+
     m_driverTab.setHasNote(hasNote);
   }
   /**

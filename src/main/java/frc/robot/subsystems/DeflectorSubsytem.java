@@ -23,6 +23,15 @@ public class DeflectorSubsytem extends SubsystemBase{
 
   /** Creates a new GroundIntake. */
   public DeflectorSubsytem() {
+    m_DeflectorMotor.restoreFactoryDefaults();
+
+
+    m_deflectorEncoder = m_DeflectorMotor.getEncoder();
+    m_deflectorPidController = m_DeflectorMotor.getPIDController();
+    m_deflectorPidController.setFeedbackDevice(m_deflectorEncoder);
+
+    m_deflectorEncoder.setPositionConversionFactor(DeflectorConstants.kPostionConversionFactor);
+    m_deflectorEncoder.setPosition(0);
     m_DeflectorMotor.setInverted(false);
 
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
@@ -30,20 +39,11 @@ public class DeflectorSubsytem extends SubsystemBase{
     m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kForward, DeflectorConstants.kDeflectorMotorForwardSoftLimit);
     m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kReverse, DeflectorConstants.kDeflectorMotorBackwardSoftLimit); // Slightly over, because of overshoot
     m_DeflectorMotor.setIdleMode(IdleMode.kBrake);
-
-    m_deflectorEncoder = m_DeflectorMotor.getEncoder();
-    m_deflectorEncoder.setPosition(0);
     m_DeflectorMotor.setSmartCurrentLimit(DeflectorConstants.kDeflectorMotorCurrentLimit);
-    m_DeflectorMotor.burnFlash(); 
 
-    m_deflectorPidController = m_DeflectorMotor.getPIDController();
-
-    m_deflectorPidController.setPositionPIDWrappingEnabled(true);
-    m_deflectorPidController.setPositionPIDWrappingMinInput(DeflectorConstants.kEncoderMinOutput);
+    m_deflectorPidController.setPositionPIDWrappingEnabled(false);
     m_deflectorPidController.setPositionPIDWrappingMaxInput(DeflectorConstants.kEncoderMaxOutput);
-
-
-
+    m_deflectorPidController.setPositionPIDWrappingMinInput(DeflectorConstants.kEncoderMinOutput);
     m_deflectorPidController.setP(DeflectorConstants.kP);
     m_deflectorPidController.setI(DeflectorConstants.kI);
     m_deflectorPidController.setD(DeflectorConstants.kD);
@@ -51,7 +51,7 @@ public class DeflectorSubsytem extends SubsystemBase{
     m_deflectorPidController.setOutputRange(DeflectorConstants.kDeflectorMotorMinOutput,
       DeflectorConstants.kDeflectorMotorMaxOutput);
 
-    m_deflectorPidController.setFeedbackDevice(m_deflectorEncoder);
+    m_DeflectorMotor.burnFlash(); // NOTE: Burn flash has to be last for pid to work
 
     m_hornTab = HornTab.getInstance();
   }

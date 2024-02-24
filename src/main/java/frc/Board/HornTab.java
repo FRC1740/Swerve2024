@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.constants.SubsystemConstants.DeflectorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 
 public class HornTab {
@@ -62,7 +63,7 @@ public class HornTab {
 
     m_nte_HornSpeedSetter = m_sbt_Horn.add("Horn Speed Setter", 0.0)
       .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
+      .withProperties(Map.of("min", 0, "max", HornConstants.kMaxHornRPM)) // specify widget properties here
       .getEntry();
     m_nte_P = m_sbt_Horn.add("P", HornConstants.kP)
       .withSize(1, 1).withPosition(8, 1).getEntry();
@@ -78,7 +79,7 @@ public class HornTab {
       .withProperties(Map.of("min", 0, "max", 400)) // specify widget properties here
       .getEntry();
     
-    m_nte_FF = m_sbt_Horn.add("FF", 0)
+    m_nte_FF = m_sbt_Horn.add("FF", HornConstants.kFF)
       .withSize(1, 1).withPosition(8, 4).getEntry();
 
     m_nte_IntakeFromHornMode = m_sbt_Horn.add("IntakeFromHorn", false)
@@ -91,7 +92,7 @@ public class HornTab {
 
     m_nte_DeflectorSetpoint = m_sbt_Horn.add("Deflector Setpoint", 0)
       .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", 0, "max", 18)) // specify widget properties here
+      .withProperties(Map.of("min", 0, "max", DeflectorConstants.kEncoderMaxOutput)) // specify widget properties here
       .getEntry();
     m_nte_DeflectorEncoder = m_sbt_Horn.add("Deflector Encoder", 0)
       .getEntry();
@@ -120,19 +121,33 @@ public class HornTab {
     m_nte_LeftHornSpeed.setDouble(truncate(value, 2));
   }
 
+  public void setP(double value){
+    m_nte_P.setDouble(value);
+  }
+  public void setI(double value){
+    m_nte_I.setDouble(value);
+  }
+  public void setD(double value){
+    m_nte_D.setDouble(value);
+  }
+  public void setFF(double value){
+    m_nte_FF.setDouble(value);
+  }
+
+
   public double getP(){
-    return m_nte_P.getDouble(0);
+    return m_nte_P.getDouble(HornConstants.kP);
   }
 
   public double getI(){
-    return m_nte_I.getDouble(0);
+    return m_nte_I.getDouble(HornConstants.kI);
   }
   public double getD(){
-    return m_nte_D.getDouble(0);
+    return m_nte_D.getDouble(HornConstants.kD);
   }
 
   public double getFF(){
-    return m_nte_FF.getDouble(0);
+    return m_nte_FF.getDouble(HornConstants.kFF);
   }
 
   public double getRightVelocitySetPoint(){

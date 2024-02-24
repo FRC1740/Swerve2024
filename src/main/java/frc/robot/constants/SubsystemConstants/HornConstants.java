@@ -16,11 +16,12 @@ public class HornConstants {
 
   public static final ControlType kDefaultControlType = ControlType.kVelocity;
 
-  public static final double kMaxHornRPM = 2800; // TODO: rough estimate
+  public static final double kMaxHornRPM = 7000; // TODO: rough estimate
 
-  public static final double kP = 0;
+  public static final double kP = 0.0001;
   public static final double kI = 0;
-  public static final double kD = 0;
+  public static final double kD = 0.0001;
+  public static final double kFF = 0.0002;
 
 
   public static final int kShootConveyorDelay = 250; // TODO: tune

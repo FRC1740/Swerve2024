@@ -16,12 +16,12 @@ public class CanIds {
   public static final int kRearLeftTurningCanId = 8;
   
   
-  public static final int kGroundIntakeMotorPort = 10;
+  public static final int kGroundIntakeMotorPort = 13;
   
   public static final int kConveyorMotorPort = 11;
 
-  public static final int kHornLeftMotorCanId = 12;
-  public static final int kHornRightMotorCanId = 13;
+  public static final int kHornLeftMotorCanId = 10;
+  public static final int kHornRightMotorCanId = 9;
 
   public static final int kDeflectorMotorCanId = 17;
 }

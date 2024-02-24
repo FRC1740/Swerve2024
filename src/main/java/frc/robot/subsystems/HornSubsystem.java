@@ -31,11 +31,21 @@ public class HornSubsystem extends SubsystemBase {
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
+    m_HornLeftMotor.restoreFactoryDefaults();
+    m_HornRightMotor.restoreFactoryDefaults();
+    m_HornTab.setP(HornConstants.kP);
+    m_HornTab.setI(HornConstants.kI);
+    m_HornTab.setD(HornConstants.kD);
+    m_HornTab.setFF(HornConstants.kFF);
+
+    m_HornLeftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_HornRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
     m_HornRightMotor.setInverted(false);
     m_HornLeftMotor.setInverted(true);
     m_HornLeftMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
     m_HornRightMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
-
+    
     m_HornLeftEncoder = m_HornLeftMotor.getEncoder();
     m_HornRightEncoder = m_HornRightMotor.getEncoder();
     m_HornLeftEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
