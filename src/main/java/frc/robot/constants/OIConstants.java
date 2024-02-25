@@ -16,7 +16,7 @@ public final class OIConstants {
    * <br></br>
    * Until it reaches the specified angle
   */
-  public static final boolean kUseFieldRelitiveRotation = false;
+  public static final boolean kUseFieldRelativeRotation = false;
 }
 
 

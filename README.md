@@ -66,7 +66,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 `Swerve`
 - [X] Find out why turning motors were turning seemingly randomly and fix it
 - [X] Fix the one random wheel that didn't turn correctly
-- [X] Turn on field relitive control
+- [X] Turn on field relative control
 - [x] Add pathplanning for autos
 - [ ] Auto motor stop on tilt
 - [x] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
