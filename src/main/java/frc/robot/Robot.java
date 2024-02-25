@@ -27,7 +27,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() { // there is no way to disable controller rumbling, here's hoping that wont happen ever (confident)
+  }
 
   @Override
   public void disabledPeriodic() {}

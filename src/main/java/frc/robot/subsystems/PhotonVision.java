@@ -20,6 +20,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Networking.LimelightTable;
 import frc.robot.constants.VisionConstants;
 
 public class PhotonVision extends SubsystemBase {
@@ -29,15 +30,16 @@ public class PhotonVision extends SubsystemBase {
   PhotonPoseEstimator PoseEstimator;
 
   public PhotonVision() {
+    LimelightTable.getInstance();
     cam = new PhotonCamera(VisionConstants.camName);
     try{
-      aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile); }
-    catch(IOException IOE){
+      aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile); 
+    }catch(IOException IOE){
       IOE.printStackTrace();
     }
 
     PoseEstimator = new PhotonPoseEstimator(
-      aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.RobotToCam);
+      aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, VisionConstants.RobotToCam);
   }
 
   @Override
@@ -85,48 +87,48 @@ public class PhotonVision extends SubsystemBase {
 // Returns true if tracking the CENTER tag of a speaker (Red or Blue). Will not return true if only tracking the side tag
   public boolean containsSpeaker(){
     return 
-    containsID(VisionConstants.AprilTagIDs.BlueSpeakerCenter.getID()) || 
-    containsID(VisionConstants.AprilTagIDs.RedSpeakerCenter.getID());
+      containsID(VisionConstants.AprilTagIDs.BlueSpeakerCenter.getID()) || 
+      containsID(VisionConstants.AprilTagIDs.RedSpeakerCenter.getID());
   }
 
 //Returns true if tracking a Source April Tag
   public boolean containsSource(){
     return
-    containsID(VisionConstants.AprilTagIDs.BlueSourceDriverStationClose.getID()) ||
-    containsID(VisionConstants.AprilTagIDs.BlueSourceDriverStationFar.getID()) ||
-    containsID(VisionConstants.AprilTagIDs.RedSourceDriverStationClose.getID()) ||
-    containsID(VisionConstants.AprilTagIDs.RedSourceDriverStationFar.getID());
+      containsID(VisionConstants.AprilTagIDs.BlueSourceDriverStationClose.getID()) ||
+      containsID(VisionConstants.AprilTagIDs.BlueSourceDriverStationFar.getID()) ||
+      containsID(VisionConstants.AprilTagIDs.RedSourceDriverStationClose.getID()) ||
+      containsID(VisionConstants.AprilTagIDs.RedSourceDriverStationFar.getID());
   }
 //Returns true if tracking an Amp April Tag
   public boolean containsAmp(){
     return
-    containsID(VisionConstants.AprilTagIDs.BlueAmp.getID()) ||
-    containsID(VisionConstants.AprilTagIDs.RedAmp.getID());
+      containsID(VisionConstants.AprilTagIDs.BlueAmp.getID()) ||
+      containsID(VisionConstants.AprilTagIDs.RedAmp.getID());
   }
 
 //Returns true if the best target is a speaker april tag (Best target refers to a user-customizable strategy 
 //in PhotonVision for "ranking" targets when there are more than one in view, likely whichever is closest to the center)
   public boolean bestTargetisSpeaker(){
     return 
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSpeakerCenter.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSpeakerSide.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSpeakerCenter.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSpeakerSide.getID();
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSpeakerCenter.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSpeakerSide.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSpeakerCenter.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSpeakerSide.getID();
   }
 
 //Returns true if the best target is a source april tag
   public boolean bestTargetisSource(){
     return
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSourceDriverStationClose.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSourceDriverStationFar.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSourceDriverStationClose.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSourceDriverStationFar.getID();
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSourceDriverStationClose.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueSourceDriverStationFar.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSourceDriverStationClose.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedSourceDriverStationFar.getID();
   }
 
 //Returns true if the best target is an Amp april tag
   public boolean bestTargetisAmp(){
     return 
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueAmp.getID() ||
-    getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedAmp.getID();
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.BlueAmp.getID() ||
+      getBestTarget().getFiducialId() == VisionConstants.AprilTagIDs.RedAmp.getID();
   }
 }

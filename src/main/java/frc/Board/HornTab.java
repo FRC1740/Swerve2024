@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.constants.SubsystemConstants.DeflectorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 
 public class HornTab {
@@ -22,7 +23,12 @@ public class HornTab {
   GenericEntry m_nte_IntakeFromHornMode;
   GenericEntry m_nte_HornSpeedSetter;
 
+  GenericEntry m_nte_DeflectorSetpoint;
+  GenericEntry m_nte_DeflectorEncoder;
+
   GenericEntry m_nte_RightVelocityOffset;
+
+  GenericEntry m_nte_AmpVelocity;
 
   GenericEntry m_nte_P;
   GenericEntry m_nte_I;
@@ -57,7 +63,7 @@ public class HornTab {
 
     m_nte_HornSpeedSetter = m_sbt_Horn.add("Horn Speed Setter", 0.0)
       .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
+      .withProperties(Map.of("min", 0, "max", HornConstants.kMaxHornRPM)) // specify widget properties here
       .getEntry();
     m_nte_P = m_sbt_Horn.add("P", HornConstants.kP)
       .withSize(1, 1).withPosition(8, 1).getEntry();
@@ -73,17 +79,34 @@ public class HornTab {
       .withProperties(Map.of("min", 0, "max", 400)) // specify widget properties here
       .getEntry();
     
-    m_nte_FF = m_sbt_Horn.add("FF", 0)
+    m_nte_FF = m_sbt_Horn.add("FF", HornConstants.kFF)
       .withSize(1, 1).withPosition(8, 4).getEntry();
 
     m_nte_IntakeFromHornMode = m_sbt_Horn.add("IntakeFromHorn", false)
       .withSize(1, 1).withPosition(8, 3).getEntry();
+
+    m_nte_AmpVelocity = m_sbt_Horn.add("AmpShotRPM", HornConstants.kHornAmpShotMotorRPM)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", 0, "max", 600)) // specify widget properties here
+      .getEntry();
+
+    m_nte_DeflectorSetpoint = m_sbt_Horn.add("Deflector Setpoint", 0)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", 0, "max", DeflectorConstants.kEncoderMaxOutput)) // specify widget properties here
+      .getEntry();
+    m_nte_DeflectorEncoder = m_sbt_Horn.add("Deflector Encoder", 0)
+      .getEntry();
+ 
   }
-  public Double getHornMaxSpeed() {
+  public Double getHornTargetSpeed() {
     return m_nte_HornSpeedSetter.getDouble(0.0);
   }
+  
+  public Double getAmpTargetSpeed() {
+    return m_nte_AmpVelocity.getDouble(HornConstants.kHornAmpShotMotorRPM);
+  }
 
-  public void setHornMaxSpeed(Double value) {
+  public void setHornTargetSpeed(Double value) {
     m_nte_HornSpeedSetter.setDouble(value);
   }
   public Double getHornSpeed() {
@@ -98,19 +121,33 @@ public class HornTab {
     m_nte_LeftHornSpeed.setDouble(truncate(value, 2));
   }
 
+  public void setP(double value){
+    m_nte_P.setDouble(value);
+  }
+  public void setI(double value){
+    m_nte_I.setDouble(value);
+  }
+  public void setD(double value){
+    m_nte_D.setDouble(value);
+  }
+  public void setFF(double value){
+    m_nte_FF.setDouble(value);
+  }
+
+
   public double getP(){
-    return m_nte_P.getDouble(0);
+    return m_nte_P.getDouble(HornConstants.kP);
   }
 
   public double getI(){
-    return m_nte_I.getDouble(0);
+    return m_nte_I.getDouble(HornConstants.kI);
   }
   public double getD(){
-    return m_nte_D.getDouble(0);
+    return m_nte_D.getDouble(HornConstants.kD);
   }
 
   public double getFF(){
-    return m_nte_FF.getDouble(0);
+    return m_nte_FF.getDouble(HornConstants.kFF);
   }
 
   public double getRightVelocitySetPoint(){
@@ -125,5 +162,15 @@ public class HornTab {
   }
   private double truncate(double input, int decimalPlaces){
     return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));
+  }
+
+  public double getDeflectorSetpoint() {
+    return m_nte_DeflectorSetpoint.getDouble(0.0);
+  }
+  public void setDeflectorSetpoint(double value) {
+    m_nte_DeflectorSetpoint.setDouble(value);
+  }
+  public void setDeflectorEncoder(double value) {
+    m_nte_DeflectorEncoder.setDouble(value);
   }
 }

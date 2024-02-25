@@ -51,6 +51,6 @@ public final class ModuleConstants {
   public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
   public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-  public static final int kDrivingMotorCurrentLimit = 50; // amps
-  public static final int kTurningMotorCurrentLimit = 20; // amps
+  public static final int kDrivingMotorCurrentLimit = CurrentLimitDefaults.kNeo; // amps
+  public static final int kTurningMotorCurrentLimit = CurrentLimitDefaults.kNeo550; // amps
 }

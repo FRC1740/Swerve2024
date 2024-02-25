@@ -30,6 +30,8 @@ public class AlignToTagLimelight extends Command {
     m_robotShared = RobotShared.getInstance();
     m_drive = m_robotShared.getDriveSubsystem();
     m_limelight = m_robotShared.getLimelight();
+    addRequirements(m_drive);
+    addRequirements(m_limelight);
   }
 
   // Called when the command is initially scheduled.
