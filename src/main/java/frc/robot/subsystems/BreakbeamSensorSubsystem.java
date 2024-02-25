@@ -9,7 +9,7 @@ import frc.Board.SensorTab;
 // import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 
-public class SensorSubsystem extends SubsystemBase{
+public class BreakbeamSensorSubsystem extends SubsystemBase{
   /* example usage:
     if(m_SensorSubsystem,getSensorValue(1) == true){
       //do something
@@ -23,7 +23,7 @@ public class SensorSubsystem extends SubsystemBase{
   // private CommandXboxController m_driverController = m_robotShared.getDriverController();
   // private double timeOfLastNote = System.currentTimeMillis() + SensorConstants.kTimeToRumbleController + 1; // When enabled, it will not be true
 
-  public SensorSubsystem() {
+  public BreakbeamSensorSubsystem() {
     m_breakBeamSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
     m_sensorTab = SensorTab.getInstance();
     m_driverTab = DriverTab.getInstance();
@@ -61,20 +61,24 @@ public class SensorSubsystem extends SubsystemBase{
     m_driverTab.setHasNote(hasNote);
   }
   /**
-   * Returns true if the sensors can see eachother, there is nothing there, 
+   * Returns true if the sensors can see eachother, meaning there is nothing there, 
    * otherwise it returns false, and there is something there,
    * if it does not exist, it is created. 
    * In the event the sensors are not hooked up correctly, it will return false when they should see eachother
    * @param port The port to check 
   */
   public boolean getSensorValue(int port){
+    // This checks a value in an array on the sensor tab, it does not affect performance in a meaningful way
     if(!m_sensorTab.sensorStatePortExists(port)){
       createSensor(port);
     }
     return m_sensorTab.getSensorStatePort(port);
   }
   /**
-   * Returns the value at a port, if it does not exist, it is *NOT* created
+   * Returns true if the sensors can see eachother, meaning there is nothing there, 
+   * otherwise it returns false, and there is something there,
+   * Returns the value at a port, if it does not exist, it is *<b>NOT</b>* created
+   * This method is not recommened, use getSensorValue instead, because if it does not exist it will cause a crash and a memory leak
    * @param port The port to check 
   */
   @Deprecated

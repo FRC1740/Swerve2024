@@ -85,7 +85,7 @@ public class RobotContainer {
       // The left stick controls translation of the robot.
       // Turning is controlled by the X axis of the right stick.
       // If any changes are made to this, please update DPad driver controls
-    if(OIConstants.kUseFieldRelativeRotation){ //TODO: fix this
+    if(OIConstants.kUseFieldRelativeRotation){
       m_robotDrive.setDefaultCommand(new RunCommand(() -> 
         new AlignToJoystickAndDrive(
           m_driverController.getRightX(),

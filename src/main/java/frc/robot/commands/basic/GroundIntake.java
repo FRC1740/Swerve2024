@@ -7,14 +7,14 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.BreakbeamSensorSubsystem;
 
 public class GroundIntake extends Command{
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
-  private SensorSubsystem m_sensorSubsystem;
+  private BreakbeamSensorSubsystem m_sensorSubsystem;
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
 

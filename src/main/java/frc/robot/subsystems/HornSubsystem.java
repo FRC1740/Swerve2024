@@ -33,6 +33,7 @@ public class HornSubsystem extends SubsystemBase {
   public HornSubsystem() {
     m_HornLeftMotor.restoreFactoryDefaults();
     m_HornRightMotor.restoreFactoryDefaults();
+    
     m_HornTab.setP(HornConstants.kP);
     m_HornTab.setI(HornConstants.kI);
     m_HornTab.setD(HornConstants.kD);

@@ -10,14 +10,14 @@ import frc.robot.constants.SensorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.BreakbeamSensorSubsystem;
 
 public class HornIntake extends Command {
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private RobotShared m_robotShared;
-  private SensorSubsystem m_sensorSubsystem;
+  private BreakbeamSensorSubsystem m_sensorSubsystem;
   private double m_intakeSpeed;
 
   /** Creates a new IntakeDeploy. 
