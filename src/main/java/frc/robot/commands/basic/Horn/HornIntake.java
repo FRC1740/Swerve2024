@@ -6,21 +6,28 @@ package frc.robot.commands.basic.Horn;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotShared;
+import frc.robot.constants.SensorConstants;
+import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.BreakbeamSensorSubsystem;
 
 public class HornIntake extends Command {
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private RobotShared m_robotShared;
+  private BreakbeamSensorSubsystem m_sensorSubsystem;
   private double m_intakeSpeed;
 
-  /** Creates a new IntakeDeploy. */
+  /** Creates a new IntakeDeploy. 
+   * Intakes from the horn
+  */
   public HornIntake(double intakeSpeed) {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
+    m_sensorSubsystem = m_robotShared.getSensorSubsystem();
     m_intakeSpeed = intakeSpeed;
     addRequirements(m_horn);
   }
@@ -32,20 +39,24 @@ public class HornIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_horn.setHornSpeed(m_intakeSpeed); // TODO: make this a set target so that way PID is always in control
+    m_horn.setRpmSetpoint(m_intakeSpeed * HornConstants.kMaxHornRPM);
     m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_horn.setHornSpeed(0.0);
+    m_horn.setRpmSetpoint(0.0);
     m_conveyorSubsystem.setConveyorSpeed(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Note has hit the ground intake sensor
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false){
+      return true;
+    }
     return false;
   }
 }

@@ -3,7 +3,7 @@ package frc.robot.constants;
 import edu.wpi.first.math.geometry.Transform3d;
 
 public final class VisionConstants {
-  public static final String camName = "";
+  public static final String camName = "OV9281";
   public static final Transform3d RobotToCam = new Transform3d();
 
   public enum AprilTagIDs{
@@ -26,5 +26,19 @@ public final class VisionConstants {
     public int getID(){
         return ID;
     }
+  }
+  public static boolean isSpeakerID(int testID){
+    if(testID == AprilTagIDs.RedSpeakerCenter.getID() || testID == AprilTagIDs.BlueSpeakerCenter.getID() ||
+      testID == AprilTagIDs.RedSpeakerSide.getID() || testID == AprilTagIDs.BlueSpeakerSide.getID()){
+      return true;
+
+    }
+    return false;
+  }
+  public static boolean isAmpID(int testID){
+    if(testID == AprilTagIDs.RedAmp.getID() || testID == AprilTagIDs.BlueAmp.getID()){
+      return true;
+    }
+    return false;
   }
 }

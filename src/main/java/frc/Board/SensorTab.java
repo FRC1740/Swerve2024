@@ -53,7 +53,7 @@ public class SensorTab {
       m_nte_SensorStates[port] = m_sbt_SensorTab.add("Port " + port +" DIO", true)
         .withSize(2, 1).withPosition((port * 2), 1).getEntry();
     }else{
-      DriverStation.reportError("Port " + port + " could not be created, port already exists!", false);
+      DriverStation.reportError("Port " + port + " could not be created, port already exists!", true);
     }
   }
   public boolean sensorStatePortExists(int port) {

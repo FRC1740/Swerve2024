@@ -34,16 +34,15 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 
 ### Software Todo List (sorted by priority)
 `Current things to test`
-- [ ] Drive to point
-- [ ] Test error tab
-- [ ] Dpad rotation delay (probably needs to be fixed) BROKEN
-- [ ] Shuffleboard logging (scary) maybe
-- [ ] OTF pathing 
-- [ ] Swerve logging check
-- [ ] Check drivewhile aligning tolerences
+- [x] Drive to point
+- [x] Test error tab
+- [x] Shuffleboard logging (scary) maybe
+- [x] OTF pathing 
+- [x] Swerve logging check
+- [x] Check drivewhile aligning tolerences
 `People`
-- [ ] Cordinate the software team and see who wants to help with software
-- [ ] Inform software team of structure and git and PID
+- [x] Cordinate the software team and see who wants to help with software
+- [x] Inform software team of structure and git and PID
 - [ ] Make sure they all have a solid understanding of the principles the code runs on ([see last year's repo](#last-year-repo))
 - [ ] Make sure everyone has a solid understanding of java
 - [ ] Cordinate tasks
@@ -67,7 +66,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 `Swerve`
 - [X] Find out why turning motors were turning seemingly randomly and fix it
 - [X] Fix the one random wheel that didn't turn correctly
-- [X] Turn on field relitive control
+- [X] Turn on field relative control
 - [x] Add pathplanning for autos
 - [ ] Auto motor stop on tilt
 - [x] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
@@ -117,6 +116,12 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [x] See how the flap works
 - [x] Create stub code for testing
 - [x] See [Shuffleboard](#Shuffleboard)
+- [ ] Add a homing mode where if nothing is happening it centers a note
+
+`Deflector`
+- [x] Create subsystem
+- [x] Create constants
+- [x] Set <b>reasonable</b> current limit to DeflectorConstants
 
 `Ground Intake`
 - [ ] See how the ground intake works
@@ -218,6 +223,8 @@ This is a guide for setting up Github with VSCode
 ### Style Guide
 If you are reading this, you have configured git and are set up to write code. Here we use two space indenting, so you need to go to the VSCode setting and change the default tab spacing for the workspace. It should be noted, this is a **guideline**, not hard rules; there will always be exceptions.
 #### Functional
+* :warning: Whenever creating a subsystem, it is VITAL to set current limits. Without these NEOs can burn up extremely easily, Roughly 50 seems to work well.
+
 * When possible, static and final is always better, if it doesn't change, it should be marked as so. This mostly applies with constants in constant files
 ```java
 public static final double kPXController = 1;

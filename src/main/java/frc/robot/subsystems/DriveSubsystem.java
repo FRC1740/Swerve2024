@@ -28,6 +28,10 @@ import frc.robot.constants.SubsystemConstants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -89,8 +93,9 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearLeft.getPosition(),
       m_rearRight.getPosition()
     }, new Pose2d());
+    
   //Vision
-  PhotonVision m_photonVision = m_robotShared.getPhotonVision();
+  PhotonVision m_photonVision;
   
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
@@ -110,6 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    // m_photonVision = m_robotShared.getPhotonVision();
     AutoBuilder.configureHolonomic(
       this::getPose, 
       this::resetOdometry, 
@@ -127,21 +133,13 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
-    if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
-      PoseEstimator.addVisionMeasurement(
-        m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
-        m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
-    }
+    // if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
+    //   PoseEstimator.addVisionMeasurement(
+    //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
+    //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
+    // }
+    // updatePoseEstimater();
 
-    //Odometry + Vision measurement
-    PoseEstimator.update(  
-      getRotation2d(),
-      new SwerveModulePosition[] {
-        m_frontLeft.getPosition(),
-        m_frontRight.getPosition(),
-        m_rearLeft.getPosition(),
-        m_rearRight.getPosition()
-      });
     
     //Just odometry
     m_odometry.update(
@@ -155,7 +153,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     //Pubilsh pose data to network tables
     // PosePublisher.set(new Pose2d[]{
-    //   getPose(), //Odometry pose
     //   (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
     //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
     // });
@@ -166,10 +163,31 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleStatePublisher.set(getModuleStates());
     DesiredSwerveModuleStatePublisher.set(getDesiredSwerveModuleStates());
     
-    DriveTab.setRobotPose(getPose());
+    // DriveTab.setRobotPose(getPose());
     // DriveTab.setTrajectory(examplePath);
     DriveTab.setIMU_PitchAngle((double) m_gyro.getPitch());
     DriveTab.setIMU_ZAngle((double) m_gyro.getYaw());
+  }
+
+  public void updatePoseEstimater(){
+
+    PoseEstimator.update(  
+      getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+      });
+
+    
+    Optional<EstimatedRobotPose> result = m_photonVision.getVisionPoseEstimationResult();
+
+    if (result.isPresent()){
+      EstimatedRobotPose visionPose = result.get();
+      PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
+    }
+    DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -214,6 +232,7 @@ public class DriveSubsystem extends SubsystemBase {
     if(quadraticInput){
       xSpeed = quadraticControlFalloff(xSpeed);
       ySpeed = quadraticControlFalloff(ySpeed);
+      rot = quadraticControlFalloff(rot);
     }
 
     if (rateLimit) {
@@ -293,7 +312,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
-    return Math.signum(input) * Math.abs((.9 * Math.pow(input, 2))) + (.1 * input);
+    return Math.signum(input) * Math.abs((1 * Math.pow(input, 2))) + (0 * input);
   }
 
   public void setXFormation() {
@@ -360,6 +379,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
+    // m_gyro.setAngleAdjustment(m_currentRotation);
   }
 
 //Gets gyro in form of Rotation2d

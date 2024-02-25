@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
-import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.BreakbeamSensorSubsystem;
 
 public class RobotShared {
 
@@ -22,11 +23,15 @@ public class RobotShared {
   protected DriveSubsystem m_robotDrive = null;
   protected HornSubsystem m_horn = null;
   protected ConveyorSubsystem m_conveyor = null;
+  protected DeflectorSubsytem m_deflector = null;
+  
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  protected final CommandXboxController m_coDriverController = new CommandXboxController(OIConstants.kCoDriverControllerPort);
+
 
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
-  protected SensorSubsystem m_sensorSubsystem = null;
+  protected BreakbeamSensorSubsystem m_sensorSubsystem = null;
   protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
 
   private static RobotShared instance;
@@ -56,20 +61,29 @@ public class RobotShared {
     }
     return m_conveyor;
   }
+  public DeflectorSubsytem getDeflectorSubsystem() {
+    if(m_deflector == null) {
+      m_deflector = new DeflectorSubsytem();
+    }
+    return m_deflector;
+  } 
   public GroundIntakeSubsystem getGroundIntakeSubsystem() {
     if(m_groundIntakeSubsystem == null) {
       m_groundIntakeSubsystem = new GroundIntakeSubsystem();
     }
     return m_groundIntakeSubsystem;
   }
-  public SensorSubsystem getSensorSubsystem() {
+  public BreakbeamSensorSubsystem getSensorSubsystem() {
     if(m_sensorSubsystem == null) {
-      m_sensorSubsystem = new SensorSubsystem();
+      m_sensorSubsystem = new BreakbeamSensorSubsystem();
     }
     return m_sensorSubsystem;
   }
   public CommandXboxController getDriverController() {
     return m_driverController;
+  }
+  public CommandXboxController getCoDriverController() {
+    return m_coDriverController;
   }
   public LimelightSubsystem getLimelight() {
     if(m_limelight == null) {
@@ -83,6 +97,7 @@ public class RobotShared {
     }
     return m_photonVision;
   }
+  /** blue is default */
   public Alliance getAlliance() { // blue is default for the path planner (paths are made on the blue side)
     m_alliance = DriverStation.getAlliance();
     if(m_alliance.isPresent()){

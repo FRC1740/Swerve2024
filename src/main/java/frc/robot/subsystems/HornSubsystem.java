@@ -11,7 +11,6 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -28,11 +27,26 @@ public class HornSubsystem extends SubsystemBase {
   private double currentI; // stores the current I without checking m_RightPidController
   private double currentD; // stores the current D without checking m_RightPidController
   private double currentFF; // stores the current FF without checking m_RightPidController
+  // Checking the PIDController is extremely slow
 
   /** Creates a new GroundIntake. */
   public HornSubsystem() {
+    m_HornLeftMotor.restoreFactoryDefaults();
+    m_HornRightMotor.restoreFactoryDefaults();
+    
+    m_HornTab.setP(HornConstants.kP);
+    m_HornTab.setI(HornConstants.kI);
+    m_HornTab.setD(HornConstants.kD);
+    m_HornTab.setFF(HornConstants.kFF);
+
+    m_HornLeftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_HornRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
     m_HornRightMotor.setInverted(false);
     m_HornLeftMotor.setInverted(true);
+    m_HornLeftMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
+    m_HornRightMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
+    
     m_HornLeftEncoder = m_HornLeftMotor.getEncoder();
     m_HornRightEncoder = m_HornRightMotor.getEncoder();
     m_HornLeftEncoder.setVelocityConversionFactor(HornConstants.kVelocityConversionFactor);
@@ -41,8 +55,8 @@ public class HornSubsystem extends SubsystemBase {
     m_RightPidController = m_HornRightMotor.getPIDController();
     m_LeftPidController = m_HornLeftMotor.getPIDController();
 
-    // m_RightPidController.setOutputRange(0, 1);
-    // m_LeftPidController.setOutputRange(0, 1);
+    // m_RightPidController.setOutputRange(-1, 1); // do not touch!
+    // m_LeftPidController.setOutputRange(-1, 1);
     burnFlash();
 
   }
@@ -52,8 +66,8 @@ public class HornSubsystem extends SubsystemBase {
   }
 
   public void setVelocity(double rightVelocity, double leftVelocity){
-    m_RightPidController.setReference(rightVelocity, ControlType.kVelocity);
-    m_LeftPidController.setReference(leftVelocity, ControlType.kVelocity);
+    m_RightPidController.setReference(rightVelocity, HornConstants.kDefaultControlType);
+    m_LeftPidController.setReference(leftVelocity, HornConstants.kDefaultControlType);
   }
 
   public void setP(double gain){
@@ -80,8 +94,20 @@ public class HornSubsystem extends SubsystemBase {
     currentFF = gain;
   }
 
+  @Deprecated
   public void Intake(double speed) {
     setHornSpeed(-speed);
+  }
+  @Deprecated
+  public void setHornSpeed(double speed) {
+    m_HornRightMotor.set(speed);
+    m_HornLeftMotor.set(speed);
+  }
+
+  public void setRpmSetpoint(double RPMSptpoint) {
+    m_RightPidController.setReference(RPMSptpoint, HornConstants.kDefaultControlType);
+    m_LeftPidController.setReference(RPMSptpoint, HornConstants.kDefaultControlType);
+    m_HornTab.setHornTargetSpeed(RPMSptpoint);
   }
 
   public double getHornVelocity() {
@@ -94,11 +120,6 @@ public class HornSubsystem extends SubsystemBase {
 
   public double getLeftVelocity(){
     return m_HornLeftEncoder.getVelocity();
-  }
-
-  public void setHornSpeed(double speed) {
-    m_HornRightMotor.set(speed);
-    m_HornLeftMotor.set(speed);
   }
 
   public void stopHorn() {
