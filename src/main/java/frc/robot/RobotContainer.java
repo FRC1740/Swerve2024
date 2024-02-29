@@ -301,6 +301,10 @@ public class RobotContainer {
       .onFalse(
         new InstantCommand(() -> m_climberSubsystem.setClimberMotorSpeed(0))
       );
+    buttonBoardButtons[2][2]
+      .onTrue(
+        new InstantCommand(() -> m_climberSubsystem.toggleSoftLimit())
+      );
   }
 
   void flightStickControls(){

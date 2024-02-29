@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -27,7 +28,6 @@ import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
 import frc.robot.constants.SubsystemConstants.DriveConstants;
-import frc.utils.LimelightHelpers;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -138,12 +138,15 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
-    // if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
-    //   PoseEstimator.addVisionMeasurement(
-    //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
-    //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
-    // }
-    // updatePoseEstimater();
+    double[] visionPose = m_limelight.getBotPose();
+    if (visionPose[0] != 0 && visionPose[1] != 0){
+      PoseEstimator.addVisionMeasurement(
+        new Pose2d(visionPose[0],
+          visionPose[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose 
+          
+        edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
+    }
+    updatePoseEstimater(); // add odomentry
 
     
     //Just odometry
@@ -159,8 +162,9 @@ public class DriveSubsystem extends SubsystemBase {
     //Pubilsh pose data to network tables
     PosePublisher.set(new Pose2d[]{
       new Pose2d(m_limelight.getBotPose()[0],
-      m_limelight.getBotPose()[1], new Rotation2d(0)) //Vision Pose
-      // m_odometry.getPoseMeters() //Odometry pose
+      m_limelight.getBotPose()[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose
+      m_odometry.getPoseMeters(), //Odometry pose
+      PoseEstimator.getEstimatedPosition()
     });
 
     OdometryPublisher.set(getPose());
@@ -202,7 +206,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    // return m_odometry.getPoseMeters();
+    return PoseEstimator.getEstimatedPosition();
   }
 
   /**
