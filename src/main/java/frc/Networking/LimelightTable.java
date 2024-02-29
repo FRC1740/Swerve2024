@@ -115,4 +115,8 @@ public class LimelightTable {
   public void setPipeline(double value) {
     m_nt.getEntry(Pipeline_Entry).setNumber(value);
   }
+
+  public double[] getBotPose() {
+    return m_nt.getEntry("botpose").getDoubleArray(new double[6]);
+  }
 }

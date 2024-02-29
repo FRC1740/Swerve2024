@@ -8,6 +8,7 @@ public final class OIConstants {
   public static final double kDriveDeadband = 0.05;
   
   public static final boolean kUseQuadraticInput = true;
+  
   /**
    * This is the flag for using absolute angles for joystick rotations 
    * <br></br>

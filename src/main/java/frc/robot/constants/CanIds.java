@@ -23,4 +23,6 @@ public class CanIds {
   public static final int kGroundIntakeMotorPort = 13;
 
   public static final int kDeflectorMotorCanId = 17;
+
+  public static final int kClimberMotorCanId = 18;
 }
