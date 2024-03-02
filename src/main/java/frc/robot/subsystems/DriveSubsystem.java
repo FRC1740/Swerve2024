@@ -162,7 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
     //Pubilsh pose data to network tables
     PosePublisher.set(new Pose2d[]{
       new Pose2d(m_limelight.getBotPose()[0],
-      m_limelight.getBotPose()[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose
+      m_limelight.getBotPose()[1], m_odometry.getPoseMeters().getRotation()), //Vision Pose
       m_odometry.getPoseMeters(), //Odometry pose
       PoseEstimator.getEstimatedPosition()
     });
@@ -210,7 +210,7 @@ public class DriveSubsystem extends SubsystemBase {
     return PoseEstimator.getEstimatedPosition();
   }
 
-  /**
+  /**         n
    * Resets the odometry to the specified pose.
    *
    * @param pose The pose to which to set the odometry.

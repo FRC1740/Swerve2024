@@ -28,6 +28,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -56,6 +57,7 @@ public class RobotContainer {
   private ConveyorSubsystem m_conveyorSubsystem;
   private ClimberSubsystem m_climberSubsystem;
   private DeflectorSubsytem m_deflectorSubsystem;
+  private GroundIntakeSubsystem m_groundIntakeSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -77,7 +79,7 @@ public class RobotContainer {
 
     //Must register commands used in PathPlanner autos
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
-    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6));
+    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6).withTimeout(2));
     NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1));
     NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(1)); // We don't use the amp so deflector not needed
 
@@ -124,7 +126,7 @@ public class RobotContainer {
     m_robotShared.getLimelight();
     m_hornSubsystem = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
-    m_robotShared.getGroundIntakeSubsystem();
+    m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
     m_climberSubsystem = m_robotShared.getClimberSubsystem();
     // m_robotShared.getPhotonVision();
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
@@ -259,16 +261,32 @@ public class RobotContainer {
       );
     buttonBoardButtons[0][1]
       .whileTrue( 
-        new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.3))
+        new ParallelCommandGroup(
+          new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.3)),
+          new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(-.3))
+        )
       )
       .onFalse(
-        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0))
+        new ParallelCommandGroup(
+          new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)),
+          new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0))
+        )
       );
     buttonBoardButtons[0][2]
       .whileTrue( 
-        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0))
+        new ParallelCommandGroup(
+          new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.3)),
+          new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(.3)),
+          new RunCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(.3))
+        )
+      )
+      .onFalse(
+        new ParallelCommandGroup(
+          new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)),
+          new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0)),
+          new InstantCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0))
+        )
       );
-
     // buttonBoardButtons[2][0]
     //   .onTrue(
     //     new InstantCommand(() -> m_deflectorSubsystem.toggleSoftLimit())
