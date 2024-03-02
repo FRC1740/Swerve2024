@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.Board.DriverTab;
 import frc.Board.SensorTab;
+import frc.robot.commands.basic.NoteRumble;
 // import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 
@@ -32,7 +33,7 @@ public class BreakbeamSensorSubsystem extends SubsystemBase{
 
   @Override
   public void periodic() {
-    // boolean previousNoteState = hasNote;
+    boolean previousNoteState = hasNote;
 
     hasNote = false;
     // Loop over every port and update them if they exist
@@ -45,9 +46,9 @@ public class BreakbeamSensorSubsystem extends SubsystemBase{
       }
     }
 
-    // if(previousNoteState != hasNote){
-    //   timeOfLastNote = System.currentTimeMillis();
-    // }
+    if(previousNoteState != hasNote){
+      new NoteRumble().schedule();
+    }
 
     // if(timeOfLastNote > System.currentTimeMillis() - SensorConstants.kTimeToRumbleController){
     //   // the HID is the controller, commandXbox can't trust us with rumble apparently and it wont extend so I have to get HID

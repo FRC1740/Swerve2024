@@ -16,8 +16,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    DataLogManager.start();
-    DriverStation.startDataLog(DataLogManager.getLog());
+    // DataLogManager.start();
+    // DriverStation.startDataLog(DataLogManager.getLog());
     m_robotContainer = new RobotContainer();
   }
 

@@ -6,5 +6,5 @@ public class SensorConstants {
   public static final int kGroundIntakeSensorPort = 1;
 
   public static final double kTimeToRumbleController = 0.5;
-  public static final double kRumbleStrength = 0.5;
+  public static final double kRumbleStrength = 1;
 }

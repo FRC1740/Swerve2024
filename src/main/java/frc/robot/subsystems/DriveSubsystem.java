@@ -7,12 +7,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -21,6 +23,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.Board.DriveTrainTab;
+import frc.Networking.LimelightTable;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
@@ -95,13 +98,14 @@ public class DriveSubsystem extends SubsystemBase {
     }, new Pose2d());
     
   //Vision
-  PhotonVision m_photonVision;
+  // PhotonVision m_photonVision;
+  LimelightSubsystem m_limelight;
   
   NetworkTable DriveTrainTable = NetworkTableInstance.getDefault().getTable("DriveTrain");
   
   //Pose data Publisher
-  // StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
-  //   .getStructArrayTopic("Poses", Pose2d.struct).publish();
+  StructArrayPublisher<Pose2d> PosePublisher = DriveTrainTable
+    .getStructArrayTopic("Poses", Pose2d.struct).publish();
 
   StructPublisher<Pose2d> OdometryPublisher = DriveTrainTable
     .getStructTopic("Odometry", Pose2d.struct).publish();
@@ -115,6 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    m_limelight = m_robotShared.getLimelight();
     // m_photonVision = m_robotShared.getPhotonVision();
     AutoBuilder.configureHolonomic(
       this::getPose, 
@@ -133,12 +138,15 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
-    // if (m_photonVision.getVisionPoseEstimationResult().isPresent()){
-    //   PoseEstimator.addVisionMeasurement(
-    //     m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d(), 
-    //     m_photonVision.getVisionPoseEstimationResult().get().timestampSeconds); 
-    // }
-    // updatePoseEstimater();
+    double[] visionPose = m_limelight.getBotPose();
+    if (visionPose[0] != 0 && visionPose[1] != 0){
+      PoseEstimator.addVisionMeasurement(
+        new Pose2d(visionPose[0],
+          visionPose[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose 
+          
+        edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
+    }
+    updatePoseEstimater(); // add odomentry
 
     
     //Just odometry
@@ -152,10 +160,12 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
     //Pubilsh pose data to network tables
-    // PosePublisher.set(new Pose2d[]{
-    //   (m_photonVision.getVisionPoseEstimationResult().isPresent()) ? m_photonVision.getVisionPoseEstimationResult().get().estimatedPose.toPose2d() : null, //Vision Pose
-    //   PoseEstimator.getEstimatedPosition() //Odometry + Vision pose
-    // });
+    PosePublisher.set(new Pose2d[]{
+      new Pose2d(m_limelight.getBotPose()[0],
+      m_limelight.getBotPose()[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose
+      m_odometry.getPoseMeters(), //Odometry pose
+      PoseEstimator.getEstimatedPosition()
+    });
 
     OdometryPublisher.set(getPose());
 
@@ -181,13 +191,13 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
     
-    Optional<EstimatedRobotPose> result = m_photonVision.getVisionPoseEstimationResult();
+    // Optional<EstimatedRobotPose> result = m_photonVision.getVisionPoseEstimationResult();
 
-    if (result.isPresent()){
-      EstimatedRobotPose visionPose = result.get();
-      PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
-    }
-    DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
+    // if (result.isPresent()){
+    //   EstimatedRobotPose visionPose = result.get();
+    //   PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
+    // }
+    // DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -196,7 +206,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    // return m_odometry.getPoseMeters();
+    return PoseEstimator.getEstimatedPosition();
   }
 
   /**

@@ -24,16 +24,21 @@ import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HornSubsystem;
 // import frc.utils.OnTheFlyPathing;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -47,6 +52,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 public class RobotContainer {
   // The robot's subsystems
   private DriveSubsystem m_robotDrive;
+  private HornSubsystem m_hornSubsystem;
+  private ConveyorSubsystem m_conveyorSubsystem;
+  private ClimberSubsystem m_climberSubsystem;
   private DeflectorSubsytem m_deflectorSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
@@ -79,6 +87,7 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    buttonBoardControls();
     // flightStickControls();
 
     // Configure default commands
@@ -98,7 +107,7 @@ public class RobotContainer {
         new RunCommand(() -> m_robotDrive.drive(
             -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-            -MathUtil.applyDeadband(m_driverController.getRightY(), OIConstants.kDriveDeadband),
+            -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
             true, true, OIConstants.kUseQuadraticInput),
           m_robotDrive));
     }
@@ -113,10 +122,11 @@ public class RobotContainer {
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_robotShared.getSensorSubsystem(); // no setting because not used
     m_robotShared.getLimelight();
-    m_robotShared.getHornSubsystem();
-    m_robotShared.getConveyorSubsystem();
+    m_hornSubsystem = m_robotShared.getHornSubsystem();
+    m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     m_robotShared.getGroundIntakeSubsystem();
-    m_robotShared.getPhotonVision();
+    m_climberSubsystem = m_robotShared.getClimberSubsystem();
+    // m_robotShared.getPhotonVision();
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
     DriverTab.getInstance();
@@ -215,6 +225,88 @@ public class RobotContainer {
     }
   }
 
+  void buttonBoardControls(){
+    // define buttons 
+    Trigger buttonBoardButtons[][] = new Trigger[3][3];
+    for(int i = 0; i < 3; i++){
+      for(int j = 0; j < 3; j++){
+        buttonBoardButtons[i][j] = m_coDriverController.button((i * 3) + j + 1);
+      }
+    }
+    // THIS IS ALL WRONG FIXME:
+    // Trigger buttonBoardSwitches[][] = new Trigger[2][2];
+    // for(int i = 0; i < 2; i++){
+    //   for(int j = 0; j < 2; j++){
+    //     buttonBoardButtons[i][j] = m_coDriverController.button(i * 2 + j + 1);
+    //   }
+    // }
+    // buttonBoardSwitches[1][0].onTrue(
+      // do climber
+      // new DriveWhileAligning(2 * -45, true, true).withTimeout(3)
+    // );
+    buttonBoardButtons[0][0]
+      .whileTrue( 
+        new ParallelCommandGroup(
+          new RunCommand(() -> m_hornSubsystem.setHornSpeed(1)),
+          new RunCommand(() -> m_conveyorSubsystem.setConveyorSpeed(1))
+        )
+      )
+      .onFalse( 
+        new ParallelCommandGroup(
+          new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0)),
+          new InstantCommand(() -> m_conveyorSubsystem.setConveyorSpeed(0))
+        )
+      );
+    buttonBoardButtons[0][1]
+      .whileTrue( 
+        new RunCommand(() -> m_hornSubsystem.setHornSpeed(-.3))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0))
+      );
+    buttonBoardButtons[0][2]
+      .whileTrue( 
+        new InstantCommand(() -> m_hornSubsystem.setHornSpeed(0))
+      );
+
+    // buttonBoardButtons[2][0]
+    //   .onTrue(
+    //     new InstantCommand(() -> m_deflectorSubsystem.toggleSoftLimit())
+    //   );
+    // buttonBoardButtons[2][1] // up is less likely so it's mostly precision
+    //   .whileTrue(
+    //     new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(.4))
+    //   )
+    //   .onFalse(
+    //     new InstantCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(0))
+    //   );
+    // buttonBoardButtons[2][2]
+    //   .whileTrue(
+    //     new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-.6))
+    //   )
+    //   .onFalse(
+    //     new InstantCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(0))
+    //   );
+    buttonBoardButtons[2][0]
+      .whileTrue(
+        new RunCommand(() -> m_climberSubsystem.setClimberMotorSpeed(.15))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_climberSubsystem.setClimberMotorSpeed(0))
+      );
+    buttonBoardButtons[2][1]
+      .whileTrue(
+        new RunCommand(() -> m_climberSubsystem.setClimberMotorSpeed(-.6))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_climberSubsystem.setClimberMotorSpeed(0))
+      );
+    buttonBoardButtons[2][2]
+      .onTrue(
+        new InstantCommand(() -> m_climberSubsystem.toggleSoftLimit())
+      );
+  }
+
   void flightStickControls(){
     m_driverController.x()
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
@@ -298,7 +390,6 @@ public class RobotContainer {
           new GroundIntake(.6),
           new HornIntake(-0.2))
       );
-      // UNTESTED
     m_driverController.back()
       .whileTrue( 
           new GroundEject(-.3)

@@ -33,7 +33,6 @@ public class DeflectorSubsytem extends SubsystemBase{
     m_deflectorEncoder.setPositionConversionFactor(DeflectorConstants.kPostionConversionFactor);
     m_deflectorEncoder.setPosition(0);
     m_DeflectorMotor.setInverted(false);
-
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kForward, DeflectorConstants.kDeflectorMotorForwardSoftLimit);
@@ -71,5 +70,18 @@ public class DeflectorSubsytem extends SubsystemBase{
   }
   public void seekSetpoint() {
     m_deflectorPidController.setReference(setpoint, CANSparkMax.ControlType.kPosition);
+  }
+  public void toggleSoftLimit(){
+    if(m_DeflectorMotor.isSoftLimitEnabled(SoftLimitDirection.kForward)){
+      m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+      m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    } else {
+      m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+      m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+      resetDeflectorEncoder(); // when soft limits are enabled, reset the encoder
+    }
+  }
+  public void resetDeflectorEncoder(){
+    m_deflectorEncoder.setPosition(0);
   }
 }

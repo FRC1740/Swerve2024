@@ -33,7 +33,7 @@ public class HornSubsystem extends SubsystemBase {
   public HornSubsystem() {
     m_HornLeftMotor.restoreFactoryDefaults();
     m_HornRightMotor.restoreFactoryDefaults();
-    
+
     m_HornTab.setP(HornConstants.kP);
     m_HornTab.setI(HornConstants.kI);
     m_HornTab.setD(HornConstants.kD);
@@ -98,7 +98,7 @@ public class HornSubsystem extends SubsystemBase {
   public void Intake(double speed) {
     setHornSpeed(-speed);
   }
-  @Deprecated
+  // @Deprecated
   public void setHornSpeed(double speed) {
     m_HornRightMotor.set(speed);
     m_HornLeftMotor.set(speed);

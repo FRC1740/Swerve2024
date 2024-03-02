@@ -15,6 +15,7 @@ import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.BreakbeamSensorSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotShared {
 
@@ -24,6 +25,7 @@ public class RobotShared {
   protected HornSubsystem m_horn = null;
   protected ConveyorSubsystem m_conveyor = null;
   protected DeflectorSubsytem m_deflector = null;
+  protected ClimberSubsystem m_climberSubsystem = null;
   
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   protected final CommandXboxController m_coDriverController = new CommandXboxController(OIConstants.kCoDriverControllerPort);
@@ -60,6 +62,12 @@ public class RobotShared {
       m_conveyor = new ConveyorSubsystem();
     }
     return m_conveyor;
+  }
+  public ClimberSubsystem getClimberSubsystem() {
+    if(m_climberSubsystem == null) {
+      m_climberSubsystem = new ClimberSubsystem();
+    }
+    return m_climberSubsystem;
   }
   public DeflectorSubsytem getDeflectorSubsystem() {
     if(m_deflector == null) {
