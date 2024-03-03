@@ -30,7 +30,7 @@ import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
-// import frc.utils.OnTheFlyPathing;
+import frc.robot.subsystems.ServoSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -60,6 +60,7 @@ public class RobotContainer {
   private ClimberSubsystem m_climberSubsystem;
   private DeflectorSubsytem m_deflectorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
+  private ServoSubsystem m_servoSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -81,10 +82,12 @@ public class RobotContainer {
 
     //Must register commands used in PathPlanner autos
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
-    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6).withTimeout(2));
+    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6).withTimeout(3));
+    NamedCommands.registerCommand("GroundIntakeMedium", new GroundIntake(.6).withTimeout(7));
     NamedCommands.registerCommand("GroundIntakeLong", new GroundIntake(.6).withTimeout(10));
     NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1));
-    NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(3)); // We don't use the amp so deflector not needed
+    NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(1)); // We don't use the amp so deflector not needed
+    NamedCommands.registerCommand("ShootAmpWithDeflector", new HornAmpShootWithDeflector().withTimeout(3)); // We don't use the amp so deflector not needed
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -131,6 +134,7 @@ public class RobotContainer {
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
     m_climberSubsystem = m_robotShared.getClimberSubsystem();
+    m_servoSubsystem = m_robotShared.getServoSubsystem();
     // m_robotShared.getPhotonVision();
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
@@ -291,9 +295,13 @@ public class RobotContainer {
         )
       );
 
+    // buttonBoardButtons[1][0]
+    //   .onTrue(
+    //     new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(Optional.of(null)))
+    //   );
     buttonBoardButtons[1][0]
       .onTrue(
-        new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(Optional.of(0.0)))
+        new InstantCommand(() -> m_servoSubsystem.climberUnlock())
       );
     buttonBoardButtons[1][1]
       .whileTrue(
