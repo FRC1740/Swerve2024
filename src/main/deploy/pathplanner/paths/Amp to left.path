@@ -1,0 +1,64 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.8356002646071226,
+        "y": 7.8062116681533205
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2079766726252448,
+        "y": 7.483673389638773
+      },
+      "isLocked": false,
+      "linkedName": "Amp"
+    },
+    {
+      "anchor": {
+        "x": 2.877871611316221,
+        "y": 7.2907645893784725
+      },
+      "prevControl": {
+        "x": 3.0538656524722785,
+        "y": 7.873518313755624
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LeftNoteAmp"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.7,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 0.2,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 88.85223536523395,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Amp",
+  "previewStartingState": {
+    "rotation": 89.59498735032501,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -1,0 +1,69 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.8356002646071226,
+      "y": 7.8062116681533205
+    },
+    "rotation": 89.78618659424987
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootAmp"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp to left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "GroundIntakeLong"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "left to amp"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "GroundIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootAmp"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
