@@ -38,9 +38,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    RobotShared m_robotShared = RobotShared.getInstance();
+    // RobotShared m_robotShared = RobotShared.getInstance();
 
-    m_robotShared.getDriveSubsystem().configureHolonomic();
+    // m_robotShared.getDriveSubsystem().configureHolonomic(); // need to run  first
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
-    m_robotShared.getDriveSubsystem().setAutoRotationOffset(Optional.of(0.0));
+    // m_robotShared.getDriveSubsystem().setAutoRotationOffset(Optional.of(0.0));
   }
 
   @Override
@@ -63,9 +63,9 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    RobotShared m_robotShared = RobotShared.getInstance();
+    // RobotShared m_robotShared = RobotShared.getInstance();
 
-    m_robotShared.getDriveSubsystem().setAutoRotationOffset(Optional.of(null)); // null so it pulls from shuffleboard
+    // m_robotShared.getDriveSubsystem().setAutoRotationOffset(Optional.of(null)); // null so it pulls from shuffleboard
   }
 
   @Override

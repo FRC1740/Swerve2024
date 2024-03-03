@@ -77,7 +77,7 @@ public class DriveTrainTab {
     m_nte_HasRotationControl = m_sbt_DriveTrain.addPersistent("Has Rotation Control", true)
     .withSize(3,3).withPosition(4, 3).getEntry();
 
-    m_nte_AutoRotationOffset = m_sbt_DriveTrain.addPersistent("AutoRotationOffset", true)
+    m_nte_AutoRotationOffset = m_sbt_DriveTrain.addPersistent("AutoRotationOffset", 0.0)
     .withSize(1,1).withPosition(0, 3).getEntry();
 
     m_sbt_DriveTrain.add(m_Field)
@@ -130,7 +130,7 @@ public class DriveTrainTab {
   }
 
   public double getAutoRotationOffset() {
-    return m_nte_AutoRotationOffset.getDouble(0);
+    return m_nte_AutoRotationOffset.getDouble(0.0);
   }
 
   private double truncate(double input, int decimalPlaces){

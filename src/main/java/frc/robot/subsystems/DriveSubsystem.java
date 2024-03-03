@@ -122,7 +122,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     m_limelight = m_robotShared.getLimelight();
     // m_photonVision = m_robotShared.getPhotonVision();
-    // configureHolonomic();
+    configureHolonomic();
   }
 
   public void configureHolonomic() {
@@ -138,7 +138,9 @@ public class DriveSubsystem extends SubsystemBase {
         //   return alliance.get() == DriverStation.Alliance.Red;
         // }
         // return false;
-        return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
+        // return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
+
+        return false;
       }, 
     this);
   }
@@ -220,7 +222,7 @@ public class DriveSubsystem extends SubsystemBase {
     // return PoseEstimator.getEstimatedPosition();
   }
 
-  /**         n
+  /**         
    * Resets the odometry to the specified pose.
    *
    * @param pose The pose to which to set the odometry.

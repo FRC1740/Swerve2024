@@ -82,8 +82,8 @@ public class RobotContainer {
 
     //Must register commands used in PathPlanner autos
     NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
-    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6).withTimeout(3));
-    NamedCommands.registerCommand("GroundIntakeMedium", new GroundIntake(.6).withTimeout(7));
+    NamedCommands.registerCommand("GroundIntake", new GroundIntake(.6).withTimeout(2));
+    NamedCommands.registerCommand("GroundIntakeMedium", new GroundIntake(.6).withTimeout(5));
     NamedCommands.registerCommand("GroundIntakeLong", new GroundIntake(.6).withTimeout(10));
     NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1));
     NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(1)); // We don't use the amp so deflector not needed
@@ -300,8 +300,11 @@ public class RobotContainer {
     //     new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(Optional.of(null)))
     //   );
     buttonBoardButtons[1][0]
-      .onTrue(
-        new InstantCommand(() -> m_servoSubsystem.climberUnlock())
+      .whileTrue(
+        new RunCommand(() -> m_climberSubsystem.setClimberMotorSpeed(1))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_climberSubsystem.setClimberMotorSpeed(0))
       );
     buttonBoardButtons[1][1]
       .whileTrue(
