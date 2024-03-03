@@ -287,10 +287,17 @@ public class RobotContainer {
           new InstantCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0))
         )
       );
-    // buttonBoardButtons[2][0]
-    //   .onTrue(
-    //     new InstantCommand(() -> m_deflectorSubsystem.toggleSoftLimit())
-    //   );
+    buttonBoardButtons[1][2]
+      .whileTrue(
+        new GroundEject(-.3)
+      );
+    buttonBoardButtons[1][1]
+      .whileTrue(
+        new RunCommand(() -> m_climberSubsystem.setClimberMotorSpeed(-1))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_climberSubsystem.setClimberMotorSpeed(0))
+      );
     // buttonBoardButtons[2][1] // up is less likely so it's mostly precision
     //   .whileTrue(
     //     new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(.4))

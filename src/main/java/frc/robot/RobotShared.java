@@ -115,6 +115,7 @@ public class RobotShared {
         return Alliance.Red;
       }
     }else{
+      System.err.println("No alliance found!");
       return Alliance.Blue;
     }
   }

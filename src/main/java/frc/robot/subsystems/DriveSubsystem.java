@@ -118,9 +118,14 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   /** Creates a new DriveSubsystem. */
+  //TODO: disabled init
   public DriveSubsystem() {
     m_limelight = m_robotShared.getLimelight();
     // m_photonVision = m_robotShared.getPhotonVision();
+    configureHolonomic();
+  }
+
+  public void configureHolonomic() {
     AutoBuilder.configureHolonomic(
       this::getPose, 
       this::resetOdometry, 
@@ -128,6 +133,11 @@ public class DriveSubsystem extends SubsystemBase {
       this::chassisSpeedDrive, 
       DriveConstants.kPathFollowerConfig, 
       () -> {
+        // var alliance = DriverStation.getAlliance();
+        // if(alliance.isPresent()) {
+        //   return alliance.get() == DriverStation.Alliance.Red;
+        // }
+        // return false;
         return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
       }, 
     this);
@@ -142,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (visionPose[0] != 0 && visionPose[1] != 0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose 
+          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset))), //Vision Pose 
           
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
     }
@@ -206,8 +216,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    // return m_odometry.getPoseMeters();
-    return PoseEstimator.getEstimatedPosition();
+    return m_odometry.getPoseMeters();
+    // return PoseEstimator.getEstimatedPosition();
   }
 
   /**         n

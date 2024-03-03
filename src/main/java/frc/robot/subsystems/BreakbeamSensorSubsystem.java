@@ -37,7 +37,7 @@ public class BreakbeamSensorSubsystem extends SubsystemBase{
 
     hasNote = false;
     // Loop over every port and update them if they exist
-    for(int index = 0; index < SensorConstants.kDIOPorts; index++){
+    for(int index = 0; index < SensorConstants.kDIOPorts; index++) {
       if(m_sensorTab.sensorStatePortExists(index)){
         m_sensorTab.setSensorStatePort(m_breakBeamSensors[index].get(), index);
         if(m_breakBeamSensors[index].get() == false){
