@@ -41,6 +41,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.util.Optional;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -287,9 +289,10 @@ public class RobotContainer {
           new InstantCommand(() -> m_groundIntakeSubsystem.setGroundIntakeSpeed(0))
         )
       );
-    buttonBoardButtons[1][2]
-      .whileTrue(
-        new GroundEject(-.3)
+
+    buttonBoardButtons[1][0]
+      .onTrue(
+        new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(Optional.of(0.0)))
       );
     buttonBoardButtons[1][1]
       .whileTrue(
@@ -298,20 +301,10 @@ public class RobotContainer {
       .onFalse(
         new InstantCommand(() -> m_climberSubsystem.setClimberMotorSpeed(0))
       );
-    // buttonBoardButtons[2][1] // up is less likely so it's mostly precision
-    //   .whileTrue(
-    //     new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(.4))
-    //   )
-    //   .onFalse(
-    //     new InstantCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(0))
-    //   );
-    // buttonBoardButtons[2][2]
-    //   .whileTrue(
-    //     new RunCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(-.6))
-    //   )
-    //   .onFalse(
-    //     new InstantCommand(() -> m_deflectorSubsystem.setDeflectorSpeed(0))
-    //   );
+    buttonBoardButtons[1][2]
+      .whileTrue(
+        new GroundEject(-.3)
+      );
     buttonBoardButtons[2][0]
       .whileTrue(
         new RunCommand(() -> m_climberSubsystem.setClimberMotorSpeed(.15))
@@ -342,7 +335,7 @@ public class RobotContainer {
         new HornAmpShootWithDeflector()
       );
       m_driverController.button(5)
-    .whileTrue( 
+    .whileTrue(
       new SequentialCommandGroup(
         new GroundIntake(1),
         new HornIntake(-0.2))

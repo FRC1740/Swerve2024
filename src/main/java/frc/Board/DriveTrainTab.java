@@ -43,6 +43,8 @@ public class DriveTrainTab {
 
   GenericEntry m_nte_HasRotationControl; // whether the driver has control over rotation or not
 
+  GenericEntry m_nte_AutoRotationOffset;
+
   private static DriveTrainTab instance = null;
 
   private DriveTrainTab() {
@@ -74,6 +76,9 @@ public class DriveTrainTab {
 
     m_nte_HasRotationControl = m_sbt_DriveTrain.addPersistent("Has Rotation Control", true)
     .withSize(3,3).withPosition(4, 3).getEntry();
+
+    m_nte_AutoRotationOffset = m_sbt_DriveTrain.addPersistent("Has Rotation Control", true)
+    .withSize(1,1).withPosition(0, 3).getEntry();
 
     m_sbt_DriveTrain.add(m_Field)
       .withSize(4, 2).withPosition(0, 0);
@@ -123,6 +128,11 @@ public class DriveTrainTab {
   public void setTrajectory(Trajectory traj){
     m_Field.getObject("trajectory").setTrajectory(traj);
   }
+
+  public double getAutoRotationOffset() {
+    return m_nte_AutoRotationOffset.getDouble(0);
+  }
+
   private double truncate(double input, int decimalPlaces){
     return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));
   }

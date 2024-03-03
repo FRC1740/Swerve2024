@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -23,7 +22,6 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.Board.DriveTrainTab;
-import frc.Networking.LimelightTable;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
@@ -33,12 +31,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.Optional;
 
-import org.photonvision.EstimatedRobotPose;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class DriveSubsystem extends SubsystemBase {
+
+  /** gyro angular offset in degrees */
+  double gyroAutoAngularOffset = 0;
+
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
     CanIds.kFrontLeftDrivingCanId,
@@ -79,7 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
     DriveConstants.kDriveKinematics,
-    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
+    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset))),
     new SwerveModulePosition[] {
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
@@ -152,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (visionPose[0] != 0 && visionPose[1] != 0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset))), //Vision Pose 
+          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset)))), //Vision Pose 
           
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
     }
@@ -161,7 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     //Just odometry
     m_odometry.update(
-      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset))),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -227,7 +227,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset))),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -402,6 +402,16 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyro.reset();
     // m_gyro.setAngleAdjustment(m_currentRotation);
   }
+
+  // sets the offset after the auto to adjust for starting.
+  public void setAutoRotationOffset(Optional<Double> angle) {
+    if (angle.isPresent()) {
+        gyroAutoAngularOffset = angle.get();
+    } else {
+        gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
+    }
+}
+
 
 //Gets gyro in form of Rotation2d
   public Rotation2d getRotation2d(){ // this is the reversed angle and should be used to get the reversed robot angle
