@@ -19,10 +19,18 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double getXdeviation() {
+    //Positive if target is right of crosshair
+    //Negative if left of crosshair
     return m_LimelightTable.getTx();
   }
   public double getYdeviation() {
     return m_LimelightTable.getTy();
+  }
+  public void setPriorityID(double ID){
+    m_LimelightTable.setPriorityID(ID);
+  }
+  public double getPriorityID(double ID){
+    return m_LimelightTable.getPriorityID();
   }
   public double[] getTranslationToAprilTag(){
     return m_LimelightTable.getTranslationToAprilTag();

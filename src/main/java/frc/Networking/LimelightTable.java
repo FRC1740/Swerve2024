@@ -38,6 +38,9 @@ public class LimelightTable {
   private static String Pipeline_Entry = "pipeline";
   private static Double Pipeline_Default = 0.0;
 
+  private static String PriorityID_Entry = "priorityid";
+  private static Double PriorityID_Default = 0.0;
+
   NetworkTable m_nt = null;
 
   private static LimelightTable instance = null;
@@ -114,6 +117,14 @@ public class LimelightTable {
   
   public void setPipeline(double value) {
     m_nt.getEntry(Pipeline_Entry).setNumber(value);
+  }
+
+  public double getPriorityID(){
+    return m_nt.getEntry(PriorityID_Entry).getDouble(PriorityID_Default);
+  }
+
+  public void setPriorityID(double ID){
+    m_nt.getEntry(PriorityID_Entry).setNumber(ID);
   }
 
   public double[] getBotPose() {

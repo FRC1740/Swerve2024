@@ -9,6 +9,8 @@ public class DriveCommandConstants {
   public static final double kYI = 0;
   public static final double kYD = 0;
 
+  public static final double kTranslationP = 0.1;
+
   public static final double kMaxVelocity = 0;
   public static final double kMaxAccel = 0;
 
@@ -18,4 +20,9 @@ public class DriveCommandConstants {
   public static final double kXToleranceMeters = 0;
   public static final double kYToleranceMeters = 0;
   public static final double kThetaToleranceRadians = 0;
+  public static final double kThetaToleranceDegrees = 3;
+  public static final double kDistanceTolerance = 0.05;
+
+
+  public static final double distance_from_speaker_goal = 1; //meters
 }
