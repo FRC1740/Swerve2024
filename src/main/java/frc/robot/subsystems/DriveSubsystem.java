@@ -79,7 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
     DriveConstants.kDriveKinematics,
-    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset))),
+    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + (gyroAutoAngularOffset))),
     new SwerveModulePosition[] {
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
@@ -133,14 +133,16 @@ public class DriveSubsystem extends SubsystemBase {
       this::chassisSpeedDrive, 
       DriveConstants.kPathFollowerConfig, 
       () -> {
-        // var alliance = DriverStation.getAlliance();
-        // if(alliance.isPresent()) {
-        //   return alliance.get() == DriverStation.Alliance.Red;
-        // }
-        // return false;
-        // return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
+        // I figure if one of these works it's fine, it only runs once so redundancy is fine
+        if(DriveTab.getIsPathFlipped() == 1) { // expicit path flip, if this is not set, it is fine because it gets driverstation
+          return true;
+        }
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
 
-        return false;
+        return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
       }, 
     this);
   }
@@ -154,7 +156,8 @@ public class DriveSubsystem extends SubsystemBase {
     if (visionPose[0] != 0 && visionPose[1] != 0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset)))), //Vision Pose 
+          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + (gyroAutoAngularOffset)))
+        ), //Vision Pose 
           
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
     }
@@ -163,7 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     //Just odometry
     m_odometry.update(
-      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset))),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + (gyroAutoAngularOffset))),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -260,7 +263,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(gyroAutoAngularOffset);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
@@ -313,7 +316,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
       fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getRotation2d())
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getRotation2d()) //TODO: add offset
         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -406,11 +409,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   // sets the offset after the auto to adjust for starting.
-  public void setAutoRotationOffset(Optional<Double> angle) {
-    if (angle.isPresent()) {
-        gyroAutoAngularOffset = angle.get();
-    } else {
+  public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
+    if (useShuffleboard) {
         gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
+    } else {
+        gyroAutoAngularOffset = 90;
     }
 }
 

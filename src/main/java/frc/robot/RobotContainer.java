@@ -242,17 +242,19 @@ public class RobotContainer {
         buttonBoardButtons[i][j] = m_coDriverController.button((i * 3) + j + 1);
       }
     }
-    // THIS IS ALL WRONG FIXME:
-    // Trigger buttonBoardSwitches[][] = new Trigger[2][2];
-    // for(int i = 0; i < 2; i++){
-    //   for(int j = 0; j < 2; j++){
-    //     buttonBoardButtons[i][j] = m_coDriverController.button(i * 2 + j + 1);
-    //   }
-    // }
-    // buttonBoardSwitches[1][0].onTrue(
-      // do climber
-      // new DriveWhileAligning(2 * -45, true, true).withTimeout(3)
-    // );
+    // TODO: add switch to toggle between using breakbeam intake and not
+    Trigger buttonBoardSwitches[][] = new Trigger[2][2];
+    for(int i = 0; i < 2; i++){
+      for(int j = 0; j < 2; j++){
+        buttonBoardSwitches[i][j] = m_coDriverController.button((((i * 2) + j) * 2) + 10); // starts st 10 offset
+      }
+    }
+    buttonBoardSwitches[0][0].onTrue(
+      new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
+    );
+    buttonBoardSwitches[0][1].onTrue(
+      new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
+    );
     buttonBoardButtons[0][0]
       .whileTrue( 
         new ParallelCommandGroup(

@@ -44,6 +44,7 @@ public class DriveTrainTab {
   GenericEntry m_nte_HasRotationControl; // whether the driver has control over rotation or not
 
   GenericEntry m_nte_AutoRotationOffset;
+  GenericEntry m_nte_IsPathFlipped;
 
   private static DriveTrainTab instance = null;
 
@@ -78,7 +79,10 @@ public class DriveTrainTab {
     .withSize(3,3).withPosition(4, 3).getEntry();
 
     m_nte_AutoRotationOffset = m_sbt_DriveTrain.addPersistent("AutoRotationOffset", 0.0)
-    .withSize(1,1).withPosition(0, 3).getEntry();
+    .withSize(1,1).withPosition(1, 3).getEntry();
+
+    m_nte_IsPathFlipped = m_sbt_DriveTrain.addPersistent("IsPathFlipped", (int)0)
+    .withSize(1,1).withPosition(1, 4).getEntry();
 
     m_sbt_DriveTrain.add(m_Field)
       .withSize(4, 2).withPosition(0, 0);
@@ -133,6 +137,12 @@ public class DriveTrainTab {
     return m_nte_AutoRotationOffset.getDouble(0.0);
   }
 
+  /** one is flipped */
+  public double getIsPathFlipped() {
+    return m_nte_IsPathFlipped.getInteger(0);
+  }
+
+  /** Reduces the number of decmial places to reduce noise */
   private double truncate(double input, int decimalPlaces){
     return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));
   }

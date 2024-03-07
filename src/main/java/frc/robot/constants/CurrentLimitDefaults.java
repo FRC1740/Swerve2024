@@ -5,9 +5,9 @@ public class CurrentLimitDefaults {
   final public static int kNeo = 50;
   /** The default current limit for a Neo550 */
   final public static int kNeo550 = 20;
-  /* The default current limit */
+  /** The default current limit */
   final public static int kSmallBrushedMotor = 12;
-  /* The default current limit for testing, this ensures it will not burn up*/
+  /** The default current limit for testing, this ensures it will not burn up*/
   final public static int kSmallBrushedMotorTesting = 6;
 
 }

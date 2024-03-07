@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import java.util.Optional;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -38,17 +36,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    // RobotShared m_robotShared = RobotShared.getInstance();
-
-    // m_robotShared.getDriveSubsystem().configureHolonomic(); // need to run  first
-
+    RobotShared m_robotShared = RobotShared.getInstance();
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
 
-    // m_robotShared.getDriveSubsystem().setAutoRotationOffset(Optional.of(0.0));
+    m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, false);
   }
 
   @Override
@@ -63,9 +59,9 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    // RobotShared m_robotShared = RobotShared.getInstance();
+    RobotShared m_robotShared = RobotShared.getInstance();
 
-    // m_robotShared.getDriveSubsystem().setAutoRotationOffset(Optional.of(null)); // null so it pulls from shuffleboard
+    m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, true); // null so it pulls from shuffleboard
   }
 
   @Override
