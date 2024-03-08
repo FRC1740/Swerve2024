@@ -30,7 +30,6 @@ import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
-import frc.robot.subsystems.ServoSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -40,8 +39,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import java.util.Optional;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -60,7 +57,6 @@ public class RobotContainer {
   private ClimberSubsystem m_climberSubsystem;
   private DeflectorSubsytem m_deflectorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
-  private ServoSubsystem m_servoSubsystem;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -134,7 +130,6 @@ public class RobotContainer {
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
     m_climberSubsystem = m_robotShared.getClimberSubsystem();
-    m_servoSubsystem = m_robotShared.getServoSubsystem();
     // m_robotShared.getPhotonVision();
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
 
@@ -242,19 +237,27 @@ public class RobotContainer {
         buttonBoardButtons[i][j] = m_coDriverController.button((i * 3) + j + 1);
       }
     }
-    // TODO: add switch to toggle between using breakbeam intake and not
+
     Trigger buttonBoardSwitches[][] = new Trigger[2][2];
     for(int i = 0; i < 2; i++){
       for(int j = 0; j < 2; j++){
         buttonBoardSwitches[i][j] = m_coDriverController.button((((i * 2) + j) * 2) + 10); // starts st 10 offset
       }
     }
+
     buttonBoardSwitches[0][0].onTrue(
       new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
     );
     buttonBoardSwitches[0][1].onTrue(
       new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
     );
+    buttonBoardSwitches[1][0].onTrue( // TODO: use this to toggle between breakbeam and not
+      new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
+    )
+    .onFalse( // TODO: use this to toggle between breakbeam and not
+      new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, false))
+    );
+    
     buttonBoardButtons[0][0]
       .whileTrue( 
         new ParallelCommandGroup(

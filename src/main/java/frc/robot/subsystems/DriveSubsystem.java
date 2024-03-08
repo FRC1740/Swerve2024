@@ -29,15 +29,13 @@ import frc.robot.constants.SubsystemConstants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.Optional;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  /** gyro angular offset in degrees */
-  double gyroAutoAngularOffset = 0;
+  /** gyro angular offset in degrees <b>after</b> auto*/
+  double gyroAutoAngularOffset = 0; 
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
