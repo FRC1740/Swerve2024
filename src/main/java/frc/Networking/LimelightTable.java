@@ -57,6 +57,7 @@ public class LimelightTable {
     m_nt = NetworkTableInstance.getDefault().getTable(TableName);
     //http://photonvision.local:5801
     // HttpCamera httpCamera = new HttpCamera("limelight", "http://limelight.local:5801"); 
+    // httpCamera.setFPS(1);
     // CameraServer.addCamera(httpCamera);
     // Shuffleboard.getTab("Driver")
     //     .add(httpCamera);

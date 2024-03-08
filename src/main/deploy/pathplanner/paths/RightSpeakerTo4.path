@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7091797260851467,
-        "y": 2.755507465338674
+        "x": 2.1466582470201985,
+        "y": 1.1230773572658257
       },
       "isLocked": false,
       "linkedName": "RightSpeaker"
     },
     {
       "anchor": {
-        "x": 8.131297095927525,
-        "y": 0.7730064487906758
+        "x": 8.070413159985547,
+        "y": 2.2383696729819054
       },
       "prevControl": {
-        "x": 6.3817739348441656,
-        "y": 0.1315363973320549
+        "x": 4.868422445178224,
+        "y": 1.115594925634296
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "5"
+      "linkedName": "4"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 174.7765582988882,
+    "rotation": -140.7561261938194,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "SpeakerRight",
   "previewStartingState": {
-    "rotation": 119.94402624971872,
+    "rotation": 120.55163951776659,
     "velocity": 0
   },
   "useDefaultConstraints": true
