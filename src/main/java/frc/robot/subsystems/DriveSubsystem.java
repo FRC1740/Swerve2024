@@ -119,7 +119,6 @@ public class DriveSubsystem extends SubsystemBase {
   //TODO: disabled init
   public DriveSubsystem() {
     m_limelight = m_robotShared.getLimelight();
-    // m_photonVision = m_robotShared.getPhotonVision();
     configureHolonomic();
   }
 
@@ -418,7 +417,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 //Gets gyro in form of Rotation2d
   public Rotation2d getRotation2d(){ // this is the reversed angle and should be used to get the reversed robot angle
-    return m_gyro.getRotation2d();
+    return m_gyro.getRotation2d(); // TODO: pose estimator has no rotation offset
   }
 
   /**
