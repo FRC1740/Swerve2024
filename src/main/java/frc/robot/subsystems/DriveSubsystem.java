@@ -35,7 +35,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class DriveSubsystem extends SubsystemBase {
 
   /** gyro angular offset in degrees <b>after</b> auto*/
-  double gyroAutoAngularOffset = 0; 
+  double gyroAutoAngularOffset = 0;
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
