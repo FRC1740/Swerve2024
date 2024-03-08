@@ -35,7 +35,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class DriveSubsystem extends SubsystemBase {
 
   /** gyro angular offset in degrees <b>after</b> auto*/
-  double gyroAutoAngularOffset = 0; 
+  double gyroAutoAngularOffset = 90; 
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -260,7 +260,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(gyroAutoAngularOffset);
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(-gyroAutoAngularOffset);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
@@ -410,7 +410,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (useShuffleboard) {
         gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
     } else {
-        gyroAutoAngularOffset = 90;
+        gyroAutoAngularOffset = angle;
     }
 }
 
