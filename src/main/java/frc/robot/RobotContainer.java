@@ -227,6 +227,14 @@ public class RobotContainer {
         .onTrue(
           new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
     }
+    m_driverController.leftStick()
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) / 2,
+          true, true, OIConstants.kUseQuadraticInput),
+        m_robotDrive));
   }
 
   void buttonBoardControls(){
@@ -245,13 +253,25 @@ public class RobotContainer {
       }
     }
 
-    buttonBoardSwitches[0][0].onTrue(
+    buttonBoardSwitches[0][1] // bottom
+    .onTrue(
       new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
+    )
+    .onFalse(
+      new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(0.0))
     );
-    buttonBoardSwitches[0][1].onTrue(
+    buttonBoardSwitches[1][1] // bottom
+    .onTrue(
+      new InstantCommand(() -> m_deflectorSubsystem.resetDeflectorEncoder())
+    );
+    
+    buttonBoardSwitches[0][0]
+    .onTrue(
       new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
     );
-    buttonBoardSwitches[1][0].onTrue( // TODO: use this to toggle between breakbeam and not
+
+    buttonBoardSwitches[1][0]
+    .onTrue( // TODO: use this to toggle between breakbeam and not
       new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
     )
     .onFalse( // TODO: use this to toggle between breakbeam and not
@@ -344,19 +364,21 @@ public class RobotContainer {
 
   void flightStickControls(){
     m_driverController.x()
-      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+      .onTrue(
+        new InstantCommand(() -> m_robotDrive.zeroHeading())
+      );
 
 
     m_driverController.button(22)
       .whileTrue(
         new HornAmpShootWithDeflector()
       );
-      m_driverController.button(5)
-    .whileTrue(
+    m_driverController.button(5)
+      .whileTrue(
       new SequentialCommandGroup(
         new GroundIntake(1),
         new HornIntake(-0.2))
-    );
+      );
 
     m_driverController.a()
       .whileTrue( 

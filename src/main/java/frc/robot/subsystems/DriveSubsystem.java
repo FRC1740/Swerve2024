@@ -35,7 +35,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class DriveSubsystem extends SubsystemBase {
 
   /** gyro angular offset in degrees <b>after</b> auto*/
-  double gyroAutoAngularOffset = 90; 
+  double gyroAutoAngularOffset = 0; 
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -132,12 +132,15 @@ public class DriveSubsystem extends SubsystemBase {
       () -> {
         // I figure if one of these works it's fine, it only runs once so redundancy is fine
         if(DriveTab.getIsPathFlipped() == 1) { // expicit path flip, if this is not set, it is fine because it gets driverstation
+          System.out.println("Flipped SB");
           return true;
         }
         var alliance = DriverStation.getAlliance();
         if(alliance.isPresent()) {
+          System.out.println("Flipped DS " + (alliance.get() == DriverStation.Alliance.Red));
           return alliance.get() == DriverStation.Alliance.Red;
         }
+          System.out.println("No flip");
 
         return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
       }, 
@@ -408,8 +411,10 @@ public class DriveSubsystem extends SubsystemBase {
   // sets the offset after the auto to adjust for starting.
   public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
     if (useShuffleboard) {
+        System.out.println("Pulled rotation offset " + DriveTab.getAutoRotationOffset());
         gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
     } else {
+        System.out.println("Set auto rotation offset " + angle);
         gyroAutoAngularOffset = angle;
     }
 }

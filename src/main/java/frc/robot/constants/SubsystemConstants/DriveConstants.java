@@ -14,9 +14,9 @@ public final class DriveConstants {
   public static final double kMaxSpeedMetersPerSecond = 4.8; // 4.8 is the top speed possible with our modules 
   public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-  public static final double kDirectionSlewRate = 4; // radians per second was 1.2
-  public static final double kMagnitudeSlewRate = 2.5; // percent per second (1 = 100%)
-  public static final double kRotationalSlewRate = 10; // percent per second (1 = 100%)
+  public static final double kDirectionSlewRate = 4; // radians per second was 1.2 4
+  public static final double kMagnitudeSlewRate = 3; // percent per second (1 = 100%) 2.5
+  public static final double kRotationalSlewRate = 5; // percent per second (1 = 100%) 10
 
   // Chassis configuration
   public static final double kTrackWidth = Units.inchesToMeters(20.625);

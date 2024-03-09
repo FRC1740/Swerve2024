@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.8356002646071226,
-      "y": 7.8062116681533205
+      "x": 1.5398092879519094,
+      "y": 7.778165834109446
     },
     "rotation": 89.78618659424987
   },
@@ -11,6 +11,12 @@
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Starting to amp"
+          }
+        },
         {
           "type": "named",
           "data": {
