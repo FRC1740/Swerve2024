@@ -35,7 +35,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class DriveSubsystem extends SubsystemBase {
 
   /** gyro angular offset in degrees <b>after</b> auto*/
-  double gyroAutoAngularOffset = 0; 
+  // double gyroAutoAngularOffset = 0; 
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -77,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
     DriveConstants.kDriveKinematics,
-    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + (gyroAutoAngularOffset))),
+    getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
     new SwerveModulePosition[] {
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
@@ -156,7 +156,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (visionPose[0] != 0 && visionPose[1] != 0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + (gyroAutoAngularOffset)))
+          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset))
         ), //Vision Pose 
           
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
@@ -166,7 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     //Just odometry
     m_odometry.update(
-      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + (gyroAutoAngularOffset))),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -212,7 +212,7 @@ public class DriveSubsystem extends SubsystemBase {
     //   EstimatedRobotPose visionPose = result.get();
     //   PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
     // }
-    // DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
+    DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -232,7 +232,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset + Units.degreesToRadians(gyroAutoAngularOffset))),
+      getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
@@ -263,7 +263,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(-gyroAutoAngularOffset);
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
@@ -405,17 +405,17 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
-    // m_gyro.setAngleAdjustment(m_currentRotation);
+    m_gyro.setAngleAdjustment(0.0);
   }
 
   // sets the offset after the auto to adjust for starting.
   public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
     if (useShuffleboard) {
         System.out.println("Pulled rotation offset " + DriveTab.getAutoRotationOffset());
-        gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
+        m_gyro.setAngleAdjustment(DriveTab.getAutoRotationOffset());
     } else {
         System.out.println("Set auto rotation offset " + angle);
-        gyroAutoAngularOffset = angle;
+        m_gyro.setAngleAdjustment(angle);
     }
 }
 

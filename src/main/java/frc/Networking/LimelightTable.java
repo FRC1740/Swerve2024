@@ -119,6 +119,6 @@ public class LimelightTable {
 
   public double[] getBotPose() {
     //print
-    return m_nt.getEntry("botpose").getDoubleArray(new double[6]);
+    return m_nt.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
   }
 }
