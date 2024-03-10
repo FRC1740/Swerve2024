@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.277699578547306,
-        "y": 1.1267591887035633
+        "x": 0.6309705002222505,
+        "y": 4.504911857665977
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.296616736751992,
-        "y": 1.560562070198215
+        "x": 2.1466582470201985,
+        "y": 1.1230773572658257
       },
       "isLocked": false,
-      "linkedName": "InsideRight"
+      "linkedName": "RightSpeaker"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 2.2357736800667056
       },
       "prevControl": {
-        "x": 7.633853684746062,
-        "y": 1.8878144815441416
+        "x": 4.820300428361275,
+        "y": 1.1129989327190963
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -142.82050091268988,
+    "rotation": -140.7561261938194,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "RightInsdeBounds",
-  "previewStartingState": null,
-  "useDefaultConstraints": false
+  "folder": "SpeakerRight",
+  "previewStartingState": {
+    "rotation": 120.55163951776659,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
 }

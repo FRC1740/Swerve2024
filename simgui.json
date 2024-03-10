@@ -3,7 +3,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/DriveTrain/Field": "Field2d",
-      "/Shuffleboard/Driver/Field": "Field2d"
+      "/Shuffleboard/Driver/Field": "Field2d",
+      "/SmartDashboard/Auto Mode": "String Chooser"
     },
     "windows": {
       "/Shuffleboard/DriveTrain/Field": {
