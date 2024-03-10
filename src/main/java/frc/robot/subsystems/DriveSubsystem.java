@@ -140,7 +140,7 @@ public class DriveSubsystem extends SubsystemBase {
           System.out.println("Flipped DS " + (alliance.get() == DriverStation.Alliance.Red));
           return alliance.get() == DriverStation.Alliance.Red;
         }
-          System.out.println("No flip");
+        System.out.println("No flip");
 
         return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
       }, 

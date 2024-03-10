@@ -23,6 +23,8 @@ public class HornTab {
   GenericEntry m_nte_IntakeFromHornMode;
   GenericEntry m_nte_HornSpeedSetter;
 
+  GenericEntry m_nte_VisionGuessCorrect;
+
   GenericEntry m_nte_DeflectorSetpoint;
   GenericEntry m_nte_DeflectorEncoder;
 
@@ -65,6 +67,10 @@ public class HornTab {
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withProperties(Map.of("min", 0, "max", HornConstants.kMaxHornRPM)) // specify widget properties here
       .getEntry();
+
+    m_nte_VisionGuessCorrect = m_sbt_Horn.add("VisionGuessCorrect", false)
+      .withSize(1, 1).withPosition(8, 0).getEntry();
+
     m_nte_P = m_sbt_Horn.add("P", HornConstants.kP)
       .withSize(1, 1).withPosition(8, 1).getEntry();
 
@@ -100,6 +106,10 @@ public class HornTab {
   }
   public Double getHornTargetSpeed() {
     return m_nte_HornSpeedSetter.getDouble(0.0);
+  }
+
+  public void setVisionGuessCorrect(boolean value) {
+    m_nte_VisionGuessCorrect.setBoolean(value);
   }
   
   public Double getAmpTargetSpeed() {

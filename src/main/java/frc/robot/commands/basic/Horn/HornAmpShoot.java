@@ -33,6 +33,11 @@ public class HornAmpShoot extends Command {
   @Override
   public void initialize() {
     startingTime = System.currentTimeMillis();
+
+    if(!HornShootVision.isShotSpeaker()) {
+      System.out.println("Correct Guess");
+      m_HornTab.setVisionGuessCorrect(true);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

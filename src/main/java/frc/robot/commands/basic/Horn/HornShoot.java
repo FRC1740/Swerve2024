@@ -5,6 +5,7 @@
 package frc.robot.commands.basic.Horn;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.Board.HornTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -15,6 +16,7 @@ public class HornShoot extends Command {
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private RobotShared m_robotShared;
+  private HornTab m_HornTab;
 
   private long startingTime;
 
@@ -25,6 +27,7 @@ public class HornShoot extends Command {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
+    m_HornTab = HornTab.getInstance();
     addRequirements(m_horn);
     addRequirements(m_conveyorSubsystem);
     m_shootSpeed = shootSpeed;
@@ -34,6 +37,11 @@ public class HornShoot extends Command {
   @Override
   public void initialize() {
     startingTime = System.currentTimeMillis();
+    
+    if(HornShootVision.isShotSpeaker()) {
+      System.out.println("Correct Guess");
+      m_HornTab.setVisionGuessCorrect(true);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

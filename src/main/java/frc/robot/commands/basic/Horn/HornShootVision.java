@@ -29,6 +29,10 @@ public class HornShootVision extends Command {
     addRequirements(m_limelight);
   }
 
+  public static boolean isShotSpeaker(){ // chance that these could be null
+    return VisionConstants.isSpeakerID((int) RobotShared.getInstance().getLimelight().getLastSeenScoringAprilTag());
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

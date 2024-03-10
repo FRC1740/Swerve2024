@@ -2,7 +2,21 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/Shuffleboard/DriveTrain/Field": "Field2d"
+      "/Shuffleboard/DriveTrain/Field": "Field2d",
+      "/Shuffleboard/Driver/Field": "Field2d"
+    },
+    "windows": {
+      "/Shuffleboard/DriveTrain/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
@@ -15,6 +29,17 @@
           "open": true
         },
         "Sensor": {
+          "open": true
+        },
+        "open": true
+      }
+    },
+    "transitory": {
+      "Shuffleboard": {
+        "DriveTrain": {
+          "Field": {
+            "open": true
+          },
           "open": true
         },
         "open": true
