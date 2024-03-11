@@ -35,7 +35,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class DriveSubsystem extends SubsystemBase {
 
   /** gyro angular offset in degrees <b>after</b> auto*/
-  // double gyroAutoAngularOffset = 0; 
+  double gyroAutoAngularOffset = 0; 
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -263,7 +263,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(gyroAutoAngularOffset);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
@@ -405,17 +405,20 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
-    m_gyro.setAngleAdjustment(0.0);
+    gyroAutoAngularOffset = 0.0;
+    // m_gyro.setAngleAdjustment(0.0);
   }
 
   // sets the offset after the auto to adjust for starting.
   public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
     if (useShuffleboard) {
         System.out.println("Pulled rotation offset " + DriveTab.getAutoRotationOffset());
-        m_gyro.setAngleAdjustment(DriveTab.getAutoRotationOffset());
+        // m_gyro.setAngleAdjustment(DriveTab.getAutoRotationOffset());
+        gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
     } else {
         System.out.println("Set auto rotation offset " + angle);
-        m_gyro.setAngleAdjustment(angle);
+        gyroAutoAngularOffset = angle;
+        // m_gyro.setAngleAdjustment(angle);
     }
 }
 
