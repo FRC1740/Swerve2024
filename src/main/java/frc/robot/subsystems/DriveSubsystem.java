@@ -156,7 +156,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (visionPose[0] != 0 && visionPose[1] != 0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset))
+          visionPose[1], m_odometry.getPoseMeters().getRotation()
         ), //Vision Pose 
           
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
@@ -263,7 +263,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(gyroAutoAngularOffset);
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(-gyroAutoAngularOffset);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
