@@ -29,10 +29,10 @@ void setup() {
 }
 
 void loop() {
-  // pathing();
+  pathing();
   // distance();
   // snake();
-  gambling();
+  // gambling();
   // strobe();
   // sort();
   // FastLED.show();

@@ -18,7 +18,9 @@ public class Leds extends SubsystemBase{
 
     @Override
     public void periodic() {
+        // System.out.println("led");
         if (timer.get() > .1){
+        System.out.println("timer");
             byte[] sendData = "Data".getBytes(); // should read from shuffleboard
             byte[] receiveData = new byte[5];
             arduino.transaction(sendData, sendData.length, receiveData, 5);
