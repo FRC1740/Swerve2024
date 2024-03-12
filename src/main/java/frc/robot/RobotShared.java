@@ -12,6 +12,7 @@ import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.Leds;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.ServoSubsystem;
@@ -31,6 +32,7 @@ public class RobotShared {
   protected final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   protected final CommandXboxController m_coDriverController = new CommandXboxController(OIConstants.kCoDriverControllerPort);
 
+  protected Leds m_ledSubsystem = null;
 
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
@@ -100,6 +102,12 @@ public class RobotShared {
   }
   public CommandXboxController getCoDriverController() {
     return m_coDriverController;
+  }
+  public Leds getLeds() {
+    if(m_ledSubsystem == null) {
+      m_ledSubsystem = new Leds();
+    }
+    return m_ledSubsystem;
   }
   public LimelightSubsystem getLimelight() {
     if(m_limelight == null) {
