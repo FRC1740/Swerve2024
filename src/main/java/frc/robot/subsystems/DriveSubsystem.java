@@ -195,7 +195,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void updatePoseEstimater(){
-
     PoseEstimator.update(  
       getRotation2d(),
       new SwerveModulePosition[] {
@@ -226,11 +225,20 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**         
-   * Resets the odometry to the specified pose.
+   * Resets the odometry AND POSE ESIMATION to the specified pose.
    *
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
+    PoseEstimator.resetPosition(
+      getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+      },
+    pose);
     m_odometry.resetPosition(
       getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
@@ -346,6 +354,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+  }
+  public void setForwardFormation() {
+    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
   }
 
   /**
