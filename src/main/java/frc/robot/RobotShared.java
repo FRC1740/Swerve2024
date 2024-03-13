@@ -14,7 +14,6 @@ import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
-import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.BreakbeamSensorSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
@@ -36,7 +35,6 @@ public class RobotShared {
   protected PhotonVision m_photonVision = null;
   protected BreakbeamSensorSubsystem m_sensorSubsystem = null;
   protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
-  protected ServoSubsystem m_servoSubsystem = null;
 
   private static RobotShared instance;
 
@@ -70,12 +68,6 @@ public class RobotShared {
       m_climberSubsystem = new ClimberSubsystem();
     }
     return m_climberSubsystem;
-  }
-  public ServoSubsystem getServoSubsystem() {
-    if(m_servoSubsystem == null) {
-      m_servoSubsystem = new ServoSubsystem();
-    }
-    return m_servoSubsystem;
   }
   public DeflectorSubsytem getDeflectorSubsystem() {
     if(m_deflector == null) {

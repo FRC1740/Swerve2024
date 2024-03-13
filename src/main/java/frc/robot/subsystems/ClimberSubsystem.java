@@ -35,7 +35,7 @@ public class ClimberSubsystem extends SubsystemBase{
   }
   @Override
   public void periodic() {
-    System.out.println("Climber Encoder: " + m_climberEncoder.getPosition());
+    // System.out.println("Climber Encoder: " + m_climberEncoder.getPosition());
   }
   public void toggleSoftLimit(){
     if(m_ClimberMotor.isSoftLimitEnabled(SoftLimitDirection.kForward)){
