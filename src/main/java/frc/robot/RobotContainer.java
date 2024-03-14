@@ -20,6 +20,7 @@ import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
 import frc.robot.commands.AlignAndDrive.DriveWhileAligning;
 import frc.robot.commands.basic.GroundEject;
 import frc.robot.commands.basic.GroundIntake;
+import frc.robot.commands.basic.GroundIntakeDefault;
 import frc.robot.commands.basic.GroundIntakeNoHorn;
 import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
@@ -118,9 +119,12 @@ public class RobotContainer {
             true, true, OIConstants.kUseQuadraticInput),
           m_robotDrive));
     }
+
     m_deflectorSubsystem.setDefaultCommand(
       new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
       m_deflectorSubsystem));
+
+    // m_conveyorSubsystem.setDefaultCommand(new GroundIntakeDefault(1));
   }
 
   private void initSubsystems() {

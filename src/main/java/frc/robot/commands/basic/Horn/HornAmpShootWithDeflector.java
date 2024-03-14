@@ -31,6 +31,7 @@ public class HornAmpShootWithDeflector extends Command {
     m_robotShared.getDeflectorSubsystem(); 
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     addRequirements(m_horn);
+    addRequirements(m_conveyorSubsystem);
   }
 
   // Called when the command is initially scheduled.
