@@ -261,7 +261,7 @@ public class RobotContainer {
       }
     }
 
-    buttonBoardSwitches[0][1] // bottom
+    buttonBoardSwitches[0][1] // top
     .onTrue(
       new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
     )
@@ -278,13 +278,13 @@ public class RobotContainer {
       new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
     );
 
-    buttonBoardSwitches[1][0]
-    .onTrue( // TODO: use this to toggle between breakbeam and not
-      new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
-    )
-    .onFalse( // TODO: use this to toggle between breakbeam and not
-      new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, false))
-    );
+    // buttonBoardSwitches[1][0]
+    // .onTrue( // TODO: use this to toggle between breakbeam and not
+    //   new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
+    // )
+    // .onFalse( // TODO: use this to toggle between breakbeam and not
+    //   new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, false))
+    // );
     
     buttonBoardButtons[0][0]
       .whileTrue( 
