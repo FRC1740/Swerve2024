@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7521348977883143,
-      "y": 6.531509586167322
+      "x": 0.7174074495098396,
+      "y": 6.606464270406219
     },
     "rotation": -117.09180177449585
   },
@@ -18,38 +18,38 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "LeftSpeaker to 1 hide"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "LeftSpeaker to 1 hide"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "1 to leftspeaker hide"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "GroundIntakeMedium"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "1 to leftspeaker hide"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
+                  "name": "GroundIntakeLong"
                 }
               }
             ]

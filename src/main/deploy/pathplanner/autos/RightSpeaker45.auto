@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6309705002222505,
-      "y": 4.504911857665977
+      "x": 0.7143307171658986,
+      "y": 4.482749770001028
     },
     "rotation": 123.23658788019806
   },
@@ -18,57 +18,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "RightSpeakerTo4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntakeMedium"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "4ToRightSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootSpeaker"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RightSpeakerTo5"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RightSpeakerTo4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4ToRightSpeaker"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -81,19 +56,44 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
+          "data": {
+            "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "5ToRightSpeaker"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RightSpeakerTo5"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "5ToRightSpeaker"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "GroundIntake"
+                  "name": "GroundIntakeLong"
                 }
               }
             ]

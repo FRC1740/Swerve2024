@@ -18,76 +18,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Speaker to left-most note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Left-note to speaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootSpeaker"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "speaker To middle note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Middle note to speaker"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Speaker to left-most note"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Left-note to speaker"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -106,13 +62,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "SpeakerRight"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "speaker To middle note"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Middle note to speaker"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -125,13 +100,38 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
+          "data": {
+            "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Right-note to speaker"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SpeakerRight"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Right-note to speaker"
+                      }
+                    }
+                  ]
                 }
               },
               {
