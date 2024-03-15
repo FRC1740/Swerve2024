@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3389713214671353,
-      "y": 5.572511265393898
+      "x": 0.7143307171658986,
+      "y": 4.482749770001028
     },
-    "rotation": -179.89669001535552
+    "rotation": 117.61525232878498
   },
   "command": {
     "type": "sequential",
@@ -28,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Speaker to left-most note"
+                        "pathName": "RightToRightNote"
                       }
                     },
                     {
@@ -40,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Left-note to speaker"
+                        "pathName": "RightNoteToRightSpeaker"
                       }
                     }
                   ]
@@ -50,6 +50,50 @@
                 "type": "named",
                 "data": {
                   "name": "GroundIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RightTo3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "3ToRight"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "GroundIntakeLong"
                 }
               }
             ]
