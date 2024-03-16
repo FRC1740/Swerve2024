@@ -56,6 +56,14 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
+  public void toggleLED(boolean lightsOn) {
+    if (lightsOn){
+      m_LimelightTable.setLedMode(3);
+    }else{
+      m_LimelightTable.setLedMode(1);
+    }
+  }
+
   //Returns true if Limelight is in vision processing mode
   public Boolean isVisionProcessing() {
     return m_LimelightTable.getCamMode() == 0 && m_LimelightTable.getLedMode() == 3;

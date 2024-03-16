@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -32,6 +31,7 @@ import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -59,6 +59,7 @@ public class RobotContainer {
   private ClimberSubsystem m_climberSubsystem;
   private DeflectorSubsytem m_deflectorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
+  private LimelightSubsystem m_limelight;
   
   private RobotShared m_robotShared = RobotShared.getInstance();
 
@@ -132,7 +133,7 @@ public class RobotContainer {
 
     m_robotDrive = m_robotShared.getDriveSubsystem();
     m_robotShared.getSensorSubsystem(); // no setting because not used
-    m_robotShared.getLimelight();
+    m_limelight = m_robotShared.getLimelight();
     m_hornSubsystem = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     m_groundIntakeSubsystem = m_robotShared.getGroundIntakeSubsystem();
@@ -262,8 +263,8 @@ public class RobotContainer {
     }
 
     buttonBoardSwitches[0][1] // top
-    .onTrue(
-      new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
+    .whileTrue(
+      new RunCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
     )
     .onFalse(
       new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(0.0))
@@ -277,14 +278,14 @@ public class RobotContainer {
     .onTrue(
       new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
     );
-
-    // buttonBoardSwitches[1][0]
-    // .onTrue( // TODO: use this to toggle between breakbeam and not
-    //   new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, true))
-    // )
-    // .onFalse( // TODO: use this to toggle between breakbeam and not
-    //   new InstantCommand(() -> m_robotDrive.setAutoRotationOffset(0.0, false))
-    // );
+    
+    buttonBoardSwitches[1][0]
+    .onTrue(
+      new InstantCommand(() -> m_limelight.toggleLED(true))
+    )
+    .onFalse(
+      new InstantCommand(() -> m_limelight.toggleLED(false))
+    );
     
     buttonBoardButtons[0][0]
       .whileTrue( 

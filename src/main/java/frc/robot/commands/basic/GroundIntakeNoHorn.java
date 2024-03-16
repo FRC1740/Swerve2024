@@ -50,7 +50,8 @@ public class GroundIntakeNoHorn extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false){
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false ||
+    m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false) {
       return true;
     }
     return false;

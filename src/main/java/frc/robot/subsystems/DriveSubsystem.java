@@ -178,7 +178,7 @@ public class DriveSubsystem extends SubsystemBase {
     PosePublisher.set(new Pose2d[]{
       new Pose2d(m_limelight.getBotPose()[0],
       m_limelight.getBotPose()[1], m_odometry.getPoseMeters().getRotation()), //Vision Pose
-      new Pose2d(m_odometry.getPoseMeters().getTranslation(), m_odometry.getPoseMeters().getRotation().plus(new Rotation2d(GyroConstants.kGyroAngularOffset))), //Odometry pose
+      new Pose2d(m_odometry.getPoseMeters().getTranslation().rotateBy(new Rotation2d(Units.degreesToRadians(180.0))), m_odometry.getPoseMeters().getRotation()), //Odometry pose
       PoseEstimator.getEstimatedPosition()
     });
 
