@@ -55,8 +55,7 @@ public class HornIntake extends Command {
   @Override
   public boolean isFinished() {
     // Note has hit the ground intake sensor
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false ||
-    m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort2) == false) {
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false) {
       return true;
     }
     return false;
