@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
+import frc.Board.GroundIntakeTab;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
@@ -84,11 +85,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("GroundIntake", new GroundIntakeNoHorn(1).withTimeout(2));
     NamedCommands.registerCommand("GroundIntakeMedium", new GroundIntakeNoHorn(1).withTimeout(5));
     NamedCommands.registerCommand("GroundIntakeLong", new GroundIntakeNoHorn(1).withTimeout(10));
-    NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(1));
+    NamedCommands.registerCommand("ShootSpeaker", new HornShoot(HornConstants.kHornSpeakerShotMotorRPM).withTimeout(.5));
     NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(1)); // We don't use the amp so deflector not needed
-    NamedCommands.registerCommand("ShootAmpWithDeflector", new HornAmpShootWithDeflector().withTimeout(3)); // We don't use the amp so deflector not needed
+    NamedCommands.registerCommand("ShootAmpWithDeflector", new HornAmpShootWithDeflector().withTimeout(3)); // We use the amp so deflector needed
 
-    NamedCommands.registerCommand("SpinupShooter", new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(7000.0))); // We don't use the amp so deflector not needed
+    NamedCommands.registerCommand("SpinupShooter", new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(7000.0)));
+    NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> m_robotDrive.zeroHeading())); 
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -125,7 +127,8 @@ public class RobotContainer {
       new RunCommand(() -> m_deflectorSubsystem.seekSetpoint(),
       m_deflectorSubsystem));
 
-    // m_conveyorSubsystem.setDefaultCommand(new GroundIntakeDefault(1));
+    // buttonBoardSwitches[1][1] // bottom right
+    m_conveyorSubsystem.setDefaultCommand(new GroundIntakeDefault(1));
   }
 
   private void initSubsystems() {
@@ -269,10 +272,18 @@ public class RobotContainer {
     .onFalse(
       new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(0.0))
     );
-    buttonBoardSwitches[1][1] // bottom
+
+    buttonBoardSwitches[1][1] // bottom right
     .onTrue(
-      new InstantCommand(() -> m_deflectorSubsystem.resetDeflectorEncoder())
+      new InstantCommand(() -> GroundIntakeTab.getInstance().setGroundIntakeDefaultEnabled(true))
+    )
+    .onFalse(
+      new InstantCommand(() -> GroundIntakeTab.getInstance().setGroundIntakeDefaultEnabled(false))
     );
+    // buttonBoardSwitches[1][1] // bottom right
+    // .onTrue(
+    //   new InstantCommand(() -> m_deflectorSubsystem.resetDeflectorEncoder())
+    // );
     
     buttonBoardSwitches[0][0]
     .onTrue(

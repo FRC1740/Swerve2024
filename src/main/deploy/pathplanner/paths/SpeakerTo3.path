@@ -8,48 +8,45 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.056928451819867,
-        "y": 5.54531322025607
+        "x": 5.38678144692599,
+        "y": 6.047220092952091
       },
       "isLocked": false,
       "linkedName": "Speaker middle"
     },
     {
       "anchor": {
-        "x": 2.5181075315854335,
-        "y": 5.540384316879745
+        "x": 7.956381767488238,
+        "y": 4.097725561522552
       },
       "prevControl": {
-        "x": 1.9665454284612276,
-        "y": 5.488957445507483
+        "x": 3.382867212162996,
+        "y": 3.505166141656688
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "middle note"
+      "linkedName": "3"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0,
-      "rotationDegrees": 179.4207253800223,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.8,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": -175.45713003043127,
+    "velocity": 6.0,
+    "rotation": -178.72421946179637,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "SpeakerMiddle",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": -179.90263603677798,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }

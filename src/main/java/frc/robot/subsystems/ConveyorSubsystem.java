@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Board.CurrentDrawTab;
 import frc.Board.HornTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.ConveyorConstants;
@@ -10,6 +11,7 @@ import frc.robot.constants.SubsystemConstants.ConveyorConstants;
 public class ConveyorSubsystem extends SubsystemBase {
   private final CANSparkMax m_HornConveyorMotor = new CANSparkMax(CanIds.kConveyorMotorPort, CANSparkMax.MotorType.kBrushless);
   HornTab m_HornTab = HornTab.getInstance();
+  CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
 
   /** Creates a new GroundIntake. */
   public ConveyorSubsystem() {
@@ -20,5 +22,10 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
   public void setConveyorSpeed(double speed) {
     m_HornConveyorMotor.set(speed);
+  }
+
+  @Override
+  public void periodic() {
+    m_CurrentDrawTab.setConveyorCurrentDraw(m_HornConveyorMotor.getOutputCurrent());
   }
 }

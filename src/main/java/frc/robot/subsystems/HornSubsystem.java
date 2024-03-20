@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import frc.Board.CurrentDrawTab;
 import frc.Board.HornTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.HornConstants;
@@ -22,6 +23,7 @@ public class HornSubsystem extends SubsystemBase {
   private SparkPIDController m_RightPidController;
   private SparkPIDController m_LeftPidController;
   HornTab m_HornTab = HornTab.getInstance();
+  CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
 
   private double currentP; // stores the current P without checking m_RightPidController
   private double currentI; // stores the current I without checking m_RightPidController
@@ -132,6 +134,10 @@ public class HornSubsystem extends SubsystemBase {
     setVelocity(m_HornTab.getRightVelocitySetPoint(), m_HornTab.getLeftVelocitySetPoint());
     m_HornTab.setRightHornVelocity(getRightVelocity());
     m_HornTab.setLeftHornVelocity(getLeftVelocity());
+
+    m_CurrentDrawTab.setHornRightCurrentDraw(m_HornRightMotor.getOutputCurrent());
+    m_CurrentDrawTab.setHornLeftCurrentDraw(m_HornLeftMotor.getOutputCurrent());
+
     if(m_HornTab.getP() != currentP){
       setP(m_HornTab.getP());
     }

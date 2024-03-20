@@ -20,6 +20,7 @@ public class HornAmpShootWithDeflector extends Command {
   private RobotShared m_robotShared;
 
   private long startingTime;
+  private int timeUntilPop = 400;
 
   /** Creates a new Shoot. Takes in an RPM*/
   public HornAmpShootWithDeflector() {
@@ -61,13 +62,13 @@ public class HornAmpShootWithDeflector extends Command {
     if(startingTime + 50 > currentTime){ // run for .25 second
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
 
-    }else if(startingTime + 1300 > currentTime){
+    }else if(startingTime + timeUntilPop > currentTime){
       // do nothing and keep at .3
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
-    }else if(startingTime + 1400 > currentTime){ // run for .25 second
+    }else if(startingTime + 1500 > currentTime){ // run for .25 second
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
 
-    }else if(startingTime + 2000 > currentTime){ // run for .25 second
+    }else if(startingTime + 3000 > currentTime){ // run for .25 second
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
     }
   }

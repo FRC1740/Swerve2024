@@ -47,6 +47,9 @@ public class LimelightSubsystem extends SubsystemBase {
   public double[] getBotPose() {
     return m_LimelightTable.getBotPose();
   }
+  public double getTargetedArea() {
+    return m_LimelightTable.getTa();
+  }
   //Toggle led on and off
   public void toggleLED() {
     if (m_LimelightTable.getLedMode() == 1){

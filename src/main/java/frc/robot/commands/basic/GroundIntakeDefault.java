@@ -1,6 +1,7 @@
 package frc.robot.commands.basic;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.Board.GroundIntakeTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -14,6 +15,8 @@ public class GroundIntakeDefault extends Command{
   private BreakbeamSensorSubsystem m_sensorSubsystem;
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
+
+  private GroundIntakeTab m_GroundIntakeTab = GroundIntakeTab.getInstance();
 
   /** Creates a new IntakeDeploy. 
    * Intakes from the horn
@@ -36,7 +39,10 @@ public class GroundIntakeDefault extends Command{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false){
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false || 
+      m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false ||
+      m_GroundIntakeTab.getGroundIntakeDefaultEnabled() == false){
+        
       m_conveyorSubsystem.setConveyorSpeed(0);
       m_groundIntakeSubsystem.setGroundIntakeSpeed(0);
     }else{

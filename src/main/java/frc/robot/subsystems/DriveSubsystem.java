@@ -21,10 +21,12 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.Board.CurrentDrawTab;
 import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
+import frc.robot.constants.VisionConstants;
 import frc.robot.constants.SubsystemConstants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -63,6 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
   private AHRS m_gyro = new AHRS(SerialPort.Port.kMXP);
 
   
+  private final CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
   DriveTrainTab DriveTab = DriveTrainTab.getInstance();
   
   // Slew rate filter variables for controlling lateral acceleration
@@ -150,10 +153,21 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    m_CurrentDrawTab.setDrivingFrontLeft(m_frontLeft.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingFrontRight(m_frontRight.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingRearLeft(m_rearLeft.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingRearRight(m_rearRight.getDrivingVoltage());
+    m_CurrentDrawTab.setTurningFrontLeft(m_frontLeft.getTurningVoltage());
+    m_CurrentDrawTab.setTurningFrontRight(m_frontRight.getTurningVoltage());
+    m_CurrentDrawTab.setTurningRearLeft(m_rearLeft.getTurningVoltage());
+    m_CurrentDrawTab.setTurningRearRight(m_rearRight.getTurningVoltage());
+
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
     double[] visionPose = m_limelight.getBotPose();
-    if (visionPose[0] != 0 && visionPose[1] != 0){
+    if (visionPose[0] != 0 && visionPose[1] != 0 && m_limelight.getTargetedArea() > VisionConstants.AprilTagMinimumArea &&
+     getDistance(new Pose2d(visionPose[0], visionPose[1], getRotation2d()), PoseEstimator.getEstimatedPosition()) < 2.0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
           visionPose[1], m_odometry.getPoseMeters().getRotation()
@@ -221,8 +235,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-    // return PoseEstimator.getEstimatedPosition();
+    // return m_odometry.getPoseMeters();
+    return PoseEstimator.getEstimatedPosition();
   }
 
   /**         
@@ -459,5 +473,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate() * (GyroConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  //distance between 2 pose 2ds
+  public double getDistance(Pose2d pose1, Pose2d pose2){
+    return pose1.getTranslation().getDistance(pose2.getTranslation());
   }
 }
