@@ -68,7 +68,7 @@ public class HornTab {
       .withProperties(Map.of("min", 0, "max", HornConstants.kMaxHornRPM)) // specify widget properties here
       .getEntry();
 
-    m_nte_VisionGuessCorrect = m_sbt_Horn.add("VisionGuessCorrect", false)
+    m_nte_VisionGuessCorrect = m_sbt_Horn.add("VisionGuessCorrect", true)
       .withSize(1, 1).withPosition(8, 0).getEntry();
 
     m_nte_P = m_sbt_Horn.add("P", HornConstants.kP)
