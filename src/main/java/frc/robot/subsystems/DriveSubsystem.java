@@ -361,7 +361,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
-    return Math.signum(input) * Math.abs((1 * Math.pow(input, 2))) + (0 * input);
+    return Math.signum(input) * Math.abs((.3 * Math.pow(input, 2))) + (0.7 * input);
   }
 
   public void setXFormation() {
