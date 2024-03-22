@@ -26,6 +26,7 @@ import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
+import frc.robot.commands.basic.Horn.HornShootVision;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DeflectorSubsytem;
@@ -184,7 +185,7 @@ public class RobotContainer {
 
     m_driverController.rightTrigger()
       .whileTrue( 
-        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
+        new HornShootVision()
       );
     m_driverController.leftTrigger()
       .whileTrue(
