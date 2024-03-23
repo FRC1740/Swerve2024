@@ -185,7 +185,7 @@ public class RobotContainer {
 
     m_driverController.rightTrigger()
       .whileTrue( 
-        new HornShootVision()
+        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
       );
     m_driverController.leftTrigger()
       .whileTrue(
