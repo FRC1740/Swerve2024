@@ -5,18 +5,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
+import frc.robot.subsystems.Leds;
 
 public class NoteRumble extends Command{
   double start;
   RobotShared m_robotShared;
+  Leds m_ledSubsystem;
   CommandXboxController m_driverController;
+
   @Override
   public void initialize() {
     start = System.currentTimeMillis();
     m_robotShared = RobotShared.getInstance();
     m_driverController = m_robotShared.getDriverController();
+    m_ledSubsystem = m_robotShared.getLedSubsystem();
     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, SensorConstants.kRumbleStrength);
     m_driverController.getHID().setRumble(RumbleType.kRightRumble, SensorConstants.kRumbleStrength);
+    m_ledSubsystem.SendLedCommandGotNote();
   }
   @Override
   public void execute() {
@@ -37,5 +42,6 @@ public class NoteRumble extends Command{
   public void end(boolean interrupted) {
     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0);
     m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0);
+    m_ledSubsystem.SendLedCommandPathing();
   }
 }
