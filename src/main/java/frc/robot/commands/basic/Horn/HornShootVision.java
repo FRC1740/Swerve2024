@@ -40,7 +40,7 @@ public class HornShootVision extends Command {
     if(isSpeakerShot){
       m_hornShoot = new HornShoot(HornConstants.kHornSpeakerShotMotorRPM);
     } else {
-      m_hornShoot = new HornAmpShoot();
+      m_hornShoot = new HornAmpShootWithDeflector();
     }
   }
 
