@@ -26,6 +26,7 @@ import frc.robot.commands.basic.Horn.HornAmpShoot;
 import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
+import frc.robot.commands.basic.Horn.HornShootShuffleboard;
 import frc.robot.commands.basic.Horn.HornShootVision;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -185,12 +186,19 @@ public class RobotContainer {
 
     m_driverController.rightTrigger()
       .whileTrue( 
-        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
+        new HornShootShuffleboard()
       );
     m_driverController.leftTrigger()
-      .whileTrue(
-        new HornAmpShootWithDeflector()
-      );
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) / 2,
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) / 2,
+          true, true, OIConstants.kUseQuadraticInput),
+        m_robotDrive));
+      // .whileTrue(
+      //   new HornAmpShootWithDeflector()
+      // );
     // // Testing path following
     // m_driverController.b()
     //   .whileTrue(new SequentialCommandGroup(
