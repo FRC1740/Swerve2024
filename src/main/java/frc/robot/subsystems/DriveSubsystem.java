@@ -365,6 +365,17 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.signum(input) * Math.abs((.3 * Math.pow(input, 2))) + (0.7 * input);
   }
 
+  // https://github.com/achilleas-k/fs2open.github.com/blob/joystick_curves/joy_curve_notes/new_curves.md
+  /** 
+   * HerraFCurve, function taken from Operation Peacce 3461
+   * @param I input value
+   * @param s sensitivity of the controls
+   * @param degree where the curve starts to be exponential, 9 is middle 4.5 is more linear
+  */
+  public static double herraFCurve(double I, double s, double degree) {
+    return Math.copySign(Math.pow(I,(s/9))*Math.pow((1-Math.cos(I*Math.PI))/2,(9-s)/degree), I);
+  }
+
   public void setXFormation() {
     m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
