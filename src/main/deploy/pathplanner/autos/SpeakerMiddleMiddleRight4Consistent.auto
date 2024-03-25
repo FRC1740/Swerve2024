@@ -28,50 +28,6 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Speaker to left-most note fast"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SpinupShooter"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Left-note to speaker fast"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootSpeaker"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
                         "pathName": "speaker To middle note fast"
                       }
                     },
@@ -160,7 +116,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "SpeakerTo2"
+                        "pathName": "SpeakerMiddleTo4"
                       }
                     },
                     {
@@ -172,7 +128,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2ToSpeaker"
+                        "pathName": "4ToSpeakerMiddle"
                       }
                     }
                   ]
@@ -181,7 +137,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "GroundIntakeLong"
+                  "name": "GroundIntakeMedium"
                 }
               }
             ]

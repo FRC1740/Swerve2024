@@ -165,6 +165,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
+    
     double[] visionPose = m_limelight.getBotPose();
     if (visionPose[0] != 0 && visionPose[1] != 0 && m_limelight.getTargetedArea() > VisionConstants.AprilTagMinimumArea &&
      getDistance(new Pose2d(visionPose[0], visionPose[1], getRotation2d()), PoseEstimator.getEstimatedPosition()) < 2.0){

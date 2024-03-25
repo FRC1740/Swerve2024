@@ -148,6 +148,12 @@
           "data": {
             "name": "ShootSpeaker"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SpeakerMiddleToFlip"
+          }
         }
       ]
     }
