@@ -23,7 +23,7 @@ public class HornConstants {
   public static final double kD = 0.0001;
   public static final double kFF = 0.0002;
 
-  public static final int kShootConveyorDelay = 0; // TODO: tune
+  public static final int kShootConveyorDelay = 0;
 
   public static final int kHornCurrentLimit = CurrentLimitDefaults.kNeo;
 
