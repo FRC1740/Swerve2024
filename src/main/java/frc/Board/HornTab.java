@@ -80,9 +80,9 @@ public class HornTab {
     m_nte_D = m_sbt_Horn.add("D", HornConstants.kD)
       .withSize(1, 1).withPosition(8, 3).getEntry();
 
-    m_nte_RightVelocityOffset = m_sbt_Horn.add("RightMotorRPMOffset", 1)
+    m_nte_RightVelocityOffset = m_sbt_Horn.add("RightMotorRPMOffset", 0)
       .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", 0, "max", 400)) // specify widget properties here
+      .withProperties(Map.of("min", -5000, "max", 400)) // specify widget properties here
       .getEntry();
     
     m_nte_FF = m_sbt_Horn.add("FF", HornConstants.kFF)

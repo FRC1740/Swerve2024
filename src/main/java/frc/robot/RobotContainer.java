@@ -13,6 +13,7 @@ import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
 import frc.Board.GroundIntakeTab;
+import frc.Board.HornTab;
 import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
@@ -272,13 +273,12 @@ public class RobotContainer {
         buttonBoardSwitches[i][j] = m_coDriverController.button((((i * 2) + j) * 2) + 10); // starts st 10 offset
       }
     }
-
     buttonBoardSwitches[0][1] // top
     .whileTrue(
-      new RunCommand(() -> m_hornSubsystem.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM))
+      new RunCommand(() -> HornTab.getInstance().setHornTargetSpeed(HornConstants.kHornSpeakerShotMotorRPM))
     )
     .onFalse(
-      new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(0.0))
+      new InstantCommand(() -> HornTab.getInstance().setHornTargetSpeed(0.0))
     );
 
     buttonBoardSwitches[1][1] // bottom right
@@ -422,81 +422,6 @@ public class RobotContainer {
           new GroundIntake(1),
           new HornIntake(-0.2))
       );
-  }
-
-  void testingControls(){
-      m_driverController.start()
-      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
-
-    //Robot relative mode
-    m_driverController.leftBumper()
-      .whileTrue(new RunCommand(
-        () -> m_robotDrive.drive(
-          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-          false, true, OIConstants.kUseQuadraticInput),
-        m_robotDrive));
-    
-    //Half Speed mode
-    m_driverController.rightBumper()
-      .whileTrue(new RunCommand(
-        () -> m_robotDrive.drive(
-          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) / 2,
-          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) / 2,
-          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) / 2,
-          true, true, OIConstants.kUseQuadraticInput),
-        m_robotDrive));
-    
-
-    // // Testing path following
-    // m_driverController.b()
-    //   .whileTrue(new SequentialCommandGroup(
-    //     new InstantCommand(() -> m_robotDrive.resetOdometry(m_ExamplePath.getPreviewStartingHolonomicPose())),
-    //     AutoBuilder.followPath(m_ExamplePath)
-    //   ));
-      
-    m_driverController.y()
-      .whileTrue(
-        new HornIntake(-0.4)
-      );
-    m_driverController.x()
-      .whileTrue( 
-        new HornAmpShoot()
-      );
-    m_driverController.b()
-      .whileTrue( 
-        new HornShoot(HornConstants.kHornSpeakerShotMotorRPM)
-      );
-      //intake and then home down
-    m_driverController.a()
-      .whileTrue( 
-        new SequentialCommandGroup(
-          new GroundIntake(.6),
-          new HornIntake(-0.2))
-      );
-    m_driverController.back()
-      .whileTrue( 
-          new GroundEject(-.3)
-      );
-      // m_driverController.y()
-      // .whileTrue(
-      //   new OnTheFlyPathing().getOnTheFlyPath(0, 0)
-      // );
-
-    // This is a stick click
-    m_driverController.rightStick()
-      .onTrue(new SequentialCommandGroup(
-        // double normalizedAngle = (int)((m_robotDrive.getHeading() + 180) / (360 / 8)),  // This is the uncondensed code
-        new AlignToNearestAngleAndDrive(true, true).withTimeout(3))
-        
-      );
-    // Something super janky is happening here but it works so
-    for(int angleForDPad = 0; angleForDPad <= 7; angleForDPad++) { // Sets all the DPad to rotate to an angle
-      new POVButton(m_driverController.getHID(), angleForDPad * 45)
-        .onTrue(
-          new DriveWhileAligning(angleForDPad * -45, true, true).withTimeout(3)); // -45 could be 45 
-    }
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

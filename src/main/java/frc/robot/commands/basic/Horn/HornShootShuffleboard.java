@@ -46,12 +46,13 @@ public class HornShootShuffleboard extends Command {
   public void execute() {
     long currentTime = System.currentTimeMillis();
     if(isSpeakerShot){
-      m_horn.setRpmSetpoint(HornConstants.kHornSpeakerShotMotorRPM);
+      m_HornTab.setHornTargetSpeed(HornConstants.kHornSpeakerShotMotorRPM);
       // wait until shooter is at speed
       if(startingTime + HornConstants.kShootConveyorDelay < currentTime){
         m_conveyorSubsystem.setConveyorSpeed(1.0);
       }
     }else{
+      // Ignores offset
       m_horn.setRpmSetpoint(m_HornTab.getAmpTargetSpeed());
       // wait until shooter is at speed
       if(startingTime + HornConstants.kShootConveyorDelay < currentTime){
