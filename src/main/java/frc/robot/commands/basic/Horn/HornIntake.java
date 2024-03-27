@@ -20,8 +20,9 @@ public class HornIntake extends Command {
   private BreakbeamSensorSubsystem m_sensorSubsystem;
   private double m_intakeSpeed;
 
-  /** Creates a new IntakeDeploy. 
+  /** Creates a new Intake Command. 
    * Intakes from the horn
+   * @param intakeSpeed The speed at which the horn should intake in the range [-1, 1]
   */
   public HornIntake(double intakeSpeed) {
     m_robotShared = RobotShared.getInstance();

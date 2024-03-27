@@ -23,7 +23,7 @@ public class DeflectorSubsytem extends SubsystemBase {
   private final HornTab m_hornTab;
   private final CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
 
-  /** Creates a new GroundIntake. */
+  /** Creates a new Deflector Subsystem. */
   public DeflectorSubsytem() {
     m_DeflectorMotor.restoreFactoryDefaults();
 

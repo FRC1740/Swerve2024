@@ -19,7 +19,8 @@ public class GroundIntake extends Command{
   private double m_intakeSpeed;
 
   /** Creates a new IntakeDeploy. 
-   * Intakes from the horn
+   * Intakes from the Ground Intake.
+   * @param intakeSpeed The speed at which the intake should run in the range of [-1, 1], where 1 is full speed intaking.
   */
   public GroundIntake(double intakeSpeed) {
     m_robotShared = RobotShared.getInstance();

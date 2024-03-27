@@ -20,7 +20,7 @@ public class HornAmpShoot extends Command {
 
   private long startingTime;
 
-  /** Creates a new Shoot. Takes in an RPM*/
+  /** Creates a new Amp Shot without using the Deflector */
   public HornAmpShoot() {
     m_robotShared = RobotShared.getInstance();
     m_HornTab = HornTab.getInstance();

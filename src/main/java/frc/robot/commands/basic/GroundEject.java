@@ -11,8 +11,9 @@ public class GroundEject extends Command{
   private RobotShared m_robotShared;
   private double m_ejectSpeed;
 
-  /** Creates a new EjectDeploy. 
-   * Ejects from the horn
+  /** Creates a new Eject Command. 
+   * Ejects from the Ground Intake.
+   * Currently, you also need to drive the robot away from the note to eject it.
   */
   public GroundEject(double ejectSpeed) {
     m_robotShared = RobotShared.getInstance();

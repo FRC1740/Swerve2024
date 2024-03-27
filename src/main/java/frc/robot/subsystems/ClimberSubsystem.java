@@ -17,7 +17,7 @@ public class ClimberSubsystem extends SubsystemBase{
 
   CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
 
-  /** Creates a new GroundIntake. */
+  /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_ClimberMotor.setInverted(false);
     m_climberEncoder = m_ClimberMotor.getEncoder();

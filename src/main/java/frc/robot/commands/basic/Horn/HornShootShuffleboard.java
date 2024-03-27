@@ -21,10 +21,11 @@ public class HornShootShuffleboard extends Command {
   private boolean isSpeakerShot;
   private long startingTime;
   private int timeUntilPop = 1000;
-  private Command m_hornShoot;
   private HornTab m_HornTab = HornTab.getInstance();
 
-  /** Creates a new Shoot. Takes in an RPM*/
+  /** Creates a new Shoot command based on whether the Horn has been spun up 
+   * This command is very poorly written, however I have not found a better way to do this
+  */
   public HornShootShuffleboard() {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
@@ -38,13 +39,6 @@ public class HornShootShuffleboard extends Command {
     startingTime = System.currentTimeMillis();
 
     isSpeakerShot = m_HornTab.getHornTargetSpeed() == HornConstants.kHornSpeakerShotMotorRPM;
-
-    // if(isSpeakerShot){
-    //   m_hornShoot = new HornShoot(HornConstants.kHornSpeakerShotMotorRPM);
-    // } else {
-    //   m_hornShoot = new HornAmpShootWithDeflector();
-    // }
-    // m_hornShoot.schedule();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

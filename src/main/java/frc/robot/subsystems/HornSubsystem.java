@@ -31,7 +31,7 @@ public class HornSubsystem extends SubsystemBase {
   private double currentFF; // stores the current FF without checking m_RightPidController
   // Checking the PIDController is extremely slow
 
-  /** Creates a new GroundIntake. */
+  /** Creates a new HornSubsystem. */
   public HornSubsystem() {
     m_HornLeftMotor.restoreFactoryDefaults();
     m_HornRightMotor.restoreFactoryDefaults();

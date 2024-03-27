@@ -22,7 +22,9 @@ public class HornShoot extends Command {
 
   private double m_shootSpeed;
 
-  /** Creates a new Shoot. Takes in an RPM*/
+  /** Creates a new Shoot Command. Takes in an RPM 
+   * @param shootSpeed The speed at which the horn should shoot in RPMs
+  */
   public HornShoot(double shootSpeed) {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();

@@ -4,13 +4,17 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotShared;
-import frc.robot.constants.SensorConstants;
-import frc.robot.subsystems.Leds;
+import frc.robot.constants.OIConstants;
+import frc.robot.subsystems.LedSubsystem;
 
+/**
+ * NoteRumble
+ * Rumbles the driver controller for a set amount of time as defined in SensorConstants.
+ */
 public class NoteRumble extends Command{
   double start;
   RobotShared m_robotShared;
-  Leds m_ledSubsystem;
+  LedSubsystem m_ledSubsystem;
   CommandXboxController m_driverController;
 
   @Override
@@ -19,25 +23,21 @@ public class NoteRumble extends Command{
     m_robotShared = RobotShared.getInstance();
     m_driverController = m_robotShared.getDriverController();
     // m_ledSubsystem = m_robotShared.getLedSubsystem();
-    m_driverController.getHID().setRumble(RumbleType.kLeftRumble, SensorConstants.kRumbleStrength);
-    m_driverController.getHID().setRumble(RumbleType.kRightRumble, SensorConstants.kRumbleStrength);
+    m_driverController.getHID().setRumble(RumbleType.kLeftRumble, OIConstants.kRumbleStrength);
+    m_driverController.getHID().setRumble(RumbleType.kRightRumble, OIConstants.kRumbleStrength);
     // m_ledSubsystem.SendLedCommandGotNote();
   }
   @Override
-  public void execute() {
-    // if(start + SensorConstants.kTimeToRumbleController < System.currentTimeMillis()){
-    //   end(true);
-    // }
-    // System.err.println("OEFIH");
-  }
+  public void execute() {}
 
   @Override
   public boolean isFinished() {
-    if(start + SensorConstants.kTimeToRumbleController < System.currentTimeMillis()){
+    if(start + OIConstants.kTimeToRumbleController < System.currentTimeMillis()){
       return true;
     }
     return false;
   }
+
   @Override
   public void end(boolean interrupted) {
     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0);

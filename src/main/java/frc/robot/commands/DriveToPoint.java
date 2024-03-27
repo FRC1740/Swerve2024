@@ -16,8 +16,8 @@ public class DriveToPoint extends PIDCommand {
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
   /** Creates a new DriveToPoint. 
    * This command drives the robot to a specified point
-   * This is the janky homemade drive to point function, consider using <pre>OnTheFlyPathing.java</pre>
-   * It also doesn't work.
+   * This is the janky homemade drive to point function, consider using {@link frc.utils.OnTheFlyPathing}.
+   * It also doesn't work. So OnTheFlyPathing is better.
   */
   public DriveToPoint(double targetX, double targetY) { 
     super(

@@ -11,7 +11,6 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.RobotShared;
 
 public class AlignToTagLimelight extends Command {
-  /** Creates a new AlignToTagLimelight. */
   private DriveSubsystem m_drive;
   private LimelightSubsystem m_limelight;
 
@@ -26,6 +25,9 @@ public class AlignToTagLimelight extends Command {
   boolean YFinished;
   boolean ThetaFinished;
 
+  /** Creates a new Command that aligns the robot angle to an apriltag using the Limelight. 
+   * This command <b>DOES DRIVE</b>
+  */
   public AlignToTagLimelight() {
     m_robotShared = RobotShared.getInstance();
     m_drive = m_robotShared.getDriveSubsystem();

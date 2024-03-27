@@ -23,7 +23,7 @@ public class HornAmpShootWithDeflector extends Command {
   private int timeUntilPop = 1000;
   private boolean finished = false;
 
-  /** Creates a new Shoot. Takes in an RPM*/
+  /** Creates a new Amp Shot using the Deflector */
   public HornAmpShootWithDeflector() {
     m_robotShared = RobotShared.getInstance();
     m_HornTab = HornTab.getInstance();
@@ -34,7 +34,6 @@ public class HornAmpShootWithDeflector extends Command {
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();
     addRequirements(m_horn);
     addRequirements(m_conveyorSubsystem);
-    // addRequirements(m_robotShared.getDeflectorSubsystem());
   }
 
   // Called when the command is initially scheduled.
@@ -60,31 +59,26 @@ public class HornAmpShootWithDeflector extends Command {
     if(startingTime + HornConstants.kShootConveyorDelay < currentTime){
       m_conveyorSubsystem.setConveyorSpeed(1.0);
     }
-    // if(!finished){
-      if(startingTime + 50 > currentTime){ // run for .25 second
-        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
+    if(startingTime + 50 > currentTime){ // run for 50 ms
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
 
-      }else if(startingTime + timeUntilPop > currentTime){
-        // do nothing and keep at .3
-        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
-      }else if(startingTime + 1500 > currentTime){ // run for .25 second
-        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
+    }else if(startingTime + timeUntilPop > currentTime){
+      // do nothing and keep at the resting position to hold the note
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
+    }else if(startingTime + 1500 > currentTime){
+      // pop the note for 1500 - timeUntilPop = 500 ms
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
 
-      }else if(startingTime + 3000 > currentTime){ // run for .25 second
-        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
-        finished = true;
-      }
-    // }
-  }
-  
-  public void setFinished() {
-    finished = true;
+    }else if(startingTime + 3000 > currentTime){
+      // wait for the note to enter the amp and then retract the deflector
+      m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
+      finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted
   @Override
   public void end(boolean interrupted) {
-    // finished = true;
     m_horn.setRpmSetpoint(0.0);
     m_conveyorSubsystem.setConveyorSpeed(0.0);
     m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);

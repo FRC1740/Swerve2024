@@ -18,6 +18,7 @@ public class HornConstants {
 
   public static final double kMaxHornRPM = 7000; // This value is used for the HornTab slider, and speaker shot
 
+  // The flywheel is super super lightweight so it has a very low moment of inertia
   public static final double kP = 0.0001;
   public static final double kI = 0;
   public static final double kD = 0.0001;

@@ -19,7 +19,9 @@ public class GroundIntakeDefault extends Command{
   private GroundIntakeTab m_GroundIntakeTab = GroundIntakeTab.getInstance();
 
   /** Creates a new IntakeDeploy. 
-   * Intakes from the horn
+   * Intakes from the Ground Intake.
+   * This is the default command for the Ground Intake, it runs continuously while enabled.
+   * @param intakeSpeed The speed at which the intake should run in the range of [-1, 1], where 1 is full speed intaking.
   */
   public GroundIntakeDefault(double intakeSpeed) {
     m_robotShared = RobotShared.getInstance();

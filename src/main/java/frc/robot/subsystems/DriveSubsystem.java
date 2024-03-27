@@ -369,7 +369,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // https://github.com/achilleas-k/fs2open.github.com/blob/joystick_curves/joy_curve_notes/new_curves.md
   /** 
-   * HerraFCurve, function taken from Operation Peacce 3461
+   * HerraFCurve, function taken from Operation Peacce (3461)
    * @param I input value
    * @param s sensitivity of the controls
    * @param degree where the curve starts to be exponential, 9 is middle 4.5 is more linear
@@ -495,7 +495,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getRate() * (GyroConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  //distance between 2 pose 2ds
+  /** Gets the distance between 2 pose 2ds 
+   * @param pose1 the first pose
+   * @param pose2 the second pose
+  */
   public double getDistance(Pose2d pose1, Pose2d pose2){
     return pose1.getTranslation().getDistance(pose2.getTranslation());
   }

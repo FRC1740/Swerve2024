@@ -27,6 +27,7 @@ public class LimelightSubsystem extends SubsystemBase {
   public double[] getTranslationToAprilTag(){
     return m_LimelightTable.getTranslationToAprilTag();
   }
+  /** @return The last apriltag associated with scoring ie. speaker / amp */
   public double getLastSeenScoringAprilTag(){
     return lastSeenScoringAprilTag;
   }
