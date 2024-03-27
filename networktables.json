@@ -27,7 +27,7 @@
   {
     "name": "/Shuffleboard/DriveTrain/Max Speed MPS",
     "type": "double",
-    "value": 4.8,
+    "value": 6.36,
     "properties": {
       "persistent": true
     }
