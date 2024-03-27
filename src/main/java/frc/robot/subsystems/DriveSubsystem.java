@@ -280,8 +280,10 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedCommanded;
     double ySpeedCommanded;
     if(quadraticInput){
-      xSpeed = quadraticControlFalloff(xSpeed);
-      ySpeed = quadraticControlFalloff(ySpeed);
+      xSpeed = herraFCurve(xSpeed, -.7, 18); // want to try -2.2
+      ySpeed = herraFCurve(ySpeed, -.7, 18);
+      // xSpeed = quadraticControlFalloff(xSpeed);
+      // ySpeed = quadraticControlFalloff(ySpeed);
       rot = quadraticControlFalloff(rot);
     }
 
@@ -373,7 +375,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @param degree where the curve starts to be exponential, 9 is middle 4.5 is more linear
   */
   public static double herraFCurve(double I, double s, double degree) {
-    return Math.copySign(Math.pow(I,(s/9))*Math.pow((1-Math.cos(I*Math.PI))/2,(9-s)/degree), I);
+    double funcInput = Math.abs(I);
+    double output = I - (Math.copySign(Math.pow(funcInput,(s/9))*Math.pow((1-Math.cos(funcInput*Math.PI))/2,(9-s)/degree), I)) + I;
+    if (Math.abs(I) > .02) {
+      return output;
+    }else{
+      return 0;
+    }
   }
 
   public void setXFormation() {
