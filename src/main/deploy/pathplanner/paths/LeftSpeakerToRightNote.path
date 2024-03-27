@@ -75,7 +75,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "SpeakerLeft",
   "previewStartingState": {
     "rotation": -120.62505632026499,
     "velocity": 0

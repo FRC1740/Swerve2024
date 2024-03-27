@@ -376,7 +376,7 @@ public class DriveSubsystem extends SubsystemBase {
   */
   public static double herraFCurve(double I, double s, double degree) {
     double funcInput = Math.abs(I);
-    double output = I - (Math.copySign(Math.pow(funcInput,(s/9))*Math.pow((1-Math.cos(funcInput*Math.PI))/2,(9-s)/degree), I)) + I;
+    double output = I - (Math.copySign(Math.pow(funcInput, (s / 9)) * Math.pow((1 - Math.cos(funcInput * Math.PI)) / 2, (9 - s) / degree), I)) + I;
     if (Math.abs(I) > .02) {
       return output;
     }else{
