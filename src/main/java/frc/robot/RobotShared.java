@@ -12,6 +12,7 @@ import frc.robot.subsystems.DeflectorSubsytem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.BreakbeamSensorSubsystem;
@@ -33,6 +34,7 @@ public class RobotShared {
 
   protected LimelightSubsystem m_limelight = null;
   protected PhotonVision m_photonVision = null;
+  protected LedSubsystem m_ledSubsystem = null;
   protected BreakbeamSensorSubsystem m_sensorSubsystem = null;
   protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
 
@@ -93,6 +95,12 @@ public class RobotShared {
   public CommandXboxController getCoDriverController() {
     return m_coDriverController;
   }
+  public LedSubsystem getLedSubsystem() {
+    if(m_ledSubsystem == null) {
+      m_ledSubsystem = new LedSubsystem();
+    }
+    return m_ledSubsystem;
+  }
   public LimelightSubsystem getLimelight() {
     if(m_limelight == null) {
       m_limelight = new LimelightSubsystem();
@@ -115,6 +123,7 @@ public class RobotShared {
         return Alliance.Red;
       }
     }else{
+      System.err.println("No alliance found!");
       return Alliance.Blue;
     }
   }

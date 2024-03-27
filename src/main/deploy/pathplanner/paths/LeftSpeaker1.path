@@ -3,32 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7521348977883143,
-        "y": 6.531509586167322
+        "x": 0.7174074495098396,
+        "y": 6.606464270406219
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8762217894831386,
-        "y": 6.66221460220132
+        "x": 1.8414943412046638,
+        "y": 6.737169286440217
       },
       "isLocked": false,
       "linkedName": "SpeakerLeft"
     },
     {
       "anchor": {
-        "x": 7.9857459853833825,
-        "y": 7.388723082996057
+        "x": 7.848696135450307,
+        "y": 7.441556732071797
       },
       "prevControl": {
-        "x": 6.4193642461384215,
-        "y": 7.151304339640052
+        "x": 6.282314396205346,
+        "y": 7.204137988715792
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": -166.36980855189793,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": -124.14653487705263,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -38,8 +49,8 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -168.1595095195181,
+    "velocity": 2.0,
+    "rotation": -177.1108375769601,
     "rotateFast": false
   },
   "reversed": false,

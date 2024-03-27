@@ -12,7 +12,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PhotonVision;
 
 public class AlignToTagPhotonVision extends Command {
-  /** Creates a new AlignToTagPhotonVision. */
   DriveSubsystem m_drive;
   PhotonVision m_photonVision;
   Transform3d camToTarget;
@@ -25,6 +24,9 @@ public class AlignToTagPhotonVision extends Command {
   boolean YFinished;
   boolean ThetaFinished;
 
+  /** Creates a new Command that aligns the robot angle to an apriltag using Photon Vision. 
+   * This command <b>DOES DRIVE</b>
+  */
   public AlignToTagPhotonVision() {
     m_robotShared = RobotShared.getInstance();
     m_drive = m_robotShared.getDriveSubsystem();

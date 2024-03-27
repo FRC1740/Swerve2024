@@ -14,7 +14,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class VisionAlign extends ProfiledPIDCommand {
-  /** Creates a new VisionAlign. */
+  /** Creates a new VisionAlign. Aligns the robot's heading to the Apriltag using the limelight. */
   public VisionAlign(DriveSubsystem m_drive, LimelightSubsystem m_limelight) {
     super(
         // The ProfiledPIDController used by the command

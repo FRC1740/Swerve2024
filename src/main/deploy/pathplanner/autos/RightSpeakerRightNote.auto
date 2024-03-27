@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7125255176436281,
-      "y": 4.457747721050998
+      "x": 0.7143307171658986,
+      "y": 4.482749770001028
     },
-    "rotation": 117.28629277430923
+    "rotation": 117.61525232878498
   },
   "command": {
     "type": "sequential",
@@ -18,25 +18,38 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "RightToRightNote"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RightToRightNote"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RightNoteToRightSpeaker"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "GroundIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RightNoteToRightSpeaker"
                 }
               }
             ]

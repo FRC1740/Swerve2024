@@ -10,7 +10,7 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 
-public class HornShootWithRPM extends Command {
+public class HornShootWithShuffleboardRPM extends Command {
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
@@ -19,8 +19,10 @@ public class HornShootWithRPM extends Command {
   private long startingTime;
 
 
-  /** Creates a new Shoot, runs at the set shuffleboard RPM*/
-  public HornShootWithRPM() {
+  /** Creates a new Shoot, runs at the set shuffleboard RPM 
+   * This does not work.
+  */
+  public HornShootWithShuffleboardRPM() {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_conveyorSubsystem = m_robotShared.getConveyorSubsystem();

@@ -18,15 +18,16 @@ public class HornConstants {
 
   public static final double kMaxHornRPM = 7000; // This value is used for the HornTab slider, and speaker shot
 
+  // The flywheel is super super lightweight so it has a very low moment of inertia
   public static final double kP = 0.0001;
   public static final double kI = 0;
   public static final double kD = 0.0001;
   public static final double kFF = 0.0002;
 
-  public static final int kShootConveyorDelay = 250; // TODO: tune
+  public static final int kShootConveyorDelay = 0;
 
   public static final int kHornCurrentLimit = CurrentLimitDefaults.kNeo;
 
-  public static final double kHornAmpShotMotorRPM = 350; // tuned
+  public static final double kHornAmpShotMotorRPM = 300; // tuned
   public static final double kHornSpeakerShotMotorRPM = kMaxHornRPM ; // 2800 RPM  = 1 ie. full speed
 }

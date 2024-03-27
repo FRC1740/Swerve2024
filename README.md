@@ -17,12 +17,20 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 * Odd: Drive; Even: Turn
 
 #### Climber
-* num of NEOs
-* how it works
+* 1 Neo
+* You run it forward to put it up and once extended, you can run it opposite to climb. 
 
 #### GroundIntake
 * 1 NEO 
-* It runs a motor to a bar that intakes notes into the horn
+* It runs a motor to a bar that intakes notes into the conveyor
+
+### Conveyor
+* 1 NEO
+* Very simple forward back with belts
+
+### Licker
+* 1 NEO 550
+* Extends to deflect a note into the amp
 
 #### Horn
 * 2 Neos
@@ -30,7 +38,7 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 
 
 #### Path Information
-* Name: function and position
+* (I'm not doing this because it will never get used)
 
 ### Software Todo List (sorted by priority)
 `Current things to test`
@@ -70,32 +78,32 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [x] Add pathplanning for autos
 - [ ] Auto motor stop on tilt
 - [x] Custom pathfinder with vision https://pathplanner.dev/pplib-pathfinding.html#custom-pathfinders
-- [ ] Finish the system functionality
+- [x] Finish the system functionality
 - [ ] Tune the system so it works well
-- [ ] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
+- [x] If apriltag vision pose esimation should take precedence in getPose, update it to get the pos with the limelight if able
 
 `Controls`
 - [x] Get drive controls working
 - [x] Quadratic driving falloff
-- [ ] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
+- [x] Create control ideas for the driver and co driver (talk to Abby and Co-Driver)
 - [x] Add delay to DPad input so when releasing two buttons it doesn't collapse into one
 - [x] Right Stick angle control and click stick in to snap?
-- [ ] Implement controls
-- [ ] Make sure control feel is good and everything makes sense
+- [x] Implement controls
+- [x] Make sure control feel is good and everything makes sense
 - [ ] Different control selection from shuffleboard
-- [ ] Controller rumble would be cool, could provide feedback on time left in match??
+- [x] Controller rumble would be cool, could provide feedback on time left in match??
 
 `Vision`
 * Concurent work on limelight and lamelight
 - [x] Import old code
 - [x] Setup and update [limelight](https://docs.limelightvision.io/docs/docs-limelight/getting-started/summary)
 - [x] Calibrate the limelight with the online tool
-- [ ] Check and fix imported limelight subsystem
-- [ ] Incorperate limelight table with shuffleboard
-- [ ] Get current limelight tag id and adjust co-driver controls based off it.
+- [x] Check and fix imported limelight subsystem
+- [x] Incorperate limelight table with shuffleboard
+- [x] Get current limelight tag id and adjust co-driver controls based off it.
 - [ ] Consider Using limelight to track gamepieces 
 
-* Lamelight
+* `Lamelight (not using)`
 - [x] Import old code
 - [x] Grab the lamelight from last years robot
 - [x] Set up lamelight (Photon vision) ([see last year's repo](#last-years-repo))
@@ -105,9 +113,9 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [ ] Automatic Bumper Detection would be really cool
 
 `Climber`
-- [ ] Actually figure out what the mechanics entail and how it works
-- [ ] Find out how many motors it is
-- [ ] Create stub code for testing
+- [x] Actually figure out what the mechanics entail and how it works
+- [x] Find out how many motors it is
+- [x] Create stub code for testing
 - [ ] See [Shuffleboard](#Shuffleboard)
 
 `Horn`
@@ -116,18 +124,18 @@ The Horn is the main intake and shooter on our robot. It can score in the speake
 - [x] See how the flap works
 - [x] Create stub code for testing
 - [x] See [Shuffleboard](#Shuffleboard)
-- [ ] Add a homing mode where if nothing is happening it centers a note
+- [x] Add a homing mode where if nothing is happening it centers a note
 
-`Deflector`
+`Deflector (ie. Licker)`
 - [x] Create subsystem
 - [x] Create constants
 - [x] Set <b>reasonable</b> current limit to DeflectorConstants
 
 `Ground Intake`
-- [ ] See how the ground intake works
-- [ ] Create stub code
-- [ ] Create subsystem
-- [ ] See [Shuffleboard](#Shuffleboard)
+- [x] See how the ground intake works
+- [x] Create stub code
+- [x] Create subsystem
+- [x] See [Shuffleboard](#Shuffleboard)
 
 ### Last Year's Repo
 * :warning: This is intended as a place of reference to see the general structure, not to copy code without understanding it
@@ -143,7 +151,7 @@ This is the main resource we use besides googling things, this contains most, if
 
 
 ### Github VSCode Setup Tutorial 
-There are 2 different methods to setup git, I am leaving the [legacy method](legacy-method) as reference, but we switched to an easier and faster branched solution more widely used professionally. The old method is still useful if you need to make a change to a repository you don't have access to.
+There are 2 different methods to setup git, I remove the legacy methodas reference, we switched to an easier and faster branched solution more widely used professionally. The old method is still useful if you need to make a change to a repository you don't have access to and it's on the drive.
 * Create a [Github account](https://github.com)
 * Ask Mr. Estabrooks to add you to his repository
 * Clone the repository via VSCode
@@ -167,58 +175,6 @@ There are 2 different methods to setup git, I am leaving the [legacy method](leg
 * Go to github and click the dev branch you are on via the branch button
 * Click create pull request and follow the thing through the menus
 * You can continue commiting with an unresolved pull request and subsequent commits will be appeneded to the request
-
-### Legacy Method
-This is a guide for setting up Github with VSCode
-* Create a [Github account](https://github.com)
-* Sign into the VSCode with Github via the person logo in the bottom left above the wheel
-* Fork the repository through the button on github
-* Copy the link to the forked repository
-* Clone the forked repository with VSCode
-* Open the terminal 
-* Run git remote -v
-* You should see 2 values, a fetch and a push for origin
-* These are added automatically because you cloned the repository
-* This now is your forked repository
-* Paste this command into the terminal "git remote add upstream [Link to original repository you forked]"
-* Run git remote -v again, and you should see 2 more values for upstream fetch and push
-* Run git pull upstream main
-* If this succeeds you probablly have it set up correctly for your main branch
-
-* Now, you need to make a different branch for saftey
-* Run git checkout -b [Branch Name]
-* I recommend "[name]-working" as the branch name
-* This will create a new branch, you can switch between them in the bottom left
-* :warning: All changes should be done on a working branch or equivelent, not on main
-* After use, you can delete it and re-sync your main branch
-* Then, run git branch --set-upstream-to=origin
-* See [Using Git](#using-git)
-
-### Using Git
-#### Pulling Code
-* Ideally this should be done every time you open your code and as often as possible to avoid conflicts
-* If it has been a long time since you have worked it's a good idea to pull so you don't get a lot of merge conflicts
-* To pull code, make sure you have no pending changes (if you do, see [Pushing Code](#pushing-code))
-* Change to your main branch
-* Run git pull upstream main
-* Change back to working
-* Run git pull upstream [Branch Name]
-* You're ready to get back to work!
-#### Pushing Code
-* Now that you have setup your github you can edit code on your working branch
-* Make sure your changes work and make sure it builds and deploys before commiting
-* After you finish the changes you now should look to the left panel and click the third git source control icon
-* Hit Commit and if you haven't saved, hit Save all and Commit Changes
-* It will ask you to input a message, either through a file or the message box at the top, either type in box or in the file save, and hit the checkmark to submit it
-* Sync changes
-* Go on github to your local fork of the repository
-* Open a pull request via the contribute button
-* If there are merge conflicts don't touch anything and ask someone who knows, it can be easily resolved but you can mess it up really bad
-* Hopefully the code works and get accepted into the main repo
-* Make sure to [pull](#pulling-code) code after pushing
-
-[Team Git "How To"](https://docs.google.com/document/u/0/d/15Kb6Wxj8sjFqbPtVO2GGT9Oe1oe9GFOMFhPrwpMIeqQ/mobilebasic?pli=1)
-[Additional Info](https://code.visualstudio.com/docs/sourcecontrol/overview)
 
 ### Style Guide
 If you are reading this, you have configured git and are set up to write code. Here we use two space indenting, so you need to go to the VSCode setting and change the default tab spacing for the workspace. It should be noted, this is a **guideline**, not hard rules; there will always be exceptions.

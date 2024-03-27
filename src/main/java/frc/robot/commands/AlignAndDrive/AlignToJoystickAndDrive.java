@@ -21,12 +21,10 @@ import frc.robot.subsystems.DriveSubsystem;
 // This aligns the robot to the joysticks absolute position rather than free rotation
 // This is just the worst implementation but I don't know how to write it better
 public class AlignToJoystickAndDrive extends PIDCommand {
-  /** Creates a new DriveWhileAligning. */
-  
   static RobotShared m_robotShared = RobotShared.getInstance();
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
   private static CommandXboxController m_driverController = m_robotShared.getDriverController(); 
-  // isThereInput == 1 if true
+  // isThereInput == 1 if true, this is just SO SO SO SO SO ridiculously terrible
   public AlignToJoystickAndDrive(double newXInput, double newYInput, boolean fieldRelative, boolean rateLimit, int isThereInput) {
     super(
       // The controller that the command will use

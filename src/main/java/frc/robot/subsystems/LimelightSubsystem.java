@@ -27,6 +27,7 @@ public class LimelightSubsystem extends SubsystemBase {
   public double[] getTranslationToAprilTag(){
     return m_LimelightTable.getTranslationToAprilTag();
   }
+  /** @return The last apriltag associated with scoring ie. speaker / amp */
   public double getLastSeenScoringAprilTag(){
     return lastSeenScoringAprilTag;
   }
@@ -47,9 +48,20 @@ public class LimelightSubsystem extends SubsystemBase {
   public double[] getBotPose() {
     return m_LimelightTable.getBotPose();
   }
+  public double getTargetedArea() {
+    return m_LimelightTable.getTa();
+  }
   //Toggle led on and off
   public void toggleLED() {
     if (m_LimelightTable.getLedMode() == 1){
+      m_LimelightTable.setLedMode(3);
+    }else{
+      m_LimelightTable.setLedMode(1);
+    }
+  }
+
+  public void toggleLED(boolean lightsOn) {
+    if (lightsOn){
       m_LimelightTable.setLedMode(3);
     }else{
       m_LimelightTable.setLedMode(1);

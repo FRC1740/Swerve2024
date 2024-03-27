@@ -16,8 +16,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    // DataLogManager.start();
-    // DriverStation.startDataLog(DataLogManager.getLog());
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
     m_robotContainer = new RobotContainer();
   }
 
@@ -38,11 +38,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    RobotShared m_robotShared = RobotShared.getInstance();
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, false);
   }
 
   @Override
@@ -56,6 +60,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    RobotShared m_robotShared = RobotShared.getInstance();
+
+    m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, true); // null so it pulls from shuffleboard
   }
 
   @Override

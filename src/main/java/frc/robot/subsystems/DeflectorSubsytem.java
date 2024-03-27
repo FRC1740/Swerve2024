@@ -7,11 +7,12 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Board.CurrentDrawTab;
 import frc.Board.HornTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.DeflectorConstants;
 
-public class DeflectorSubsytem extends SubsystemBase{
+public class DeflectorSubsytem extends SubsystemBase {
   private final CANSparkMax m_DeflectorMotor = new CANSparkMax(CanIds.kDeflectorMotorCanId, CANSparkMax.MotorType.kBrushless);
 
   private final RelativeEncoder m_deflectorEncoder;
@@ -20,8 +21,9 @@ public class DeflectorSubsytem extends SubsystemBase{
   private double setpoint = .1;
 
   private final HornTab m_hornTab;
+  private final CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
 
-  /** Creates a new GroundIntake. */
+  /** Creates a new Deflector Subsystem. */
   public DeflectorSubsytem() {
     m_DeflectorMotor.restoreFactoryDefaults();
 
@@ -56,6 +58,8 @@ public class DeflectorSubsytem extends SubsystemBase{
   }
   @Override
   public void periodic() {
+    m_CurrentDrawTab.setDeflectorCurrentDraw(m_DeflectorMotor.getOutputCurrent());
+
     setpoint = m_hornTab.getDeflectorSetpoint();
     m_hornTab.setDeflectorEncoder(getEncoderPosition());
   }

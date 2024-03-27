@@ -12,9 +12,10 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-// Aligns the robot to the nearest 45deg incremenet
+/** Aligns the robot to the nearest 45deg increment and drives 
+ * This is useful for aligning to the field while driving 
+*/
 public class AlignToNearestAngleAndDrive extends Command {
-  /** Creates a new DriveWhileAligning. */
   
   private static DriveTrainTab m_driveTab = DriveTrainTab.getInstance();
   static RobotShared m_robotShared = RobotShared.getInstance();

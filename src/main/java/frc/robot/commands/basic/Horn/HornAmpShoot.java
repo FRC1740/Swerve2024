@@ -20,7 +20,7 @@ public class HornAmpShoot extends Command {
 
   private long startingTime;
 
-  /** Creates a new Shoot. Takes in an RPM*/
+  /** Creates a new Amp Shot without using the Deflector */
   public HornAmpShoot() {
     m_robotShared = RobotShared.getInstance();
     m_HornTab = HornTab.getInstance();
@@ -33,6 +33,14 @@ public class HornAmpShoot extends Command {
   @Override
   public void initialize() {
     startingTime = System.currentTimeMillis();
+
+    if(!HornShootVision.isShotSpeaker()) {
+      System.out.println("Correct Guess");
+      m_HornTab.setVisionGuessCorrect(true);
+    }else{
+      System.out.println("Incorrect Guess");
+      m_HornTab.setVisionGuessCorrect(false);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

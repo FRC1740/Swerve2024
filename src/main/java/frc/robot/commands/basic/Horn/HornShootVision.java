@@ -20,13 +20,21 @@ public class HornShootVision extends Command {
   private boolean isSpeakerShot;
   private Command m_hornShoot;
 
-  /** Creates a new Shoot. Takes in an RPM*/
+  /** Creates a new Shoot Command. 
+   * This determines whether to use the Amp score or Speaker based off the last seen scoring apriltag seen by the limelight
+   * This is how HornShootShuffleboard should be written, but this does not actually work because the deflector does not work
+   * The reason is that calling execute for some reason doesn't update the timer accurately. I could use schedule, however that doesn't allow canceling the command.
+   */
   public HornShootVision() {
     m_robotShared = RobotShared.getInstance();
     m_horn = m_robotShared.getHornSubsystem();
     m_limelight = m_robotShared.getLimelight();
     addRequirements(m_horn);
     addRequirements(m_limelight);
+  }
+
+  public static boolean isShotSpeaker(){ // chance that these could be null
+    return VisionConstants.isSpeakerID((int) RobotShared.getInstance().getLimelight().getLastSeenScoringAprilTag());
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +44,7 @@ public class HornShootVision extends Command {
     if(isSpeakerShot){
       m_hornShoot = new HornShoot(HornConstants.kHornSpeakerShotMotorRPM);
     } else {
-      m_hornShoot = new HornAmpShoot();
+      m_hornShoot = new HornAmpShootWithDeflector();
     }
   }
 

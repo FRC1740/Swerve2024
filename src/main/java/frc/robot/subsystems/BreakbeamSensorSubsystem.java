@@ -1,28 +1,22 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.Board.DriverTab;
 import frc.Board.SensorTab;
 import frc.robot.commands.basic.NoteRumble;
-// import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 
+/** example usage:
+  if(m_SensorSubsystem,getSensorValue(1) == true){
+    //do something
+  }  
+*/
 public class BreakbeamSensorSubsystem extends SubsystemBase{
-  /* example usage:
-    if(m_SensorSubsystem,getSensorValue(1) == true){
-      //do something
-    }  
-  */
   private DigitalInput[] m_breakBeamSensors;
   private SensorTab m_sensorTab;
   private DriverTab m_driverTab;
   private boolean hasNote = false;
-  // private RobotShared m_robotShared = RobotShared.getInstance();
-  // private CommandXboxController m_driverController = m_robotShared.getDriverController();
-  // private double timeOfLastNote = System.currentTimeMillis() + SensorConstants.kTimeToRumbleController + 1; // When enabled, it will not be true
 
   public BreakbeamSensorSubsystem() {
     m_breakBeamSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
@@ -37,7 +31,7 @@ public class BreakbeamSensorSubsystem extends SubsystemBase{
 
     hasNote = false;
     // Loop over every port and update them if they exist
-    for(int index = 0; index < SensorConstants.kDIOPorts; index++){
+    for(int index = 0; index < SensorConstants.kDIOPorts; index++) {
       if(m_sensorTab.sensorStatePortExists(index)){
         m_sensorTab.setSensorStatePort(m_breakBeamSensors[index].get(), index);
         if(m_breakBeamSensors[index].get() == false){
@@ -49,15 +43,6 @@ public class BreakbeamSensorSubsystem extends SubsystemBase{
     if(previousNoteState != hasNote){
       new NoteRumble().schedule();
     }
-
-    // if(timeOfLastNote > System.currentTimeMillis() - SensorConstants.kTimeToRumbleController){
-    //   // the HID is the controller, commandXbox can't trust us with rumble apparently and it wont extend so I have to get HID
-    //   m_driverController.getHID().setRumble(RumbleType.kLeftRumble, SensorConstants.kRumbleStrength);
-    //   m_driverController.getHID().setRumble(RumbleType.kRightRumble, SensorConstants.kRumbleStrength);
-    // }else{
-    //   m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0);
-    //   m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0);
-    // }
 
     m_driverTab.setHasNote(hasNote);
   }

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8369951739903483,
-      "y": 6.605621289946283
+      "x": 0.7174074495098396,
+      "y": 6.606464270406219
     },
-    "rotation": -121.51276368731142
+    "rotation": -120.71064429322962
   },
   "command": {
     "type": "sequential",
@@ -18,25 +18,38 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "SpeakerLeftToLeftNote"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SpeakerLeftToLeftNote"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "LeftNoteToSpeakerLeft"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "GroundIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "LeftNoteToSpeakerLeft"
                 }
               }
             ]
@@ -49,25 +62,38 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "LeftSpeaker1"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "1ToLeftSpeaker"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "LeftSpeaker1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinupShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "1ToLeftSpeaker"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "GroundIntake"
+                  "name": "GroundIntakeLong"
                 }
               }
             ]

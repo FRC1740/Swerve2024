@@ -27,7 +27,7 @@
   {
     "name": "/Shuffleboard/DriveTrain/Max Speed MPS",
     "type": "double",
-    "value": 4.8,
+    "value": 6.36,
     "properties": {
       "persistent": true
     }
@@ -50,6 +50,22 @@
   },
   {
     "name": "/Shuffleboard/Horn/Left Horn RPM",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/DriveTrain/AutoRotationOffset",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/DriveTrain/IsPathFlipped",
     "type": "double",
     "value": 0.0,
     "properties": {

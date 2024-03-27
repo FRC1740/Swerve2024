@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -22,23 +21,24 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.Board.CurrentDrawTab;
 import frc.Board.DriveTrainTab;
-import frc.Networking.LimelightTable;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
+import frc.robot.constants.VisionConstants;
 import frc.robot.constants.SubsystemConstants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.util.Optional;
-
-import org.photonvision.EstimatedRobotPose;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class DriveSubsystem extends SubsystemBase {
+
+  /** gyro angular offset in degrees <b>after</b> auto*/
+  double gyroAutoAngularOffset = 0; 
+
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
     CanIds.kFrontLeftDrivingCanId,
@@ -65,6 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
   private AHRS m_gyro = new AHRS(SerialPort.Port.kMXP);
 
   
+  private final CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
   DriveTrainTab DriveTab = DriveTrainTab.getInstance();
   
   // Slew rate filter variables for controlling lateral acceleration
@@ -118,9 +119,13 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   /** Creates a new DriveSubsystem. */
+  //TODO: disabled init
   public DriveSubsystem() {
     m_limelight = m_robotShared.getLimelight();
-    // m_photonVision = m_robotShared.getPhotonVision();
+    configureHolonomic();
+  }
+
+  public void configureHolonomic() {
     AutoBuilder.configureHolonomic(
       this::getPose, 
       this::resetOdometry, 
@@ -128,6 +133,18 @@ public class DriveSubsystem extends SubsystemBase {
       this::chassisSpeedDrive, 
       DriveConstants.kPathFollowerConfig, 
       () -> {
+        // I figure if one of these works it's fine, it only runs once so redundancy is fine
+        if(DriveTab.getIsPathFlipped() == 1) { // expicit path flip, if this is not set, it is fine because it gets driverstation
+          System.out.println("Flipped SB");
+          return true;
+        }
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()) {
+          System.out.println("Flipped DS " + (alliance.get() == DriverStation.Alliance.Red));
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        System.out.println("No flip");
+
         return m_robotShared.getAlliance() == DriverStation.Alliance.Red;
       }, 
     this);
@@ -136,13 +153,26 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    m_CurrentDrawTab.setDrivingFrontLeft(m_frontLeft.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingFrontRight(m_frontRight.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingRearLeft(m_rearLeft.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingRearRight(m_rearRight.getDrivingVoltage());
+    m_CurrentDrawTab.setTurningFrontLeft(m_frontLeft.getTurningVoltage());
+    m_CurrentDrawTab.setTurningFrontRight(m_frontRight.getTurningVoltage());
+    m_CurrentDrawTab.setTurningRearLeft(m_rearLeft.getTurningVoltage());
+    m_CurrentDrawTab.setTurningRearRight(m_rearRight.getTurningVoltage());
+
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
+    
     double[] visionPose = m_limelight.getBotPose();
-    if (visionPose[0] != 0 && visionPose[1] != 0){
+    if (visionPose[0] != 0 && visionPose[1] != 0 && m_limelight.getTargetedArea() > VisionConstants.AprilTagMinimumArea &&
+     getDistance(new Pose2d(visionPose[0], visionPose[1], getRotation2d()), PoseEstimator.getEstimatedPosition()) < 2.0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose 
+          visionPose[1], m_odometry.getPoseMeters().getRotation()
+        ), //Vision Pose 
           
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
     }
@@ -162,8 +192,9 @@ public class DriveSubsystem extends SubsystemBase {
     //Pubilsh pose data to network tables
     PosePublisher.set(new Pose2d[]{
       new Pose2d(m_limelight.getBotPose()[0],
-      m_limelight.getBotPose()[1], new Rotation2d(Units.degreesToRadians(visionPose[5]))), //Vision Pose
-      m_odometry.getPoseMeters(), //Odometry pose
+      m_limelight.getBotPose()[1], m_odometry.getPoseMeters().getRotation()), //Vision Pose
+      m_odometry.getPoseMeters(),
+      // new Pose2d(m_odometry.getPoseMeters().getTranslation().rotateBy(new Rotation2d(Units.degreesToRadians(180.0))), m_odometry.getPoseMeters().getRotation()), //Odometry pose
       PoseEstimator.getEstimatedPosition()
     });
 
@@ -180,7 +211,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void updatePoseEstimater(){
-
     PoseEstimator.update(  
       getRotation2d(),
       new SwerveModulePosition[] {
@@ -197,7 +227,7 @@ public class DriveSubsystem extends SubsystemBase {
     //   EstimatedRobotPose visionPose = result.get();
     //   PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
     // }
-    // DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
+    DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -206,16 +236,25 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    // return m_odometry.getPoseMeters();
-    return PoseEstimator.getEstimatedPosition();
+    return m_odometry.getPoseMeters();
+    // return PoseEstimator.getEstimatedPosition();
   }
 
-  /**
-   * Resets the odometry to the specified pose.
+  /**         
+   * Resets the odometry AND POSE ESIMATION to the specified pose.
    *
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
+    PoseEstimator.resetPosition(
+      getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+      },
+    pose);
     m_odometry.resetPosition(
       getRotation2d().plus(new Rotation2d(GyroConstants.kGyroAngularOffset)),
       new SwerveModulePosition[] {
@@ -241,14 +280,16 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedCommanded;
     double ySpeedCommanded;
     if(quadraticInput){
-      xSpeed = quadraticControlFalloff(xSpeed);
-      ySpeed = quadraticControlFalloff(ySpeed);
+      xSpeed = herraFCurve(xSpeed, -.7, 18); // want to try -2.2
+      ySpeed = herraFCurve(ySpeed, -.7, 18);
+      // xSpeed = quadraticControlFalloff(xSpeed);
+      // ySpeed = quadraticControlFalloff(ySpeed);
       rot = quadraticControlFalloff(rot);
     }
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
-      double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed) + Units.degreesToRadians(-gyroAutoAngularOffset);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
@@ -301,11 +342,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
       fieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getRotation2d())
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getRotation2d()) //TODO: add offset
         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     
     SwerveDriveKinematics.desaturateWheelSpeeds(
       swerveModuleStates, DriveTab.getMaxDrivingSpeed());
+      
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -323,7 +365,24 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
-    return Math.signum(input) * Math.abs((1 * Math.pow(input, 2))) + (0 * input);
+    return Math.signum(input) * Math.abs((.3 * Math.pow(input, 2))) + (0.7 * input);
+  }
+
+  // https://github.com/achilleas-k/fs2open.github.com/blob/joystick_curves/joy_curve_notes/new_curves.md
+  /** 
+   * HerraFCurve, function taken from Operation Peacce (3461)
+   * @param I input value
+   * @param s sensitivity of the controls
+   * @param degree where the curve starts to be exponential, 9 is middle 4.5 is more linear
+  */
+  public static double herraFCurve(double I, double s, double degree) {
+    double funcInput = Math.abs(I);
+    double output = I - (Math.copySign(Math.pow(funcInput, (s / 9)) * Math.pow((1 - Math.cos(funcInput * Math.PI)) / 2, (9 - s) / degree), I)) + I;
+    if (Math.abs(I) > .02) {
+      return output;
+    }else{
+      return 0;
+    }
   }
 
   public void setXFormation() {
@@ -331,6 +390,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+  }
+  public void setForwardFormation() {
+    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
   }
 
   /**
@@ -390,12 +455,27 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
-    // m_gyro.setAngleAdjustment(m_currentRotation);
+    gyroAutoAngularOffset = 0.0;
+    // m_gyro.setAngleAdjustment(0.0);
   }
+
+  // sets the offset after the auto to adjust for starting.
+  public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
+    if (useShuffleboard) {
+        System.out.println("Pulled rotation offset " + DriveTab.getAutoRotationOffset());
+        // m_gyro.setAngleAdjustment(DriveTab.getAutoRotationOffset());
+        gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
+    } else {
+        System.out.println("Set auto rotation offset " + angle);
+        gyroAutoAngularOffset = angle;
+        // m_gyro.setAngleAdjustment(angle);
+    }
+}
+
 
 //Gets gyro in form of Rotation2d
   public Rotation2d getRotation2d(){ // this is the reversed angle and should be used to get the reversed robot angle
-    return m_gyro.getRotation2d();
+    return m_gyro.getRotation2d(); // TODO: pose estimator has no rotation offset
   }
 
   /**
@@ -414,5 +494,13 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate() * (GyroConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  /** Gets the distance between 2 pose 2ds 
+   * @param pose1 the first pose
+   * @param pose2 the second pose
+  */
+  public double getDistance(Pose2d pose1, Pose2d pose2){
+    return pose1.getTranslation().getDistance(pose2.getTranslation());
   }
 }

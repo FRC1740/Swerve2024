@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3389713214671353,
-      "y": 5.572511265393898
+      "x": 15.381238887477775,
+      "y": 5.5558836395450575
     },
-    "rotation": -179.69756174406155
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker to left-most note"
+                  "pathName": "Red middle to middle"
                 }
               },
               {
@@ -43,51 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left-note to speaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootSpeaker"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "speaker To middle note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GroundIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Middle note to speaker"
+                  "pathName": "Red middle to middle speaker"
                 }
               },
               {
@@ -112,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SpeakerRight"
+                  "pathName": "Red speaker middle to red Right"
                 }
               },
               {
@@ -131,7 +87,51 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right-note to speaker"
+                  "pathName": "Red right note to red middle"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "GroundIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Red middle to red left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "GroundIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Red left to red middle"
                 }
               },
               {
@@ -152,6 +152,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Red",
   "choreoAuto": false
 }

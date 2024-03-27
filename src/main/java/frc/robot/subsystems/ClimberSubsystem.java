@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Board.CurrentDrawTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.ClimberConstants;
 import frc.robot.constants.SubsystemConstants.GroundIntakeConstants;
@@ -14,7 +15,9 @@ public class ClimberSubsystem extends SubsystemBase{
   new CANSparkMax(CanIds.kClimberMotorCanId, CANSparkMax.MotorType.kBrushless);
   RelativeEncoder m_climberEncoder;
 
-  /** Creates a new GroundIntake. */
+  CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
+
+  /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_ClimberMotor.setInverted(false);
     m_climberEncoder = m_ClimberMotor.getEncoder();
@@ -35,6 +38,8 @@ public class ClimberSubsystem extends SubsystemBase{
   }
   @Override
   public void periodic() {
+    // System.out.println("Climber Encoder: " + m_climberEncoder.getPosition());
+    m_CurrentDrawTab.setClimberCurrentDraw(m_ClimberMotor.getOutputCurrent());
   }
   public void toggleSoftLimit(){
     if(m_ClimberMotor.isSoftLimitEnabled(SoftLimitDirection.kForward)){

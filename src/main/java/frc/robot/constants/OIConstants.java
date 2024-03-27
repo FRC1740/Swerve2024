@@ -16,8 +16,13 @@ public final class OIConstants {
    * <code>[↑]</code> to <code>/↗/</code> to  <code>[→]</code>
    * <br></br>
    * Until it reaches the specified angle
+   * See {@link frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive}
   */
   public static final boolean kUseFieldRelativeRotation = false;
+
+  // Rumble Constants
+  public static final double kTimeToRumbleController = 500;
+  public static final double kRumbleStrength = 1;
 }
 
 

@@ -27,7 +27,7 @@
   {
     "name": "/Shuffleboard/DriveTrain/Max Speed MPS",
     "type": "double",
-    "value": 4.8,
+    "value": 6.36,
     "properties": {
       "persistent": true
     }
@@ -43,7 +43,7 @@
   {
     "name": "/Shuffleboard/Horn/Right Horn RPM",
     "type": "double",
-    "value": 0.0,
+    "value": 1.0,
     "properties": {
       "persistent": true
     }

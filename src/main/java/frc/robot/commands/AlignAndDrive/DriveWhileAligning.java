@@ -18,12 +18,16 @@ import frc.robot.subsystems.DriveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveWhileAligning extends PIDCommand {
-  /** Creates a new DriveWhileAligning. */
-  
-    private static DriveTrainTab m_driveTab = DriveTrainTab.getInstance();
+  private static DriveTrainTab m_driveTab = DriveTrainTab.getInstance();
   static RobotShared m_robotShared = RobotShared.getInstance();
   private static DriveSubsystem m_drive = m_robotShared.getDriveSubsystem();
   private static CommandXboxController m_driverController = m_robotShared.getDriverController();
+
+  /** Command that allows driving while aligning to an absolute angle
+   * @param angle The angle to align to
+   * @param fieldRelative Whether the angle is field relative
+   * @param rateLimit Whether to limit the rate of change of the output
+   */
   public DriveWhileAligning(double angle, boolean fieldRelative, boolean rateLimit) {
     super(
       // The controller that the command will use
@@ -43,6 +47,7 @@ public class DriveWhileAligning extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
     addRequirements(m_drive);
     getController().enableContinuousInput(-180, 180);
+    // This is very aggressive, but we don't want to wait too long to align
     getController().setTolerance(30, 10);
   }
   @Override

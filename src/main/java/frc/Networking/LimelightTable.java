@@ -56,10 +56,11 @@ public class LimelightTable {
   private void initNetworkTableInstance() {
     m_nt = NetworkTableInstance.getDefault().getTable(TableName);
     //http://photonvision.local:5801
-    // HttpCamera httpCamera = new HttpCamera("limelight", "http://limelight.local:5801"); 
-    // CameraServer.addCamera(httpCamera);
-    // Shuffleboard.getTab("Driver")
-    //     .add(httpCamera);
+    HttpCamera httpCamera = new HttpCamera("limelight", "http://limelight.local:5801"); 
+    httpCamera.setFPS(1);
+    CameraServer.addCamera(httpCamera);
+    Shuffleboard.getTab("Driver")
+        .add(httpCamera);
   }
 
   public double getTx() {
@@ -118,6 +119,6 @@ public class LimelightTable {
 
   public double[] getBotPose() {
     //print
-    return m_nt.getEntry("botpose").getDoubleArray(new double[6]);
+    return m_nt.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
   }
 }

@@ -20,8 +20,9 @@ public class HornIntake extends Command {
   private BreakbeamSensorSubsystem m_sensorSubsystem;
   private double m_intakeSpeed;
 
-  /** Creates a new IntakeDeploy. 
+  /** Creates a new Intake Command. 
    * Intakes from the horn
+   * @param intakeSpeed The speed at which the horn should intake in the range [-1, 1]
   */
   public HornIntake(double intakeSpeed) {
     m_robotShared = RobotShared.getInstance();
@@ -30,6 +31,7 @@ public class HornIntake extends Command {
     m_sensorSubsystem = m_robotShared.getSensorSubsystem();
     m_intakeSpeed = intakeSpeed;
     addRequirements(m_horn);
+    addRequirements(m_conveyorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -54,7 +56,7 @@ public class HornIntake extends Command {
   @Override
   public boolean isFinished() {
     // Note has hit the ground intake sensor
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false){
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false) {
       return true;
     }
     return false;

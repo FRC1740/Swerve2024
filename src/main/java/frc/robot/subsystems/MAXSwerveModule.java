@@ -168,4 +168,12 @@ public class MAXSwerveModule {
   public SwerveModuleState getDesiredState(){
     return m_desiredState;
   }
+  
+  public double getDrivingVoltage(){
+    return m_drivingSparkMax.getOutputCurrent();
+  }
+
+  public double getTurningVoltage(){
+    return m_turningSparkMax.getOutputCurrent();
+  }
 }
