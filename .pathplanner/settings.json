@@ -1,21 +1,18 @@
 {
-  "robotWidth": 0.81915,
-  "robotLength": 0.81915,
+  "robotWidth": 0.832,
+  "robotLength": 0.908,
   "holonomicMode": true,
   "pathFolders": [
+    "Amp",
     "Blue",
     "Middle",
-    "Amp",
-    "Red",
     "Right side",
     "RightInsdeBounds",
     "SpeakerLeft",
     "SpeakerMiddle",
     "SpeakerRight"
   ],
-  "autoFolders": [
-    "Red"
-  ],
+  "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

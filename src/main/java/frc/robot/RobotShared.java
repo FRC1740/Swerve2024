@@ -15,6 +15,7 @@ import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVision;
+import frc.utils.Inspired;
 import frc.robot.subsystems.BreakbeamSensorSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
@@ -37,6 +38,7 @@ public class RobotShared {
   protected LedSubsystem m_ledSubsystem = null;
   protected BreakbeamSensorSubsystem m_sensorSubsystem = null;
   protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
+  protected Inspired m_Inspiration = null;
 
   private static RobotShared instance;
 
@@ -94,6 +96,12 @@ public class RobotShared {
   }
   public CommandXboxController getCoDriverController() {
     return m_coDriverController;
+  }
+  public Inspired getInspiration() {
+    if(m_Inspiration == null) {
+      m_Inspiration = new Inspired();
+    }
+    return m_Inspiration;
   }
   public LedSubsystem getLedSubsystem() {
     if(m_ledSubsystem == null) {

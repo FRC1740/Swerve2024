@@ -36,6 +36,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.utils.Inspired;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -146,6 +147,8 @@ public class RobotContainer {
     // m_robotShared.getPhotonVision();
     
     m_deflectorSubsystem = m_robotShared.getDeflectorSubsystem();
+
+    m_robotShared.getInspiration();
 
     DriverTab.getInstance();
   }

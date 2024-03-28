@@ -43,7 +43,7 @@
   {
     "name": "/Shuffleboard/Horn/Right Horn RPM",
     "type": "double",
-    "value": 1.0,
+    "value": 0.0,
     "properties": {
       "persistent": true
     }
