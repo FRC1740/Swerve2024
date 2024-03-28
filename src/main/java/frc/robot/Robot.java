@@ -18,6 +18,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
+    // DriverStation.silenceJoystickConnectionWarning(true); // TODO: TESTING
     m_robotContainer = new RobotContainer();
   }
 
@@ -29,7 +30,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() { // there is no way to disable controller rumbling, here's hoping that wont happen ever (confident)
     RobotShared m_robotShared = RobotShared.getInstance();
-    
+
     m_robotShared.getInspiration().randomPrint();
   }
 
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
     }
 
     m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, false);
+    m_robotShared.getInspiration().clearPrintQueue();
   }
 
   @Override
@@ -66,7 +68,7 @@ public class Robot extends TimedRobot {
 
     RobotShared m_robotShared = RobotShared.getInstance();
 
-    m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, true); // null so it pulls from shuffleboard
+    m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, true);
   }
 
   @Override
