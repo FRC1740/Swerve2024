@@ -3,22 +3,54 @@
 #include <i2c_driver_wire.h>
 #include <i2c_register_slave.h>
 #include <FastLED.h>
+#include <OctoWS2811.h>
 
-#define LED_PIN 7
-#define NUM_LEDS 16
-#define NUM_STRIPS 1
+const int numPins = 1;
+byte pinList[numPins] = {2}; // Apparently any T4.x pins can be used in parallel
+//byte pinList[numPins] = {19,18,14,15,17,16,22,23}; // stock 4.0 parallel pins
+const int ledsPerPin = 60;
+#define NUM_LEDS (numPins*ledsPerPin)
 
 CRGB leds[NUM_LEDS];
 
-int currentLED = 3;
+const int ledsSize = sizeof(leds)/sizeof(leds[0]);
+byte hue;
 
-int apple = 10;
-int length = 1;
-bool snakePos[NUM_LEDS]; 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// These buffers need to be large enough for all the pixels. The total number of pixels is "ledsPerPin * numPins".
+// Each pixel needs 3 bytes, so multiply by 3.  An "int" is 4 bytes, so divide by 4.  The array is created using "int"
+// so the compiler will align it to 32 bit memory.
+DMAMEM int displayMemory[ledsPerPin * numPins * 3 / 4];
+int drawingMemory[ledsPerPin * numPins * 3 / 4];
+OctoWS2811 octo(ledsPerPin, displayMemory, drawingMemory, WS2811_RGB | WS2811_800kHz, numPins, pinList);
+template <EOrder RGB_ORDER = RGB, uint8_t CHIP = WS2811_800kHz>
+class CTeensy4Controller : public CPixelLEDController<RGB_ORDER, 8, 0xFF>{
+  OctoWS2811 *pocto;
+  public:
+    CTeensy4Controller(OctoWS2811 *_pocto):pocto(_pocto){};
+    virtual void init() {}
+    virtual void showPixels(PixelController<RGB_ORDER, 8, 0xFF>&pixels){
+      uint32_t i = 0;
+      while (pixels.has(1)){
+        uint8_t r = pixels.loadAndScale0();
+        uint8_t g = pixels.loadAndScale1();
+        uint8_t b = pixels.loadAndScale2();
+        pocto->setPixel(i++, r, g, b);
+        pixels.stepDithering();
+        pixels.advanceData();
+      }
+      pocto->show();
+    }
+};
+CTeensy4Controller<GRB, WS2811_800kHz> *pcontroller;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void setup() {
+void setup(){
   randomSeed(analogRead(2));
-  FastLED.addLeds<NUM_STRIPS, WS2812, LED_PIN>(leds, NUM_LEDS);
+  Serial.begin(115200);
+  octo.begin();
+  pcontroller = new CTeensy4Controller<GRB, WS2811_800kHz>(&octo);
+  FastLED.addLeds(pcontroller, leds, numPins * ledsPerPin);
 
   Wire.begin(8);                // join i2c bus with address #8
   Wire.onReceive((void (*)(int))receiveData); // register incoming data
@@ -27,9 +59,19 @@ void setup() {
 
   sortInit();
   for(int i = 0; i < NUM_LEDS; i++){
-    leds[i] = CRGB(((float)i / NUM_LEDS) * 0, ((float)i / NUM_LEDS) * 16, ((float)i / NUM_LEDS) * 255); //G R B
+    leds[i] = CRGB(((float)i / NUM_LEDS) * 0, ((float)i / NUM_LEDS) * NUM_LEDS, ((float)i / NUM_LEDS) * 255); //G R B
   }
+  pathing();
 }
+
+#define LED_PIN 7
+#define NUM_STRIPS 1
+
+int currentLED = 3;
+
+int apple = 10;
+int length = 1;
+bool snakePos[NUM_LEDS]; 
 
 void loop() {
   // pathing();
@@ -77,9 +119,9 @@ int smoothWrap(int a, int b){
 
 void sortInit(){
   for(int i = 0; i < NUM_LEDS; i++){
-    leds[i] = CRGB(((float)i / NUM_LEDS) * 0, ((float)i / NUM_LEDS) * 16, ((float)i / NUM_LEDS) * 255); //G R B
+    leds[i] = CRGB(((float)i / NUM_LEDS) * 0, ((float)i / NUM_LEDS) * NUM_LEDS, ((float)i / NUM_LEDS) * 255); //G R B
   }
-  bool shuffledTemp[16];
+  bool shuffledTemp[NUM_LEDS];
   for(int i = 0; i < NUM_LEDS; i++){
     shuffledTemp[i] = false;
   }
