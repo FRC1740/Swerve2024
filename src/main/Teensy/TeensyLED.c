@@ -6,7 +6,8 @@
 #include <OctoWS2811.h>
 
 const int numPins = 1;
-byte pinList[numPins] = {2}; // Apparently any T4.x pins can be used in parallel
+#define LED_PIN 2
+byte pinList[numPins] = {LED_PIN}; // Apparently any T4.x pins can be used in parallel
 //byte pinList[numPins] = {19,18,14,15,17,16,22,23}; // stock 4.0 parallel pins
 const int ledsPerPin = 60;
 #define NUM_LEDS (numPins*ledsPerPin)
@@ -63,8 +64,6 @@ void setup(){
   }
   pathing();
 }
-
-#define LED_PIN 7
 #define NUM_STRIPS 1
 
 int currentLED = 3;
