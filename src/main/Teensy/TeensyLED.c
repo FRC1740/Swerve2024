@@ -26,23 +26,35 @@ void setup() {
   Serial.begin(9600);           // start serial for output debugging
 
   sortInit();
+  for(int i = 0; i < NUM_LEDS; i++){
+    leds[i] = CRGB(((float)i / NUM_LEDS) * 0, ((float)i / NUM_LEDS) * 16, ((float)i / NUM_LEDS) * 255); //G R B
+  }
 }
 
 void loop() {
   // pathing();
   // distance();
   // snake();
-  gambling();
+  // gambling();
   // strobe();
   // sort();
   // FastLED.show();
   // newPattern();
+  // for(int i = 0; i < NUM_LEDS; i++){
+  //   leds[i] = CRGB(((float)i / NUM_LEDS) * 0, ((float)i / NUM_LEDS) * 16, ((float)i / NUM_LEDS) * 255); //G R B
+  // }
   delay(100);
 }
 
 void clearLEDS(){
   for(int i = 0; i < NUM_LEDS; i++){
     leds[i] = CRGB(0, 0, 0); //G R B
+  }
+}
+
+void solidLEDS(){
+  for(int i = 0; i < NUM_LEDS; i++){
+    leds[i] = CRGB(20, 20, 255); //G R B
   }
 }
 
@@ -192,6 +204,13 @@ void pathing(){
   FastLED.show();
 }
 
+void gotNote(){
+  for(int i = 0; i < NUM_LEDS; i++){
+    leds[i] = CRGB(70, 255, 0); // G R B
+  }
+  FastLED.show();
+}
+
 
 
 // function that executes whenever data is received from master
@@ -203,9 +222,15 @@ void receiveData()
     char c = Wire.read();
     str += c;
   }
+    Serial.println(str);
   if(str == "Data"){
     pathing();
-    // Serial.println(str);
+  }
+  if(str == "Solid"){
+    solidLEDS();
+  }
+  if(str == "Note"){
+    gotNote();
   }
 }
 

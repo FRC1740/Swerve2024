@@ -22,10 +22,10 @@ public class NoteRumble extends Command{
     start = System.currentTimeMillis();
     m_robotShared = RobotShared.getInstance();
     m_driverController = m_robotShared.getDriverController();
-    // m_ledSubsystem = m_robotShared.getLedSubsystem();
+    m_ledSubsystem = m_robotShared.getLedSubsystem();
     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, OIConstants.kRumbleStrength);
     m_driverController.getHID().setRumble(RumbleType.kRightRumble, OIConstants.kRumbleStrength);
-    // m_ledSubsystem.SendLedCommandGotNote();
+    m_ledSubsystem.SendLedCommandGotNote();
   }
   @Override
   public void execute() {}
@@ -42,6 +42,6 @@ public class NoteRumble extends Command{
   public void end(boolean interrupted) {
     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0);
     m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0);
-    // m_ledSubsystem.SendLedCommandPathing();
+    m_ledSubsystem.SendLedCommandPathing();
   }
 }
