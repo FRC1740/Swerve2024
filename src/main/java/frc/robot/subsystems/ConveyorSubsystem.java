@@ -18,6 +18,8 @@ public class ConveyorSubsystem extends SubsystemBase {
     m_HornConveyorMotor.setInverted(false);
     m_HornConveyorMotor.getEncoder();
     m_HornConveyorMotor.setSmartCurrentLimit(ConveyorConstants.kConveyorMotorCurrentLimit);
+    m_HornConveyorMotor.setOpenLoopRampRate(.2f);
+    m_HornConveyorMotor.setClosedLoopRampRate(.2f);
     m_HornConveyorMotor.burnFlash();
   }
   public void setConveyorSpeed(double speed) {

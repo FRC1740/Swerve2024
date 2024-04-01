@@ -456,6 +456,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void zeroHeading() {
     m_gyro.reset();
     gyroAutoAngularOffset = 0.0;
+    System.out.println("Set auto rotation offset to 0.0");
     // m_gyro.setAngleAdjustment(0.0);
   }
 

@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() { // there is no way to disable controller rumbling, here's hoping that wont happen ever (confident)
     RobotShared m_robotShared = RobotShared.getInstance();
 
-    m_robotShared.getInspiration().randomPrint();
+    // m_robotShared.getInspiration().randomPrint();
   }
 
   @Override
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
     }
 
     m_robotShared.getDriveSubsystem().setAutoRotationOffset(0.0, false);
-    m_robotShared.getInspiration().clearPrintQueue();
+    // m_robotShared.getInspiration().clearPrintQueue();
   }
 
   @Override

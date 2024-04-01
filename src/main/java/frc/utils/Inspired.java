@@ -1,5 +1,10 @@
 package frc.utils;
 
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -10,6 +15,7 @@ public class Inspired extends SubsystemBase{
 
   String unprintedChars = "";
   long currentTime = System.currentTimeMillis();
+  int timesRanLoop = 0;
 
   public Inspired() {
     // slowPrintAppend("Inspired by the best! (3461)                       ");
@@ -17,8 +23,12 @@ public class Inspired extends SubsystemBase{
   }
 
   public void randomPrint() {
-    int random = (int) (Math.random() * 6);
-    random = 3;
+    //seed random
+    int random = (int) (Math.random() * 3000);
+    timesRanLoop++;
+    if(timesRanLoop > 3) {
+      outOfMemory();
+    }
     switch(random) {
       case 0:
         dooryPrint();
@@ -41,17 +51,57 @@ public class Inspired extends SubsystemBase{
       case 6:
         robotFindsKitten();
         break;
+      case 7:
+        isAutoSet();
+        break;
       default:
+        error();
         break;
     }
   }
 
-  public void isAutoSet() {
+  private void outOfMemory() {
+    slowPrintAppend("ERROR: OUT OF MEMORY");
+    slowPrintAppend("EARLY TERMINATION ACTIVATED");
+  }
+
+  private void mightWin() {
+    slowPrintAppend("There's a chance we could win this match");
+    slowPrintAppend("There's a cgabce we could win this match");
+  }
+
+  private void error() {
+    slowPrintAppend("ERROR: INSPIRATION NOT FOUND");
+    slowPrintAppend("ERROR: INSPIRATION NOT FOUND");
+    slowPrintAppend("ERROR: INSPIRATION NOT FOUND");
+    slowPrintAppend("Reloading inspiration...");
+    // # = delay
+    // String randomDelay = "";#
+    // int random = (int) (Math.random() * 10);
+    // for(int i = 0; i < random; i++){
+    //   randomDelay += "#";
+    // }
+    
+    // slowPrintAppend("-##--##############-#############---#---#-" + randomDelay + "###########----####################-########--######----###-#########-");
+    randomPrint();
+  }
+
+  private void isAutoSet() {
     slowPrintAppend("Did you set the auto yet?");
     slowPrintAppend("#####################");
     slowPrintAppend(SmartDashboard.getData("Auto Mode").toString());
     slowPrintAppend("#####################");
     slowPrintAppend("Clearly not.");
+    slowPrintAppend("#########################################################" +
+    "####################################################" +
+    "####################################################" +
+    "####################################################" +
+    "####################################################");
+    if(MatchType.Practice == DriverStation.getMatchType()){
+      slowPrintAppend("You should probably flip the path.");
+      slowPrintAppend("#####################");
+      slowPrintAppend("Even if it is just practice.");
+    }
   }
 
   public void robotFindsKitten() {
@@ -170,7 +220,7 @@ public class Inspired extends SubsystemBase{
     slowPrintAppend("##############");
     slowPrintAppend("I mean, they don't drink anything themselves, so the odds of them getting me anything are pretty low");
     slowPrintAppend("############");
-    slowPrintAppend("If hydration = hydration for me = winning, then hydration = winning");
+    slowPrintAppend("If (hydration = hydration for me) = winning, then hydration = winning");
   }
 
   private void goFast() {
@@ -245,7 +295,7 @@ public class Inspired extends SubsystemBase{
     slowPrintAppend("....|........|\"|........|...");
     slowPrintAppend("....|...................|...");
     slowPrintAppend(".....-------------------....");
-    slowPrintAppend("............1740.............");
+    slowPrintAppend("............1740............");
   }
 
   public void clearPrintQueue() {

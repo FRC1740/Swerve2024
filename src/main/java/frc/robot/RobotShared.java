@@ -123,15 +123,20 @@ public class RobotShared {
   }
   /** blue is default */
   public Alliance getAlliance() { // blue is default for the path planner (paths are made on the blue side)
-    m_alliance = DriverStation.getAlliance();
-    if(m_alliance.isPresent()){
-      if(m_alliance.get() == Alliance.Blue){
-        return Alliance.Blue;
+    if(DriverStation.isFMSAttached()){
+      m_alliance = DriverStation.getAlliance();
+      if(m_alliance.isPresent()){
+        if(m_alliance.get() == Alliance.Blue){
+          return Alliance.Blue;
+        }else{
+          return Alliance.Red;
+        }
       }else{
-        return Alliance.Red;
+        System.err.println("No alliance found!");
+        return Alliance.Blue;
       }
     }else{
-      System.err.println("No alliance found!");
+      System.err.println("No FMS found!");
       return Alliance.Blue;
     }
   }

@@ -29,6 +29,7 @@ import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.commands.basic.Horn.HornShootShuffleboard;
 import frc.robot.commands.basic.Horn.HornShootVision;
+import frc.robot.commands.basic.Horn.ShootAndIntake;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DeflectorSubsytem;
@@ -94,6 +95,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootAmpWithDeflector", new HornAmpShootWithDeflector().withTimeout(3)); // We use the amp so deflector needed
     NamedCommands.registerCommand("SpinupShooter", new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(7000.0)));
     NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> m_robotDrive.zeroHeading())); 
+    NamedCommands.registerCommand("ShootAndIntake", new ShootAndIntake(.3).withTimeout(15));
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
