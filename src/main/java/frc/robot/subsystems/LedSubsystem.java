@@ -20,7 +20,7 @@ public class LedSubsystem extends SubsystemBase{
 	public void periodic() {
 		// System.out.println("led");
 		if (timer.get() > .1){
-		System.out.println("timer");
+		// System.out.println("timer");
 		// SendLedCommand();
 
 		}
