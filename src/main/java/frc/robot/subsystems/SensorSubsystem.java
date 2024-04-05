@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.Board.DriverTab;
 import frc.Board.SensorTab;
+import frc.robot.RobotShared;
 import frc.robot.commands.basic.NoteRumble;
 import frc.robot.constants.SensorConstants;
 
@@ -12,14 +13,19 @@ import frc.robot.constants.SensorConstants;
     //do something
   }  
 */
-public class BreakbeamSensorSubsystem extends SubsystemBase{
+public class SensorSubsystem extends SubsystemBase{
   private DigitalInput[] m_breakBeamSensors;
+  private int[] sensorValues;
+  RobotShared m_robotShared;
+  private LedSubsystem m_LedSubsystem;
   private SensorTab m_sensorTab;
   private DriverTab m_driverTab;
   private boolean hasNote = false;
 
-  public BreakbeamSensorSubsystem() {
+  public SensorSubsystem() {
     m_breakBeamSensors = new DigitalInput[SensorConstants.kDIOPorts]; // ten ports total
+    m_robotShared = RobotShared.getInstance();
+    m_LedSubsystem = m_robotShared.getLedSubsystem();
     m_sensorTab = SensorTab.getInstance();
     m_driverTab = DriverTab.getInstance();
     getSensorValue(1);
@@ -42,6 +48,11 @@ public class BreakbeamSensorSubsystem extends SubsystemBase{
 
     if(previousNoteState != hasNote){
       new NoteRumble().schedule();
+      if(hasNote) {
+        m_LedSubsystem.SendLedCommandGotNote();
+      }else{
+        m_LedSubsystem.SendLedCommandPathing();
+      }
     }
 
     m_driverTab.setHasNote(hasNote);

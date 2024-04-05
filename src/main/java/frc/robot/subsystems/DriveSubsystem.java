@@ -163,6 +163,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_CurrentDrawTab.setTurningRearLeft(m_rearLeft.getTurningVoltage());
     m_CurrentDrawTab.setTurningRearRight(m_rearRight.getTurningVoltage());
 
+    DriveTab.setSpeed(m_frontLeft.getSpeed());
+
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
     
@@ -379,6 +381,7 @@ public class DriveSubsystem extends SubsystemBase {
     double funcInput = Math.abs(I);
     double output = I - (Math.copySign(Math.pow(funcInput, (s / 9)) * Math.pow((1 - Math.cos(funcInput * Math.PI)) / 2, (9 - s) / degree), I)) + I;
     if (Math.abs(I) > .02) {
+      // System.out.println("Applied output : " + output);
       return output;
     }else{
       return 0;

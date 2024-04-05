@@ -41,16 +41,16 @@ public class HornSubsystem extends SubsystemBase {
     m_HornTab.setD(HornConstants.kD);
     m_HornTab.setFF(HornConstants.kFF);
 
-    m_HornLeftMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    m_HornRightMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    m_HornLeftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_HornRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     m_HornRightMotor.setInverted(false);
     m_HornLeftMotor.setInverted(true);
 
-    m_HornRightMotor.setOpenLoopRampRate(.2f);
-    m_HornRightMotor.setClosedLoopRampRate(.2f);
-    m_HornLeftMotor.setOpenLoopRampRate(.2f);
-    m_HornLeftMotor.setClosedLoopRampRate(.2f);
+    // m_HornRightMotor.setOpenLoopRampRate(.1f);
+    // m_HornRightMotor.setClosedLoopRampRate(.1f);
+    // m_HornLeftMotor.setOpenLoopRampRate(.1f);
+    // m_HornLeftMotor.setClosedLoopRampRate(.1f);
     
     m_HornLeftMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);
     m_HornRightMotor.setSmartCurrentLimit(HornConstants.kHornCurrentLimit);

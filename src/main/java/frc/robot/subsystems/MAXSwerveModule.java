@@ -176,4 +176,8 @@ public class MAXSwerveModule {
   public double getTurningVoltage(){
     return m_turningSparkMax.getOutputCurrent();
   }
+
+  public double getSpeed() {
+    return m_drivingEncoder.getVelocity();
+  }
 }

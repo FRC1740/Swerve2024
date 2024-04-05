@@ -20,7 +20,7 @@ public class HornAmpShootWithDeflector extends Command {
   private RobotShared m_robotShared;
 
   private long startingTime;
-  private int timeUntilPop = 1000;
+  private int timeUntilPop = 1100;
   private boolean finished = false;
 
   /** Creates a new Amp Shot using the Deflector */

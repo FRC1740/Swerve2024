@@ -20,6 +20,8 @@ public class Robot extends TimedRobot {
     DriverStation.startDataLog(DataLogManager.getLog());
     // DriverStation.silenceJoystickConnectionWarning(true); // TODO: TESTING
     m_robotContainer = new RobotContainer();
+    RobotShared m_robotShared = RobotShared.getInstance();
+    m_robotShared.getLedSubsystem().SendLedCommandPathing();
   }
 
   @Override

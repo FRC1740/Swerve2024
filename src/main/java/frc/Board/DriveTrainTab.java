@@ -40,6 +40,7 @@ public class DriveTrainTab {
   GenericEntry m_nte_InputExponent;
 
   GenericEntry m_nte_MaxDrivingSpeed;
+  GenericEntry m_nte_CurrentSpeed;
 
   GenericEntry m_nte_HasRotationControl; // whether the driver has control over rotation or not
 
@@ -86,6 +87,10 @@ public class DriveTrainTab {
 
     m_sbt_DriveTrain.add(m_Field)
       .withSize(4, 2).withPosition(0, 0);
+
+    m_nte_CurrentSpeed = m_sbt_DriveTrain.addPersistent("Speed MPS", 0.0)
+    .withSize(2,1).withPosition(1, 5).getEntry();
+
   }
 
 
@@ -135,6 +140,14 @@ public class DriveTrainTab {
 
   public double getAutoRotationOffset() {
     return m_nte_AutoRotationOffset.getDouble(0.0);
+  }
+
+  public void setSpeed(double value) {
+    m_nte_CurrentSpeed.setDouble(value);
+  }
+
+  public double getSpeed() {
+    return m_nte_CurrentSpeed.getDouble(0.0);
   }
 
   /** one is flipped */

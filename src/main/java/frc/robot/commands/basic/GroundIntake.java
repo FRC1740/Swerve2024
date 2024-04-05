@@ -7,14 +7,14 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
-import frc.robot.subsystems.BreakbeamSensorSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
 
 public class GroundIntake extends Command{
 
   private HornSubsystem m_horn;
   private ConveyorSubsystem m_conveyorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
-  private BreakbeamSensorSubsystem m_sensorSubsystem;
+  private SensorSubsystem m_sensorSubsystem;
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
 
@@ -43,7 +43,7 @@ public class GroundIntake extends Command{
   @Override
   public void execute() {
     m_horn.setRpmSetpoint(-m_intakeSpeed * HornConstants.kMaxHornRPM * .1);
-    m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed);
+    m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed - .6f);
     m_groundIntakeSubsystem.setGroundIntakeSpeed(m_intakeSpeed);
   }
 
@@ -58,8 +58,8 @@ public class GroundIntake extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false || 
-    m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false){
+    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false || 
+    m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false){
       return true;
     }
     return false;

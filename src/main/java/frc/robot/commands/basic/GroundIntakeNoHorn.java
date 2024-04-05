@@ -5,13 +5,13 @@ import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
-import frc.robot.subsystems.BreakbeamSensorSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
 
 public class GroundIntakeNoHorn extends Command{
 
   private ConveyorSubsystem m_conveyorSubsystem;
   private GroundIntakeSubsystem m_groundIntakeSubsystem;
-  private BreakbeamSensorSubsystem m_sensorSubsystem;
+  private SensorSubsystem m_sensorSubsystem;
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
 
@@ -36,7 +36,7 @@ public class GroundIntakeNoHorn extends Command{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed);
+    m_conveyorSubsystem.setConveyorSpeed(m_intakeSpeed - .6f);
     m_groundIntakeSubsystem.setGroundIntakeSpeed(m_intakeSpeed);
   }
 
