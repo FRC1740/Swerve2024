@@ -20,7 +20,7 @@ public class HornAmpShootWithDeflector extends Command {
   private RobotShared m_robotShared;
 
   private long startingTime;
-  private int timeUntilPop = 1100;
+  private int timeUntilPop = 2700;
   private boolean finished = false;
 
   /** Creates a new Amp Shot using the Deflector */
@@ -65,11 +65,11 @@ public class HornAmpShootWithDeflector extends Command {
     }else if(startingTime + timeUntilPop > currentTime){
       // do nothing and keep at the resting position to hold the note
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
-    }else if(startingTime + 1500 > currentTime){
+    }else if(startingTime + 3900 > currentTime){
       // pop the note for 1500 - timeUntilPop = 500 ms
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
 
-    }else if(startingTime + 3000 > currentTime){
+    }else if(startingTime + 4000 > currentTime){
       // wait for the note to enter the amp and then retract the deflector
       m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
       finished = true;

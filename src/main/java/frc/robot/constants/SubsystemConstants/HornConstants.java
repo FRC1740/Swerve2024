@@ -28,6 +28,6 @@ public class HornConstants {
 
   public static final int kHornCurrentLimit = CurrentLimitDefaults.kNeo;
 
-  public static final double kHornAmpShotMotorRPM = 300; // tuned
+  public static final double kHornAmpShotMotorRPM = 270; // tuned
   public static final double kHornSpeakerShotMotorRPM = kMaxHornRPM ; // 2800 RPM  = 1 ie. full speed
 }

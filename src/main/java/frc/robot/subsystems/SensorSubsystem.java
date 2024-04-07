@@ -56,6 +56,7 @@ public class SensorSubsystem extends SubsystemBase{
     }
 
     m_driverTab.setHasNote(hasNote);
+    m_sensorTab.updateShuffleboard();
   }
   /**
    * Returns true if the sensors can see eachother, meaning there is nothing there, 

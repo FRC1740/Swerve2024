@@ -95,7 +95,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootAmpWithDeflector", new HornAmpShootWithDeflector().withTimeout(3)); // We use the amp so deflector needed
     NamedCommands.registerCommand("SpinupShooter", new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(7000.0)));
     NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> m_robotDrive.zeroHeading())); 
-    NamedCommands.registerCommand("ShootAndIntake", new ShootAndIntake(.3).withTimeout(15));
+    NamedCommands.registerCommand("ShootAndIntake", new ShootAndIntake(.6).withTimeout(15));
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
