@@ -1,0 +1,54 @@
+imports = {
+  "frc.robot.constants.SubsystemConstants.HornConstants"
+}
+
+RightHornSpeed = 0
+RightHornSpeed.size = {2, 1}
+RightHornSpeed.pos = {4, 1}
+
+-- should add a copy 
+-- LeftHornSpeed = RightHornSpeed
+-- and then change the pos to {4, 3}
+LeftHornSpeed = 0
+LeftHornSpeed.size = {2, 1}
+LeftHornSpeed.pos = {4, 3}
+
+HornTargetSpeed = 0
+HornTargetSpeed.widget = kNumberSlider
+HornTargetSpeed.properties = {min, 0, max, 4000}
+
+-- should add PID template
+-- PID = HornConstants.kPID
+P = HornConstants.kP
+P.size = {1, 1}
+P.pos = {8, 1}
+
+I = HornConstants.kI
+I.size = {1, 1}
+I.pos = {8, 2}
+
+D = HornConstants.kD
+D.size = {1, 1}
+D.pos = {8, 3}
+
+FF = 0
+FF.size = {1, 1}
+FF.pos = {8, 4}
+
+RightVelocityOffset = 0.0
+RightVelocityOffset.widget = kNumberSlider
+RightVelocityOffset.properties = {min, 0, max, 400}
+
+IntakeFromHornMode = false
+IntakeFromHornMode.size = {1, 1}
+IntakeFromHornMode.pos = {8, 3}
+
+AmpTargetSpeed = HornConstants.kHornAmpShotMotorRPM
+AmpTargetSpeed.widget = kNumberSlider
+AmpTargetSpeed.properties = {min, 0, max, 600}
+
+DeflectorSetpoint = 0
+DeflectorSetpoint.widget = kNumberSlider
+DeflectorSetpoint.properties = {min, 0, max, 1}
+
+DeflectorEncoder = 0

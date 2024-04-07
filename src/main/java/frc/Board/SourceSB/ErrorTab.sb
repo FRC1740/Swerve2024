@@ -1,0 +1,36 @@
+imports = {
+  "edu.wpi.first.wpilibj.DriverStation",
+}
+
+Errors = ""
+
+CurrentErrors.declaration = "private String CurrentErrors;"
+CurrentErrors.init = "CurrentErrors = "";"
+
+UsedNames.declaration = "private String UsedNames;"
+UsedNames.init = "UsedNames = "";"
+
+Errors.addCommand (
+
+  public void logError(String nameOfCaller, String newError) {
+    if(!UsedNames.contains(nameOfCaller)){
+      UsedNames += nameOfCaller;
+      m_nte_Errors = m_sbt_ErrorTab.add(nameOfCaller, newError).getEntry();
+      DriverStation.reportError(newError, false);
+    }
+  }
+  public boolean errorExists(String stringToCheck, String error) { // this is seperate because I want it to be able to be called
+    if(stringToCheck.contains(error)){
+      return true;
+    }
+    return false;
+  }
+  public boolean handleError(String nameOfCaller, String newError){
+    boolean errorExists = errorExists(CurrentErrors, newError);
+    if(!errorExists){ // meaning it hasn't been logged yet
+      CurrentErrors += newError + ":"; // update list
+      logError(nameOfCaller, newError);
+    }
+    return errorExists;
+  }
+)

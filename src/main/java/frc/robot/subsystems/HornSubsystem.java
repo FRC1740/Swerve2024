@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
-import frc.Board.CurrentDrawTab;
-import frc.Board.HornTab;
+import frc.Board.OutputSB.CurrentDrawTab;
+import frc.Board.OutputSB.HornTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 
