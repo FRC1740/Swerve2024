@@ -26,7 +26,7 @@ public class AlignToTagLimelight extends Command {
   boolean ThetaFinished;
 
   /** Creates a new Command that aligns the robot angle to an apriltag using the Limelight. 
-   * This command <b>DOES DRIVE</b>
+   * <br></br> This command <b>DOES DRIVE</b>
   */
   public AlignToTagLimelight() {
     m_robotShared = RobotShared.getInstance();

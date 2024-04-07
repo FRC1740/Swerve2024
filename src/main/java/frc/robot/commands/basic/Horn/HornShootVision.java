@@ -21,7 +21,7 @@ public class HornShootVision extends Command {
   private Command m_hornShoot;
 
   /** Creates a new Shoot Command. 
-   * This determines whether to use the Amp score or Speaker based off the last seen scoring apriltag seen by the limelight
+   * This determines whether to use the Amp score or Speaker based off the last seen scoring apriltag seen by the Limelight
    * This is how HornShootShuffleboard should be written, but this does not actually work because the deflector does not work
    * The reason is that calling execute for some reason doesn't update the timer accurately. I could use schedule, however that doesn't allow canceling the command.
    */

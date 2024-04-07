@@ -437,16 +437,7 @@ public class DriveSubsystem extends SubsystemBase {
     states[3] = m_rearRight.getDesiredState();
     return states;
   }
-
-  // public double[] getDesiredAngleDifference(){
-  //   double[] states = new double[4];
-  //   states[0] = m_frontLeft.getDesiredState().angle.getDegrees();
-  //   states[1] = m_frontRight.getDesiredState().angle.getDegrees();
-  //   states[2] = m_rearLeft.getDesiredState().angle.getDegrees();
-  //   states[3] = m_rearRight.getDesiredState().angle.getDegrees();
-  //   return states;
-  // }
-
+  
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();

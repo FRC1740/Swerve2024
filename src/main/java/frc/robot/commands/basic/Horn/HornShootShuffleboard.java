@@ -38,6 +38,8 @@ public class HornShootShuffleboard extends Command {
   public void initialize() {
     startingTime = System.currentTimeMillis();
 
+    // Is true if the shooter is spun up. 
+    // There is no worry of the shuffleboard responding slowly, because if it's that soon, it's not spun up
     isSpeakerShot = m_HornTab.getHornTargetSpeed() == HornConstants.kHornSpeakerShotMotorRPM;
   }
 
@@ -58,19 +60,18 @@ public class HornShootShuffleboard extends Command {
       if(startingTime + HornConstants.kShootConveyorDelay < currentTime){
         m_conveyorSubsystem.setConveyorSpeed(1.0);
       }
-      // if(!finished){
-        if(startingTime + 50 > currentTime){ // run for .25 second
-          m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
+      if(startingTime + 50 > currentTime){ // run for .25 second
+        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
 
-        }else if(startingTime + timeUntilPop > currentTime){
-          // do nothing and keep at .3
-          m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
-        }else if(startingTime + 1500 > currentTime){ // run for .25 second
-          m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
+      }else if(startingTime + timeUntilPop > currentTime){
+        // do nothing and keep at .3
+        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpScoringPosition);
+      }else if(startingTime + 1500 > currentTime){ // run for .25 second
+        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpNotePopPosition);
 
-        }else if(startingTime + 3000 > currentTime){ // run for .25 second
-          m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
-        }
+      }else if(startingTime + 3000 > currentTime){ // run for .25 second
+        m_HornTab.setDeflectorSetpoint(DeflectorConstants.kAmpRetractedPosition);
+      }
     }
   }
 

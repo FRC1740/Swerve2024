@@ -15,7 +15,6 @@ import frc.robot.constants.SensorConstants;
 */
 public class SensorSubsystem extends SubsystemBase{
   private DigitalInput[] m_breakBeamSensors;
-  private int[] sensorValues;
   RobotShared m_robotShared;
   private LedSubsystem m_LedSubsystem;
   private SensorTab m_sensorTab;
@@ -70,6 +69,7 @@ public class SensorSubsystem extends SubsystemBase{
     if(!m_sensorTab.sensorStatePortExists(port)){
       createSensor(port);
     }
+    // This does not pull from the shuffleboard, it pulls from the array in the sensor tab
     return m_sensorTab.getSensorStatePort(port);
   }
   /**

@@ -14,7 +14,6 @@ import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.PhotonVision;
 import frc.utils.Inspired;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -34,7 +33,6 @@ public class RobotShared {
 
 
   protected LimelightSubsystem m_limelight = null;
-  protected PhotonVision m_photonVision = null;
   protected LedSubsystem m_ledSubsystem = null;
   protected SensorSubsystem m_sensorSubsystem = null;
   protected GroundIntakeSubsystem m_groundIntakeSubsystem = null;
@@ -114,12 +112,6 @@ public class RobotShared {
       m_limelight = new LimelightSubsystem();
     }
     return m_limelight;
-  }
-  public PhotonVision getPhotonVision() {
-    if(m_photonVision == null) {
-      m_photonVision = new PhotonVision();
-    }
-    return m_photonVision;
   }
   /** blue is default */
   public Alliance getAlliance() { // blue is default for the path planner (paths are made on the blue side)

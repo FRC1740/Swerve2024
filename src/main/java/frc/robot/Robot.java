@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
-    // DriverStation.silenceJoystickConnectionWarning(true); // TODO: TESTING
+    // DriverStation.silenceJoystickConnectionWarning(true); // Uncommented when simulating
     m_robotContainer = new RobotContainer();
     RobotShared m_robotShared = RobotShared.getInstance();
     m_robotShared.getLedSubsystem().SendLedCommandPathing();
@@ -30,11 +30,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() { // there is no way to disable controller rumbling, here's hoping that wont happen ever (confident)
-    RobotShared m_robotShared = RobotShared.getInstance();
-
-    // m_robotShared.getInspiration().randomPrint();
-  }
+  public void disabledInit() {} // there is no way to disable controller rumbling, here's hoping that wont happen ever (confident)
 
   @Override
   public void disabledPeriodic() {}

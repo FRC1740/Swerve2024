@@ -14,7 +14,6 @@ import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.Board.DriverTab;
 import frc.Board.GroundIntakeTab;
 import frc.Board.HornTab;
-import frc.robot.commands.AlignToTagPhotonVision;
 import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
@@ -28,7 +27,6 @@ import frc.robot.commands.basic.Horn.HornAmpShootWithDeflector;
 import frc.robot.commands.basic.Horn.HornIntake;
 import frc.robot.commands.basic.Horn.HornShoot;
 import frc.robot.commands.basic.Horn.HornShootShuffleboard;
-import frc.robot.commands.basic.Horn.HornShootVision;
 import frc.robot.commands.basic.Horn.ShootAndIntake;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -37,7 +35,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.HornSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.utils.Inspired;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -86,7 +83,6 @@ public class RobotContainer {
     initInputDevices();
 
     //Must register commands used in PathPlanner autos
-    NamedCommands.registerCommand("AlignToTagPhotonVision", new AlignToTagPhotonVision());
     NamedCommands.registerCommand("GroundIntake", new GroundIntakeNoHorn(1).withTimeout(2));
     NamedCommands.registerCommand("GroundIntakeMedium", new GroundIntakeNoHorn(1).withTimeout(5));
     NamedCommands.registerCommand("GroundIntakeLong", new GroundIntakeNoHorn(1).withTimeout(10));
@@ -94,11 +90,14 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootAmp", new HornAmpShoot().withTimeout(1)); // We don't use the amp so deflector not needed
     NamedCommands.registerCommand("ShootAmpWithDeflector", new HornAmpShootWithDeflector().withTimeout(3)); // We use the amp so deflector needed
     NamedCommands.registerCommand("SpinupShooter", new InstantCommand(() -> m_hornSubsystem.setRpmSetpoint(7000.0)));
-    NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> m_robotDrive.zeroHeading())); 
-    NamedCommands.registerCommand("ShootAndIntake", new ShootAndIntake(.6).withTimeout(15));
+    NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> m_robotDrive.zeroHeading()));
+    NamedCommands.registerCommand("ShootAndIntake", new ShootAndIntake(.6).withTimeout(15)); // .6 is so it doesn't enter our zone
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser.onChange((command) -> {
+      SmartDashboard.putString("Selected Auto", command.getName());
+    });
     SmartDashboard.putData("Auto Mode", autoChooser);
 
     // Configure the button bindings

@@ -6,13 +6,23 @@
 #include <OctoWS2811.h>
 
 const int numPins = 1;
+int state = 0;
+
 #define LED_PIN 2
 byte pinList[numPins] = {LED_PIN}; // Apparently any T4.x pins can be used in parallel
 //byte pinList[numPins] = {19,18,14,15,17,16,22,23}; // stock 4.0 parallel pins
-const int ledsPerPin = 60;
+const int ledsPerPin = 26;
 #define NUM_LEDS (numPins*ledsPerPin)
 
 CRGB leds[NUM_LEDS];
+
+#define RED    0xFF0000
+#define GREEN  0x00FF00
+#define BLUE   0x0000FF
+#define YELLOW 0xFFFF00
+#define PINK   0xFF1088
+#define ORANGE 0xE05800
+#define WHITE  0xFFFFFF
 
 const int ledsSize = sizeof(leds)/sizeof(leds[0]);
 byte hue;
@@ -24,6 +34,7 @@ byte hue;
 DMAMEM int displayMemory[ledsPerPin * numPins * 3 / 4];
 int drawingMemory[ledsPerPin * numPins * 3 / 4];
 OctoWS2811 octo(ledsPerPin, displayMemory, drawingMemory, WS2811_RGB | WS2811_800kHz, numPins, pinList);
+
 template <EOrder RGB_ORDER = RGB, uint8_t CHIP = WS2811_800kHz>
 class CTeensy4Controller : public CPixelLEDController<RGB_ORDER, 8, 0xFF>{
   OctoWS2811 *pocto;
@@ -73,9 +84,15 @@ int length = 1;
 bool snakePos[NUM_LEDS]; 
 
 void loop() {
-  // pathing();
-  // distance();
-  // snake();
+//    for(int i = 0; i < NUM_LEDS; i++){
+//     leds[i] = BLUE; //G
+// }
+//     FastLED.show();
+   //pathing();
+   if(state == 0){
+    distance();
+   }
+ //  snake();
   // gambling();
   // strobe();
   // sort();
@@ -247,7 +264,8 @@ void pathing(){
 
 void gotNote(){
   for(int i = 0; i < NUM_LEDS; i++){
-    leds[i] = CRGB(70, 255, 0); // G R B
+    leds[i] = GREEN;
+    //leds[i] = CRGB(70, 255, 0); // G R B
   }
   FastLED.show();
 }
@@ -266,12 +284,15 @@ void receiveData()
     Serial.println(str);
   if(str == "Data"){
     pathing();
+    state = 1;
   }
   if(str == "Solid"){
     solidLEDS();
+    state = 1;
   }
   if(str == "Note"){
     gotNote();
+    state = 1;
   }
 }
 

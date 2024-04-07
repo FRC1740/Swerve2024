@@ -71,5 +71,13 @@
     "properties": {
       "persistent": true
     }
+  },
+  {
+    "name": "/Shuffleboard/DriveTrain/Speed MPS",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
   }
 ]

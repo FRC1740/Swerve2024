@@ -1,12 +1,8 @@
 package frc.utils;
 
-import java.util.Optional;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.Board.DriveTrainTab;
 import frc.Networking.LimelightTable;
@@ -63,11 +59,6 @@ public class Inspired extends SubsystemBase{
   private void outOfMemory() {
     slowPrintAppend("ERROR: OUT OF MEMORY");
     slowPrintAppend("EARLY TERMINATION ACTIVATED");
-  }
-
-  private void mightWin() {
-    slowPrintAppend("There's a chance we could win this match");
-    slowPrintAppend("There's a cgabce we could win this match");
   }
 
   private void error() {

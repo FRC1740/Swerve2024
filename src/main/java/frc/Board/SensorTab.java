@@ -41,6 +41,9 @@ public class SensorTab {
     m_sbt_SensorTab = Shuffleboard.getTab("Sensor");
     m_nte_SensorStates = new GenericEntry[SensorConstants.kDIOPorts];
     filledPorts = new boolean[SensorConstants.kDIOPorts];
+    /** 
+     * Holds the states so you don't pull them from shuffleboard because they are very time sensitive 
+    */
     m_sensorStates = new boolean[SensorConstants.kDIOPorts];
 
     m_nte_UseBreakbeam = m_sbt_SensorTab.add("Use Breakbeam", true)
@@ -63,9 +66,8 @@ public class SensorTab {
     return m_nte_UseBreakbeam.getBoolean(true);
   }
 
-
   public Boolean getSensorStatePort(int port) {
-    return m_nte_SensorStates[port].getBoolean(true);
+    return m_sensorStates[port];
   }
 
   public void setSensorStatePort(Boolean value, int port) {

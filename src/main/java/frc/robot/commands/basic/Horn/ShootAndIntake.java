@@ -17,8 +17,8 @@ public class ShootAndIntake extends Command{
   private RobotShared m_robotShared;
   private double m_intakeSpeed;
 
-  /** Creates a new IntakeDeploy. 
-   * Intakes from the Ground Intake.
+  /** Creates a new ShootAndIntake command. 
+   * This is intended to intake and spit notes out at the same time.
    * @param intakeSpeed The speed at which the intake should run in the range of [-1, 1], where 1 is full speed intaking.
   */
   public ShootAndIntake(double intakeSpeed) {
