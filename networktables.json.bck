@@ -67,7 +67,7 @@
   {
     "name": "/Shuffleboard/DriveTrain/IsPathFlipped",
     "type": "double",
-    "value": 0.0,
+    "value": 1.0,
     "properties": {
       "persistent": true
     }
@@ -75,7 +75,7 @@
   {
     "name": "/Shuffleboard/DriveTrain/Speed MPS",
     "type": "double",
-    "value": 6.360000133514404,
+    "value": 0.0,
     "properties": {
       "persistent": true
     }

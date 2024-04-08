@@ -155,6 +155,10 @@ public class DriveTrainTab {
     return m_nte_IsPathFlipped.getInteger(0);
   }
 
+  public void setIsPathFlipped(int value) {
+    m_nte_IsPathFlipped.setInteger(value);
+  }
+
   /** Reduces the number of decmial places to reduce noise */
   private double truncate(double input, int decimalPlaces){
     return ((int)(input * Math.pow(10, decimalPlaces))) / (1.0 * Math.pow(10, decimalPlaces));

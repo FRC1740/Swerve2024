@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
+import frc.Board.DriveTrainTab;
 import frc.Board.DriverTab;
 import frc.Board.GroundIntakeTab;
 import frc.Board.HornTab;
@@ -48,7 +49,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import java.lang.Thread.State;
 import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -56,7 +56,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
-import com.pathplanner.lib.util.PathPlannerLogging;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -105,9 +104,10 @@ public class RobotContainer {
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
+    
     autoChooser.onChange((command) -> {
       // Pose2d pose = PathPlannerAuto.getStaringPoseFromAutoFile(command.getName());
-      PathPlannerPath path = PathPlannerPath.fromPathFile(command.getName());
+      PathPlannerPath path = PathPlannerAuto.getPathGroupFromAutoFile(command.getName()).get(0);
       ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
       List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(speeds, path.getStartingDifferentialPose().getRotation()).getStates();
       List<edu.wpi.first.math.trajectory.Trajectory.State> states = new java.util.ArrayList<>();
@@ -132,6 +132,26 @@ public class RobotContainer {
       DriverTab.getInstance().setTrajectory(traj);
       SmartDashboard.putString("Selected Auto", command.getName());
     });
+
+    SendableChooser<Command> isPathFlippedSendableChooser = new SendableChooser<>();
+
+    isPathFlippedSendableChooser.setDefaultOption("Not Flipped", new InstantCommand(() -> DriveTrainTab.getInstance().setIsPathFlipped(0)));
+    isPathFlippedSendableChooser.addOption("Flipped", new RunCommand(() -> DriveTrainTab.getInstance().setIsPathFlipped(1)));
+
+
+    isPathFlippedSendableChooser.onChange((command) -> {
+      System.out.println("Is Path Flipped: " + isPathFlippedSendableChooser.getSelected().getName());
+      
+      if(isPathFlippedSendableChooser.getSelected().getName().contentEquals("RunCommand")) { // SO SO SO JANKY
+        DriverTab.getInstance().flipTrajectory(true);
+        DriveTrainTab.getInstance().setIsPathFlipped(1);
+      }else{
+        DriverTab.getInstance().flipTrajectory(false);
+        DriveTrainTab.getInstance().setIsPathFlipped(0);
+      }
+    });
+    
+    SmartDashboard.putData("Is Path Flipped", isPathFlippedSendableChooser);
     SmartDashboard.putData("Auto Mode", autoChooser);
 
     // Configure the button bindings

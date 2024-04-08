@@ -21,6 +21,7 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.Board.CurrentDrawTab;
 import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
@@ -134,6 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kPathFollowerConfig, 
       () -> {
         // I figure if one of these works it's fine, it only runs once so redundancy is fine
+        SmartDashboard.getBoolean("Path flipped", false);
         if(DriveTab.getIsPathFlipped() == 1) { // expicit path flip, if this is not set, it is fine because it gets driverstation
           System.out.println("Flipped SB");
           return true;
