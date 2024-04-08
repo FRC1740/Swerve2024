@@ -28,12 +28,6 @@
           "data": {
             "name": "ShootSpeaker"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "90 deg"
-          }
         }
       ]
     }

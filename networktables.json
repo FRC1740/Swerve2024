@@ -67,7 +67,7 @@
   {
     "name": "/Shuffleboard/DriveTrain/IsPathFlipped",
     "type": "double",
-    "value": 0.0,
+    "value": 1.0,
     "properties": {
       "persistent": true
     }
