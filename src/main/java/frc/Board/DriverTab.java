@@ -79,6 +79,9 @@ public class DriverTab{
       newPose, state.curvatureRadPerMeter);
       flippedStates.add(newState);
     }
+    if(states == null) {
+      return;
+    }
     m_Field.getObject("trajectory").setTrajectory(new Trajectory(flippedStates));
   }
 

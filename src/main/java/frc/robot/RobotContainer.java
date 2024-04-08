@@ -106,27 +106,32 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     
     autoChooser.onChange((command) -> {
-      // Pose2d pose = PathPlannerAuto.getStaringPoseFromAutoFile(command.getName());
-      PathPlannerPath path = PathPlannerAuto.getPathGroupFromAutoFile(command.getName()).get(0);
-      ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
-      List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(speeds, path.getStartingDifferentialPose().getRotation()).getStates();
       List<edu.wpi.first.math.trajectory.Trajectory.State> states = new java.util.ArrayList<>();
-      
-      //loop over states
-      for(int i = 0; i < pathplannerStates.size(); i++){
-        edu.wpi.first.math.trajectory.Trajectory.State state = new edu.wpi.first.math.trajectory.Trajectory.State(
-          pathplannerStates.get(i).timeSeconds,
-          pathplannerStates.get(i).velocityMps,
-          pathplannerStates.get(i).accelerationMpsSq,
-          new Pose2d(
-            pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getX(),
-            pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getY(),
-            pathplannerStates.get(i).getTargetHolonomicPose().getRotation()
-          ),
-          pathplannerStates.get(i).curvatureRadPerMeter
-        );
-        states.add(state);
+      for (PathPlannerPath path : PathPlannerAuto.getPathGroupFromAutoFile(command.getName())) {
+        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
+        List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(speeds, path.getStartingDifferentialPose().getRotation()).getStates();
+        
+        //loop over states
+        for(int i = 0; i < pathplannerStates.size(); i++){
+          edu.wpi.first.math.trajectory.Trajectory.State state = new edu.wpi.first.math.trajectory.Trajectory.State(
+            pathplannerStates.get(i).timeSeconds,
+            pathplannerStates.get(i).velocityMps,
+            pathplannerStates.get(i).accelerationMpsSq,
+            new Pose2d(
+              pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getX(),
+              pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getY(),
+              pathplannerStates.get(i).getTargetHolonomicPose().getRotation()
+            ),
+            pathplannerStates.get(i).curvatureRadPerMeter
+          );
+          states.add(state);
+        }
       }
+      if(states == null || states.size() == 0){
+        System.out.println("No states found for " + command.getName());
+        return;
+      }
+
       Trajectory traj = new Trajectory(states);
 
       DriverTab.getInstance().setTrajectory(traj);
