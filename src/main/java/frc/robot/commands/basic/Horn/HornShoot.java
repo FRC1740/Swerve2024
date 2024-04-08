@@ -5,7 +5,7 @@
 package frc.robot.commands.basic.Horn;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.Board.OutputSB.HornTab;
+import frc.Board.HornTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;

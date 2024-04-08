@@ -15,6 +15,7 @@
     "**/*~": true
   },
   "files.associations": {
+    "*.sb": "lua", // It is more readable if you set lua syntax
     "*.jtxt": "java",
     "iostream": "cpp"
   },

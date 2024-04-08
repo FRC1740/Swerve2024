@@ -1,4 +1,4 @@
-package frc.Board.OutputSB;
+package frc.Board;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

@@ -5,7 +5,7 @@
 package frc.robot.commands.AlignAndDrive;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.Board.OutputSB.DriveTrainTab;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.subsystems.DriveSubsystem;
 

@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.Board.OutputSB.CurrentDrawTab;
+import frc.Board.CurrentDrawTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.ClimberConstants;
 import frc.robot.constants.SubsystemConstants.GroundIntakeConstants;

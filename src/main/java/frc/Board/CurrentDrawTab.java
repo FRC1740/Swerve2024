@@ -1,4 +1,4 @@
-package frc.Board.Backup;
+package frc.Board;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -102,28 +102,28 @@ public class CurrentDrawTab {
   public void setHornLeftCurrentDraw(double currentDraw) {
     m_nte_HornLeftCurrentDraw.setDouble(currentDraw);
   }
-  public void setDrivingFrontLeft(double currentDraw) {
+  public void setDrivingFrontLeftCurrentDraw(double currentDraw) {
     m_nte_DrivingFrontLeft.setDouble(currentDraw);
   }
-  public void setDrivingFrontRight(double currentDraw) {
+  public void setDrivingFrontRightCurrentDraw(double currentDraw) {
     m_nte_DrivingFrontRight.setDouble(currentDraw);
   }
-  public void setDrivingRearLeft(double currentDraw) {
+  public void setDrivingRearLeftCurrentDraw(double currentDraw) {
     m_nte_DrivingRearLeft.setDouble(currentDraw);
   }
-  public void setDrivingRearRight(double currentDraw) {
+  public void setDrivingRearRightCurrentDraw(double currentDraw) {
     m_nte_DrivingRearRight.setDouble(currentDraw);
   }
-  public void setTurningFrontLeft(double currentDraw) {
+  public void setTurningFrontLeftCurrentDraw(double currentDraw) {
     m_nte_TurningFrontLeft.setDouble(currentDraw);
   }
-  public void setTurningFrontRight(double currentDraw) {
+  public void setTurningFrontRightCurrentDraw(double currentDraw) {
     m_nte_TurningFrontRight.setDouble(currentDraw);
   }
-  public void setTurningRearLeft(double currentDraw) {
+  public void setTurningRearLeftCurrentDraw(double currentDraw) {
     m_nte_TurningRearLeft.setDouble(currentDraw);
   }
-  public void setTurningRearRight(double currentDraw) {
+  public void setTurningRearRightCurrentDraw(double currentDraw) {
     m_nte_TurningRearRight.setDouble(currentDraw);
   }
 }

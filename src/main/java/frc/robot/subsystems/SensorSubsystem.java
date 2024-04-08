@@ -2,8 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.Board.OutputSB.DriverTab;
-import frc.Board.OutputSB.SensorTab;
+import frc.Board.DriverTab;
+import frc.Board.SensorTab;
 import frc.robot.RobotShared;
 import frc.robot.commands.basic.NoteRumble;
 import frc.robot.constants.SensorConstants;

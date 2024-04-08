@@ -1,7 +1,7 @@
 package frc.robot.commands.basic;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.Board.OutputSB.GroundIntakeTab;
+import frc.Board.GroundIntakeTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.SensorConstants;
 import frc.robot.subsystems.ConveyorSubsystem;

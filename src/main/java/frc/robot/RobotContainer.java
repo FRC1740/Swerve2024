@@ -5,15 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
-import frc.Board.OutputSB.DriverTab;
-import frc.Board.OutputSB.GroundIntakeTab;
-import frc.Board.OutputSB.HornTab;
+import frc.Board.DriverTab;
+import frc.Board.GroundIntakeTab;
+import frc.Board.HornTab;
 import frc.robot.commands.VisionAlign;
 import frc.robot.commands.AlignAndDrive.AlignToJoystickAndDrive;
 import frc.robot.commands.AlignAndDrive.AlignToNearestAngleAndDrive;
@@ -45,8 +48,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.lang.Thread.State;
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -96,6 +106,30 @@ public class RobotContainer {
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
     autoChooser.onChange((command) -> {
+      // Pose2d pose = PathPlannerAuto.getStaringPoseFromAutoFile(command.getName());
+      PathPlannerPath path = PathPlannerPath.fromPathFile(command.getName());
+      ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
+      List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(speeds, path.getStartingDifferentialPose().getRotation()).getStates();
+      List<edu.wpi.first.math.trajectory.Trajectory.State> states = new java.util.ArrayList<>();
+      
+      //loop over states
+      for(int i = 0; i < pathplannerStates.size(); i++){
+        edu.wpi.first.math.trajectory.Trajectory.State state = new edu.wpi.first.math.trajectory.Trajectory.State(
+          pathplannerStates.get(i).timeSeconds,
+          pathplannerStates.get(i).velocityMps,
+          pathplannerStates.get(i).accelerationMpsSq,
+          new Pose2d(
+            pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getX(),
+            pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getY(),
+            pathplannerStates.get(i).getTargetHolonomicPose().getRotation()
+          ),
+          pathplannerStates.get(i).curvatureRadPerMeter
+        );
+        states.add(state);
+      }
+      Trajectory traj = new Trajectory(states);
+
+      DriverTab.getInstance().setTrajectory(traj);
       SmartDashboard.putString("Selected Auto", command.getName());
     });
     SmartDashboard.putData("Auto Mode", autoChooser);

@@ -21,8 +21,8 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
-import frc.Board.OutputSB.CurrentDrawTab;
-import frc.Board.OutputSB.DriveTrainTab;
+import frc.Board.CurrentDrawTab;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
@@ -154,14 +154,14 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    m_CurrentDrawTab.setDrivingFrontLeft(m_frontLeft.getDrivingVoltage());
-    m_CurrentDrawTab.setDrivingFrontRight(m_frontRight.getDrivingVoltage());
-    m_CurrentDrawTab.setDrivingRearLeft(m_rearLeft.getDrivingVoltage());
-    m_CurrentDrawTab.setDrivingRearRight(m_rearRight.getDrivingVoltage());
-    m_CurrentDrawTab.setTurningFrontLeft(m_frontLeft.getTurningVoltage());
-    m_CurrentDrawTab.setTurningFrontRight(m_frontRight.getTurningVoltage());
-    m_CurrentDrawTab.setTurningRearLeft(m_rearLeft.getTurningVoltage());
-    m_CurrentDrawTab.setTurningRearRight(m_rearRight.getTurningVoltage());
+    m_CurrentDrawTab.setDrivingFrontLeftCurrentDraw(m_frontLeft.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingFrontRightCurrentDraw(m_frontRight.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingRearLeftCurrentDraw(m_rearLeft.getDrivingVoltage());
+    m_CurrentDrawTab.setDrivingRearRightCurrentDraw(m_rearRight.getDrivingVoltage());
+    m_CurrentDrawTab.setTurningFrontLeftCurrentDraw(m_frontLeft.getTurningVoltage());
+    m_CurrentDrawTab.setTurningFrontRightCurrentDraw(m_frontRight.getTurningVoltage());
+    m_CurrentDrawTab.setTurningRearLeftCurrentDraw(m_rearLeft.getTurningVoltage());
+    m_CurrentDrawTab.setTurningRearRightCurrentDraw(m_rearRight.getTurningVoltage());
 
     DriveTab.setSpeed(m_frontLeft.getSpeed());
 

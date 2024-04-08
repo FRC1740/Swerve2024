@@ -8,7 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.Board.OutputSB.DriveTrainTab;
+import frc.Board.DriveTrainTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.OIConstants;

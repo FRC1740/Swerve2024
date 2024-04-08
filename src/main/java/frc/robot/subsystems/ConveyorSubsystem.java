@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.Board.OutputSB.CurrentDrawTab;
-import frc.Board.OutputSB.HornTab;
+import frc.Board.CurrentDrawTab;
+import frc.Board.HornTab;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.SubsystemConstants.ConveyorConstants;
 
