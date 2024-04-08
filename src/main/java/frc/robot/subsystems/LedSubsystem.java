@@ -39,7 +39,7 @@ public class LedSubsystem extends SubsystemBase{
 		byte[] receiveData = new byte[5];
 		arduino.transaction(sendData, sendData.length, receiveData, 5);
 		// arduino.writeBulk(sendData, sendData.length);
-		System.out.println("Recieved " + (receiveData[0] & 0xff));
+		// System.out.println("Recieved " + (receiveData[0] & 0xff));
 		timer.reset();
 	}
 }

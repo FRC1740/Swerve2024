@@ -105,12 +105,15 @@ public class RobotContainer {
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
     
+    // Posts the trajectory to the shuffleboard
     autoChooser.onChange((command) -> {
       List<edu.wpi.first.math.trajectory.Trajectory.State> states = new java.util.ArrayList<>();
+
       for (PathPlannerPath path : PathPlannerAuto.getPathGroupFromAutoFile(command.getName())) {
-        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
-        List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(speeds, path.getStartingDifferentialPose().getRotation()).getStates();
-        
+        List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(
+          new ChassisSpeeds(0, 0, 0), 
+          path.getStartingDifferentialPose().getRotation()).getStates();
+
         //loop over states
         for(int i = 0; i < pathplannerStates.size(); i++){
           edu.wpi.first.math.trajectory.Trajectory.State state = new edu.wpi.first.math.trajectory.Trajectory.State(
@@ -127,26 +130,24 @@ public class RobotContainer {
           states.add(state);
         }
       }
+
       if(states == null || states.size() == 0){
         System.out.println("No states found for " + command.getName());
         return;
       }
 
       Trajectory traj = new Trajectory(states);
-
       DriverTab.getInstance().setTrajectory(traj);
       SmartDashboard.putString("Selected Auto", command.getName());
     });
 
     SendableChooser<Command> isPathFlippedSendableChooser = new SendableChooser<>();
-
     isPathFlippedSendableChooser.setDefaultOption("Not Flipped", new InstantCommand(() -> DriveTrainTab.getInstance().setIsPathFlipped(0)));
     isPathFlippedSendableChooser.addOption("Flipped", new RunCommand(() -> DriveTrainTab.getInstance().setIsPathFlipped(1)));
 
-
     isPathFlippedSendableChooser.onChange((command) -> {
       System.out.println("Is Path Flipped: " + isPathFlippedSendableChooser.getSelected().getName());
-      
+      // For some reason .getName is returning the name of the command type and not the actual name
       if(isPathFlippedSendableChooser.getSelected().getName().contentEquals("RunCommand")) { // SO SO SO JANKY
         DriverTab.getInstance().flipTrajectory(true);
         DriveTrainTab.getInstance().setIsPathFlipped(1);
