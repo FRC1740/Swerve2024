@@ -5,9 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -49,13 +46,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import java.util.List;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -104,46 +97,25 @@ public class RobotContainer {
 
     //Creates sendable chooser for use with PathPlanner autos
     autoChooser = AutoBuilder.buildAutoChooser();
-    
-    // Posts the trajectory to the shuffleboard
-    autoChooser.onChange((command) -> {
-      List<edu.wpi.first.math.trajectory.Trajectory.State> states = new java.util.ArrayList<>();
-
-      for (PathPlannerPath path : PathPlannerAuto.getPathGroupFromAutoFile(command.getName())) {
-        List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(
-          new ChassisSpeeds(0, 0, 0), 
-          path.getStartingDifferentialPose().getRotation()).getStates();
-
-        //loop over states
-        for(int i = 0; i < pathplannerStates.size(); i++){
-          edu.wpi.first.math.trajectory.Trajectory.State state = new edu.wpi.first.math.trajectory.Trajectory.State(
-            pathplannerStates.get(i).timeSeconds,
-            pathplannerStates.get(i).velocityMps,
-            pathplannerStates.get(i).accelerationMpsSq,
-            new Pose2d(
-              pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getX(),
-              pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getY(),
-              pathplannerStates.get(i).getTargetHolonomicPose().getRotation()
-            ),
-            pathplannerStates.get(i).curvatureRadPerMeter
-          );
-          states.add(state);
-        }
-      }
-
-      if(states == null || states.size() == 0){
-        System.out.println("No states found for " + command.getName());
-        return;
-      }
-
-      Trajectory traj = new Trajectory(states);
-      DriverTab.getInstance().setTrajectory(traj);
-      SmartDashboard.putString("Selected Auto", command.getName());
-    });
 
     SendableChooser<Command> isPathFlippedSendableChooser = new SendableChooser<>();
     isPathFlippedSendableChooser.setDefaultOption("Not Flipped", new InstantCommand(() -> DriveTrainTab.getInstance().setIsPathFlipped(0)));
     isPathFlippedSendableChooser.addOption("Flipped", new RunCommand(() -> DriveTrainTab.getInstance().setIsPathFlipped(1)));
+    
+    // Posts the trajectory to the shuffleboard
+    autoChooser.onChange((command) -> {
+      DriverTab.getInstance().setTrajectory(PathPlannerAuto.getPathGroupFromAutoFile(command.getName()));
+
+      SmartDashboard.putString("Selected Auto", command.getName());
+
+      if(isPathFlippedSendableChooser.getSelected().getName().contentEquals("RunCommand")) { // SO SO SO JANKY
+        DriverTab.getInstance().flipTrajectory(true);
+        DriveTrainTab.getInstance().setIsPathFlipped(1);
+      }else{
+        DriverTab.getInstance().flipTrajectory(false);
+        DriveTrainTab.getInstance().setIsPathFlipped(0);
+      }
+    });
 
     isPathFlippedSendableChooser.onChange((command) -> {
       System.out.println("Is Path Flipped: " + isPathFlippedSendableChooser.getSelected().getName());

@@ -7,9 +7,13 @@ package frc.Board;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.networktables.GenericEntry;
@@ -52,9 +56,47 @@ public class DriverTab{
       .withSize(1, 1).withPosition(0, 4).getEntry();
   }
 
+  public void setRobotPose(Pose2d pose2d) {
+    m_Field.setRobotPose(pose2d);
+  }
+
   public void setTrajectory(Trajectory traj){
     m_Trajectory = traj;
     m_Field.getObject("trajectory").setTrajectory(m_Trajectory);
+  }
+
+  public void setTrajectory(List<PathPlannerPath> paths) {
+    List<edu.wpi.first.math.trajectory.Trajectory.State> states = new java.util.ArrayList<>();
+
+    for (PathPlannerPath path : paths) {
+      List<PathPlannerTrajectory.State> pathplannerStates = path.getTrajectory(
+        new ChassisSpeeds(0, 0, 0), 
+        path.getStartingDifferentialPose().getRotation()).getStates();
+
+      //loop over states
+      for(int i = 0; i < pathplannerStates.size(); i++){
+        edu.wpi.first.math.trajectory.Trajectory.State state = new edu.wpi.first.math.trajectory.Trajectory.State(
+          pathplannerStates.get(i).timeSeconds,
+          pathplannerStates.get(i).velocityMps,
+          pathplannerStates.get(i).accelerationMpsSq,
+          new Pose2d(
+            pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getX(),
+            pathplannerStates.get(i).getTargetHolonomicPose().getTranslation().getY(),
+            pathplannerStates.get(i).getTargetHolonomicPose().getRotation()
+          ),
+          pathplannerStates.get(i).curvatureRadPerMeter
+        );
+        states.add(state);
+      }
+    }
+
+    if(states == null || states.size() == 0){
+      System.out.println("No states found");
+      return;
+    }
+
+    Trajectory traj = new Trajectory(states);
+    setTrajectory(traj);
   }
 
   public void flipTrajectory(boolean flip){
@@ -65,6 +107,7 @@ public class DriverTab{
       m_Field.getObject("trajectory").setTrajectory(m_Trajectory);
       return;
     }
+
     List<State> states = m_Trajectory.getStates();
     List<State> flippedStates = new ArrayList<>();
     for(State state : states) {

@@ -21,9 +21,9 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.Board.CurrentDrawTab;
 import frc.Board.DriveTrainTab;
+import frc.Board.DriverTab;
 import frc.robot.RobotShared;
 import frc.robot.constants.CanIds;
 import frc.robot.constants.GyroConstants;
@@ -67,7 +67,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   
   private final CurrentDrawTab m_CurrentDrawTab = CurrentDrawTab.getInstance();
-  DriveTrainTab DriveTab = DriveTrainTab.getInstance();
+  private final DriveTrainTab m_DriveTrainTab = DriveTrainTab.getInstance();
+  private final DriverTab m_DriverTab = DriverTab.getInstance();
   
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -120,7 +121,6 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   /** Creates a new DriveSubsystem. */
-  //TODO: disabled init
   public DriveSubsystem() {
     m_limelight = m_robotShared.getLimelight();
     configureHolonomic();
@@ -135,8 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kPathFollowerConfig, 
       () -> {
         // I figure if one of these works it's fine, it only runs once so redundancy is fine
-        SmartDashboard.getBoolean("Path flipped", false);
-        if(DriveTab.getIsPathFlipped() == 1) { // expicit path flip, if this is not set, it is fine because it gets driverstation
+        if(m_DriveTrainTab.getIsPathFlipped() == 1) { // expicit path flip, if this is not set, it is fine because it gets driverstation
           System.out.println("Flipped SB");
           return true;
         }
@@ -165,19 +164,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_CurrentDrawTab.setTurningRearLeftCurrentDraw(m_rearLeft.getTurningVoltage());
     m_CurrentDrawTab.setTurningRearRightCurrentDraw(m_rearRight.getTurningVoltage());
 
-    DriveTab.setSpeed(m_frontLeft.getSpeed());
+    m_DriveTrainTab.setSpeed(m_frontLeft.getSpeed());
 
     // Update the odometry in the periodic block
     //Adds vision mesurement to pose estimator
     
     double[] visionPose = m_limelight.getBotPose();
     if (visionPose[0] != 0 && visionPose[1] != 0 && m_limelight.getTargetedArea() > VisionConstants.AprilTagMinimumArea &&
-     getDistance(new Pose2d(visionPose[0], visionPose[1], getRotation2d()), PoseEstimator.getEstimatedPosition()) < 2.0){
+      getDistance(new Pose2d(visionPose[0], visionPose[1], getRotation2d()), PoseEstimator.getEstimatedPosition()) < 2.0){
       PoseEstimator.addVisionMeasurement(
         new Pose2d(visionPose[0],
-          visionPose[1], m_odometry.getPoseMeters().getRotation()
-        ), //Vision Pose 
-          
+          visionPose[1], m_odometry.getPoseMeters().getRotation()), //Vision Pose 
         edu.wpi.first.wpilibj.Timer.getFPGATimestamp()); 
     }
     updatePoseEstimater(); // add odomentry
@@ -208,10 +205,8 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleStatePublisher.set(getModuleStates());
     DesiredSwerveModuleStatePublisher.set(getDesiredSwerveModuleStates());
     
-    // DriveTab.setRobotPose(getPose());
-    // DriveTab.setTrajectory(examplePath);
-    DriveTab.setIMU_PitchAngle((double) m_gyro.getPitch());
-    DriveTab.setIMU_ZAngle((double) m_gyro.getYaw());
+    m_DriveTrainTab.setIMU_PitchAngle((double) m_gyro.getPitch());
+    m_DriveTrainTab.setIMU_ZAngle((double) m_gyro.getYaw());
   }
 
   public void updatePoseEstimater(){
@@ -231,7 +226,8 @@ public class DriveSubsystem extends SubsystemBase {
     //   EstimatedRobotPose visionPose = result.get();
     //   PoseEstimator.addVisionMeasurement(visionPose.estimatedPose.toPose2d(), visionPose.timestampSeconds);
     // }
-    DriveTab.setRobotPose(PoseEstimator.getEstimatedPosition());
+    m_DriveTrainTab.setRobotPose(PoseEstimator.getEstimatedPosition());
+    m_DriverTab.setRobotPose(PoseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -340,8 +336,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeedCommanded * DriveTab.getMaxDrivingSpeed();
-    double ySpeedDelivered = ySpeedCommanded * DriveTab.getMaxDrivingSpeed();
+    double xSpeedDelivered = xSpeedCommanded * m_DriveTrainTab.getMaxDrivingSpeed();
+    double ySpeedDelivered = ySpeedCommanded * m_DriveTrainTab.getMaxDrivingSpeed();
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -350,7 +346,7 @@ public class DriveSubsystem extends SubsystemBase {
         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     
     SwerveDriveKinematics.desaturateWheelSpeeds(
-      swerveModuleStates, DriveTab.getMaxDrivingSpeed());
+      swerveModuleStates, m_DriveTrainTab.getMaxDrivingSpeed());
       
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -360,7 +356,7 @@ public class DriveSubsystem extends SubsystemBase {
     //chassis speeds object for use with pathplannerlib
   public void chassisSpeedDrive(ChassisSpeeds speeds){
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveTab.getMaxDrivingSpeed());
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_DriveTrainTab.getMaxDrivingSpeed());
     
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -410,7 +406,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
-      desiredStates, DriveTab.getMaxDrivingSpeed());
+      desiredStates, m_DriveTrainTab.getMaxDrivingSpeed());
     m_frontLeft.setDesiredState(desiredStates[0]);
     m_frontRight.setDesiredState(desiredStates[1]);
     m_rearLeft.setDesiredState(desiredStates[2]);
@@ -459,9 +455,9 @@ public class DriveSubsystem extends SubsystemBase {
   // sets the offset after the auto to adjust for starting.
   public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
     if (useShuffleboard) {
-        System.out.println("Pulled rotation offset " + DriveTab.getAutoRotationOffset());
-        // m_gyro.setAngleAdjustment(DriveTab.getAutoRotationOffset());
-        gyroAutoAngularOffset = DriveTab.getAutoRotationOffset();
+        System.out.println("Pulled rotation offset " + m_DriveTrainTab.getAutoRotationOffset());
+        // m_gyro.setAngleAdjustment(m_DriveTrainTab.getAutoRotationOffset());
+        gyroAutoAngularOffset = m_DriveTrainTab.getAutoRotationOffset();
     } else {
         System.out.println("Set auto rotation offset " + angle);
         gyroAutoAngularOffset = angle;
