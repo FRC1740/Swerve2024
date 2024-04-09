@@ -6,7 +6,6 @@ package frc.robot.commands.basic.Horn;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotShared;
-import frc.robot.constants.SensorConstants;
 import frc.robot.constants.SubsystemConstants.HornConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.HornSubsystem;
@@ -56,7 +55,7 @@ public class HornIntake extends Command {
   @Override
   public boolean isFinished() {
     // Note has hit the ground intake sensor
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false) {
+    if(m_sensorSubsystem.checkHornSensors()) {
       return true;
     }
     return false;

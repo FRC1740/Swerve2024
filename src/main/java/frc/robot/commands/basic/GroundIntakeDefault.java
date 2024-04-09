@@ -3,7 +3,6 @@ package frc.robot.commands.basic;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.Board.GroundIntakeTab;
 import frc.robot.RobotShared;
-import frc.robot.constants.SensorConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
@@ -41,8 +40,7 @@ public class GroundIntakeDefault extends Command{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false || 
-      m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false ||
+    if(m_sensorSubsystem.checkHornSensors() ||
       m_GroundIntakeTab.getGroundIntakeDefaultEnabled() == false){
         
       m_conveyorSubsystem.setConveyorSpeed(0);

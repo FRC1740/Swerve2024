@@ -2,7 +2,6 @@ package frc.robot.commands.basic;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotShared;
-import frc.robot.constants.SensorConstants;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
@@ -50,8 +49,7 @@ public class GroundIntakeNoHorn extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort) == false ||
-    m_sensorSubsystem.getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false) {
+    if(m_sensorSubsystem.checkHornSensors()) {
       return true;
     }
     return false;

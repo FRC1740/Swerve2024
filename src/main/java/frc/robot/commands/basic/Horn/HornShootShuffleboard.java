@@ -20,7 +20,7 @@ public class HornShootShuffleboard extends Command {
 
   private boolean isSpeakerShot;
   private long startingTime;
-  private int timeUntilPop = 1000;
+  private int timeUntilPop = 1000; // TODO: CHANGE THIS IN EVERY FILE THAT USES IT
   private HornTab m_HornTab = HornTab.getInstance();
 
   /** Creates a new Shoot command based on whether the Horn has been spun up 

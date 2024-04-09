@@ -93,4 +93,21 @@ public class SensorSubsystem extends SubsystemBase{
     m_breakBeamSensors[port] = new DigitalInput(port);
     m_sensorTab.addSensorStatePort(port);
   }
+
+  /**
+   * Checks the status of the horn intake sensors.
+   * Returns true if either of the sensors detect an object, otherwise returns false.
+   */
+  public boolean checkHornSensors() {
+    return getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false || 
+      getSensorValue(SensorConstants.kHornIntakeSensorPort) == false;
+  }
+  
+  /** 
+   * Checks the status of the ground intake sensor.
+   * Returns true if the sensor detects an object, otherwise returns false.
+   */
+  public boolean checkGroundIntakeSensor() {
+    return getSensorValue(SensorConstants.kGroundIntakeSensorPort) == false;
+  }
 }

@@ -49,7 +49,10 @@ public class SensorTab {
     m_nte_UseBreakbeam = m_sbt_SensorTab.add("Use Breakbeam", true)
       .withSize(2, 1).withPosition(0, 0).getEntry();
   }
-
+  /** 
+   * Updates the created sensors with the sensor state array.
+   * This is useful for visualizing the sensors,
+  */
   public void updateShuffleboard() {
     for(int i = 0; i < SensorConstants.kDIOPorts; i++) {
       if(sensorStatePortExists(i)){
