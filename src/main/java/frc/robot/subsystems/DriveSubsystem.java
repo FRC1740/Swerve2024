@@ -129,7 +129,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void configureHolonomic() {
     AutoBuilder.configureHolonomic(
       this::getPose, 
-      this::resetOdometry, 
+      // this::resetOdometry, 
+      this::resetOdometry,
       this::getChassisSpeeds, 
       this::chassisSpeedDrive, 
       DriveConstants.kPathFollowerConfig, 
@@ -364,7 +365,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  public double quadraticControlFalloff(double input) {// this starts out slow BUT still moves at low values
+  public double quadraticControlFalloff(double input) { // this starts out slow BUT still moves at low values
     return Math.signum(input) * Math.abs((.3 * Math.pow(input, 2))) + (0.7 * input);
   }
 
@@ -451,7 +452,7 @@ public class DriveSubsystem extends SubsystemBase {
     System.out.println("Set auto rotation offset to 0.0");
     // m_gyro.setAngleAdjustment(0.0);
   }
-
+  
   // sets the offset after the auto to adjust for starting.
   public void setAutoRotationOffset(double angle, boolean useShuffleboard) {
     if (useShuffleboard) {
