@@ -27,7 +27,8 @@ public class SensorSubsystem extends SubsystemBase{
     m_LedSubsystem = m_robotShared.getLedSubsystem();
     m_sensorTab = SensorTab.getInstance();
     m_driverTab = DriverTab.getInstance();
-    getSensorValue(1);
+    getSensorValue(0);
+    getSensorValue(4);
   }
 
   @Override
@@ -99,8 +100,7 @@ public class SensorSubsystem extends SubsystemBase{
    * Returns true if either of the sensors detect an object, otherwise returns false.
    */
   public boolean checkHornSensors() {
-    return getSensorValue(SensorConstants.kHornIntakeSensorPort2) == false || 
-      getSensorValue(SensorConstants.kHornIntakeSensorPort) == false;
+    return getSensorValue(SensorConstants.kHornIntakeSensorPort) == false;
   }
   
   /** 
