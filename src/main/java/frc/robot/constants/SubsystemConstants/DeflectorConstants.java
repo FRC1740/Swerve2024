@@ -14,7 +14,7 @@ public class DeflectorConstants {
   // This is not a brushed motor but I don't want to break the gear on the licker
   public static int kDeflectorMotorCurrentLimit = CurrentLimitDefaults.kSmallBrushedMotor + 4; 
 
-  public static double kP = .05;
+  public static double kP = .3;
   public static double kI = 0.0;
   public static double kD = 0.0;
   public static double kFF = 0.0;

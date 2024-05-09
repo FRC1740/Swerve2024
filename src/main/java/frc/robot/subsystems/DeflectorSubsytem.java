@@ -34,7 +34,7 @@ public class DeflectorSubsytem extends SubsystemBase {
 
     m_deflectorEncoder.setPositionConversionFactor(DeflectorConstants.kPostionConversionFactor);
     m_deflectorEncoder.setPosition(0);
-    m_DeflectorMotor.setInverted(false);
+    m_DeflectorMotor.setInverted(true);
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     m_DeflectorMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     m_DeflectorMotor.setSoftLimit(SoftLimitDirection.kForward, DeflectorConstants.kDeflectorMotorForwardSoftLimit);
