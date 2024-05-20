@@ -16,7 +16,7 @@ public final class DriveConstants {
 
   public static final double kDirectionSlewRate = 4 * 1.186567; // radians per second was 1.2 4
   public static final double kMagnitudeSlewRate = 3 * 1.186567; // percent per second (1 = 100%) 2.5
-  public static final double kRotationalSlewRate = 5 * 1.186567; // percent per second (1 = 100%) 10
+  public static final double kRotationalSlewRate = 10 * 1.186567; // percent per second (1 = 100%) 10
 
   // Chassis configuration
   public static final double kTrackWidth = Units.inchesToMeters(20.625);

@@ -28,7 +28,6 @@ public class SensorSubsystem extends SubsystemBase{
     m_sensorTab = SensorTab.getInstance();
     m_driverTab = DriverTab.getInstance();
     getSensorValue(0);
-    getSensorValue(4);
   }
 
   @Override
